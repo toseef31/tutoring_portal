@@ -123,7 +123,7 @@ label {
                   <div class="card-body">
 
                     @if($rPath == 'edit')
-                    @if($customer['user_image'] != '')
+                    @if($student['user_image'] != '')
                     <?php
                     $profilePhoto = url('frontend-assets/images/dashboard/profile-photos/'.$user['user_image']);
                      ?>
@@ -131,7 +131,7 @@ label {
 
           <form class="form-horizontal employers-form" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
-              <input type="hidden" name="customer_id" value="{{ $customer->id }}">
+              <input type="hidden" name="student_id" value="{{ $student->student_id }}">
 
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">&nbsp;</label>
@@ -142,66 +142,49 @@ label {
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">Student Name : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="student_name" required="" value="{{ $customer->student_name }}">
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Last Name : *</label>
-                  <div class="col-md-6">
-                      <input type="text" class="form-control" name="last_name" required="" value="{{ $customer->last_name }}">
+                      <input type="text" class="form-control" name="student_name" required="" value="{{ $student->student_name }}">
                   </div>
               </div>
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">Email : *</label>
                   <div class="col-md-6">
-                      <input type="email" class="form-control" name="email" required="" value="{{ $customer->email }}">
+                      <input type="email" class="form-control" name="email" required="" value="{{ $student->email }}">
                   </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Phone : *</label>
+                  <label class="control-label col-md-3 text-right">College : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="phone" required="" value="{{ $customer->phone }}">
+                      <input type="text" class="form-control" name="college" placeholder="College" value="{{ $student->college }}">
                   </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Address : *</label>
+                  <label class="control-label col-md-3 text-right">Grade : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="address" required="" value="{{ $customer->address }}">
+                      <input type="text" class="form-control" name="grade" placeholder="Grade" value="{{ $student->grade }}">
                   </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Password : *</label>
+                  <label class="control-label col-md-3 text-right">Subject : *</label>
                   <div class="col-md-6">
-                      <input type="password" class="form-control" name="password" value="">
+                      <input type="text" class="form-control" name="subject" placeholder="Subject" value="{{ $student->subject }}">
                   </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Dollar Cost : *</label>
+                  <label class="control-label col-md-3 text-right">Goals : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="dollar_cost" value="" placeholder="Dollar Cost">
+                    <textarea name="goal" class="form-control" rows="8" placeholder="Goals" cols="30">{{$student->goal}}</textarea>
                   </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Credit Balance : *</label>
+                  <label class="control-label col-md-3 text-right">Client *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="credit" value="" placeholder="Credit Balance">
+                    <select class="form-control" name="user_id">
+                      @foreach($users as $user)
+                      <option value="{{$user->id}}" {{$student->user_id == $user->id ? 'selected=="selected"':''}}>{{$user->first_name}} {{$user->last_name}}</option>
+                      @endforeach
+                    </select>
                   </div>
               </div>
-              <!-- <div class="form-group radio-div">
-                  <label class="control-label col-md-3 text-right">Role :</label>
-                  <div class="col-md-6 radio-div">
-                      <label class="custom-control custom-control-primary custom-radio">
-                          <input name="role" class="custom-control-input" type="radio" value="admin" {{ $customer->role == 'admin' ? 'checked="checked"' : '' }}>
-                          <span class="custom-control-indicator"></span>
-                          <span class="custom-control-label">Customer</span>
-                      </label>
-                      <label class="custom-control custom-control-primary custom-radio" style="margin-left:20px;">
-                          <input name="role" class="custom-control-input" type="radio" value="tutor" {{ $customer->role == 'tutor' ? 'checked="checked"' : '' }}>
-                          <span class="custom-control-indicator"></span>
-                          <span class="custom-control-label">Tutor</span>
-                      </label>
-                  </div>
-              </div> -->
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">&nbsp;</label>
                   <div class="col-md-6">
@@ -236,6 +219,34 @@ label {
                               <input type="text" class="form-control" name="college" placeholder="College">
                           </div>
                       </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-3 text-right">Grade : *</label>
+                          <div class="col-md-6">
+                              <input type="text" class="form-control" name="grade" placeholder="Grade">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-3 text-right">Subject : *</label>
+                          <div class="col-md-6">
+                              <input type="text" class="form-control" name="subject" placeholder="Subject">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-3 text-right">Goals : *</label>
+                          <div class="col-md-6">
+                            <textarea name="goal" class="form-control" rows="8" placeholder="Goals" cols="30"></textarea>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-3 text-right">Client *</label>
+                          <div class="col-md-6">
+                            <select class="form-control" name="user_id">
+                              @foreach($users as $user)
+                              <option value="{{$user->id}}">{{$user->first_name}} {{$user->last_name}}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                      </div>
                       <!-- <div class="form-group">
                           <label class="control-label col-md-3 text-right">Role :</label>
                           <div class="col-md-6 radio-div">
@@ -251,18 +262,7 @@ label {
                               </label>
                           </div>
                       </div> -->
-                      <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Dollar Cost : *</label>
-                          <div class="col-md-6">
-                              <input type="text" class="form-control" name="dollar_cost" value="" placeholder="Dollar Cost">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Credit Balance : *</label>
-                          <div class="col-md-6">
-                              <input type="text" class="form-control" name="credit" value="" placeholder="Credit Balance">
-                          </div>
-                      </div>
+
                       <div class="form-group">
                           <label class="control-label col-md-3 text-right">&nbsp;</label>
                           <div class="col-md-6">

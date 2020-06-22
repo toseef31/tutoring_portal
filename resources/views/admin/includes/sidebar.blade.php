@@ -57,10 +57,10 @@
           <li>
             <a href="#certification"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
               <i class="nc-icon nc-bell-55"></i>
-              <p>Certifications</p>
+              <p>Sessions</p>
             </a>
             <ul class="collapse" id="certification">
-              <li><a href="{{url('dashboard/view_certification')}}">Certifications</a></li>
+              <li><a href="{{url('dashboard/view_certification')}}">Sessions</a></li>
             </ul>
 
           </li>
@@ -69,11 +69,11 @@
           <li>
             <a href="#manageJobs"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="manageJobs">
               <i class="nc-icon nc-bell-55"></i>
-              <p>Jobs Management</p>
+              <p>Agreement</p>
             </a>
             <ul class="collapse" id="manageJobs">
-              <li><a href="{{url('dashboard/job_management')}}">Open Jobs</a></li>
-              <li><a href="{{url('dashboard/closed_jobs')}}">Closed Jobs</a></li>
+              <li><a href="{{url('dashboard/job_management')}}">Agreement</a></li>
+              <!-- <li><a href="{{url('dashboard/closed_jobs')}}">Closed Jobs</a></li> -->
             </ul>
 
           </li>
@@ -83,11 +83,11 @@
           @if(auth()->user()->role =='admin')
             <a  data-toggle="collapse" href="#manageQuote"  role="button" aria-expanded="false" aria-controls="manageQuote">
               <i class="nc-icon nc-pin-3"></i>
-              <p>Manage Quotes</p>
+              <p>Time Sheets</p>
             </a>
             <ul class="collapse" id="manageQuote">
-              <li><a href="{{url('dashboard/quotes')}}">New cases</a></li>
-              <li><a href="{{url('dashboard/pending-quotes')}}">Pending Quotes</a></li>
+              <li><a href="{{url('dashboard/quotes')}}">Time Sheets</a></li>
+              <!-- <li><a href="{{url('dashboard/pending-quotes')}}">Pending Quotes</a></li> -->
             </ul>
           </li>
            @endif
@@ -95,15 +95,15 @@
           <li>
             <a class="" data-toggle="collapse" href="#customer" role="button" aria-expanded="false" aria-controls="customer">
               <i class="nc-icon nc-diamond"></i>
-              <p>Customer</p>
+              <p>FAQ</p>
             </a>
             <ul class="collapse" id="customer">
-              <li><a href="{{url('dashboard/customer-message')}}">Customer Care</a></li>
+              <li><a href="{{url('dashboard/customer-message')}}">FAQ</a></li>
               <!-- <li><a href="">Archieved</a></li> -->
               <!-- <li><a href="">Completed</a></li> -->
             </ul>
           </li>
-          <li>
+          <!-- <li>
             <a class="" data-toggle="collapse" href="#blog" role="button" aria-expanded="false" aria-controls="customer">
               <i class="nc-icon nc-diamond"></i>
               <p>Blogs</p>
@@ -111,8 +111,8 @@
             <ul class="collapse" id="blog">
               <li><a href="{{url('/dashboard/blogs')}}">Blogs</a></li>
             </ul>
-          </li>
-          <li>
+          </li> -->
+          <!-- <li>
             <a href="#manageUsers"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="manageUsers">
               <i class="nc-icon nc-single-02"></i>
               <p>User Management</p>
@@ -120,8 +120,8 @@
             <ul class="collapse" id="manageUsers">
               <li><a href="{{url('dashboard/user_management')}}">Add New User </a></li>
             </ul>
-          </li>
-          <li>
+          </li> -->
+          <!-- <li>
             <a class="" data-toggle="collapse" href="#accounts" role="button" aria-expanded="false" aria-controls="accounts">
               <i class="nc-icon nc-bell-55"></i>
               <p>Account</p>
@@ -130,13 +130,13 @@
               <li><a href="{{url('/dashboard/show_invoices')}}">Invoice</a></li>
               <li><a href="{{url('/dashboard/refund_cases')}}">Refund Cases</a></li>
             </ul>
-          </li>
-          <li>
+          </li> -->
+          <!-- <li>
             <a href="{{url('dashboard/user')}}">
               <i class="nc-icon nc-single-02"></i>
               <p>Profile Management</p>
             </a>
-          </li>
+          </li> -->
           <!-- <li>
             <a href="{{url('dashboard/tables')}}">
               <i class="nc-icon nc-tile-56"></i>
@@ -155,7 +155,7 @@
           </li> -->
           @endif
            @if(auth()->user()->role =='admin')
-           <li>
+           <!-- <li>
              <a href="#managepayment"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="manageJobs">
                <i class="nc-icon nc-single-02"></i>
                <p>Payments</p>
@@ -164,15 +164,15 @@
                <li><a href="{{url('dashboard/payment_management')}}">View Payments</a></li>
              </ul>
 
-           </li>
+           </li> -->
           @endif
            @if(auth()->user()->role =='admin')
-          <li>
+          <!-- <li>
             <a href="{{url('dashboard/help-menu')}}">
               <i class="nc-icon nc-single-02"></i>
               <p>Help Menu</p>
             </a>
-          </li>
+          </li> -->
           @endif
         </ul>
       </div>

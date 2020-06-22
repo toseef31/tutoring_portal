@@ -19,10 +19,10 @@ class AdminController extends Controller
     use AuthenticatesUsers;
     protected $redirectTo = '/dashboard';
 
-    public function __construct()
-    {
-        $this->middleware('admin')->except('logout');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('admin')->except('logout');
+    // }
 
     public function accountLogin(Request $request){
        return view('frontend.login');
@@ -239,50 +239,43 @@ class AdminController extends Controller
         if($request->isMethod('post')){
             $studentId = $request->input('student_id');
             $this->validate($request, [
-                'first_name' => 'required|max:100',
-                'email' => 'required|email|max:255',
+                'student_name' => 'required|max:100',
+                // 'email' => 'required|email|max:255',
             ]);
             if($studentId == 0 || $studentId ==null){
 
                 $this->validate($request, [
-                    'password' => 'required|min:6|max:16',
-                    'email' => 'required|email|max:255|unique:users',
-                    'password' => 'required',
+                    // 'password' => 'required|min:6|max:16',
+                    // 'email' => 'required|email|max:255|unique:users',
+                    // 'password' => 'required',
                     // 'password' => 'required|min:6|regex:/[a-z]/|regex:/[0-9]/',
                   ],[
                     // 'password.regex'=> 'Password must contain 1 character from a-z, 1 digit from 0-9',
                   ]);
             }
-            $student =new User;
-            $student->first_name = $request->input('first_name');
-            $student->last_name = $request->input('last_name');
+            $student =new Student;
+            $student->student_name = $request->input('student_name');
+            $student->user_id = $request->input('user_id');
             $student->email = $request->input('email');
-            $student->phone = $request->input('phone');
-            $student->address = $request->input('address');
-            $student->role = 'student';
-            $student->status = 'active';
-
-            if($request->input('password') != '' && $request->input('password') != NULL){
-                $student->password =Hash::make(trim($request->input('password')));
-            }
+            $student->college = $request->input('college');
+            $student->grade = $request->input('grade');
+            $student->subject = $request->input('subject');
+            $student->goal = $request->input('goal');
             if($studentId == ''){
                 $studentId = $student->save();
-                $sMsg = 'New Customer Added';
+                $sMsg = 'New Student Added';
             }else{
               $student='';
-              $student = User::findOrFail($studentId);
-              $student->first_name = $request->input('first_name');
-              $student->last_name = $request->input('last_name');
+              $student = Student::findOrFail($studentId);
+              $student->student_name = $request->input('student_name');
+              $student->user_id = $request->input('user_id');
               $student->email = $request->input('email');
-              $student->phone = $request->input('phone');
-              $student->address = $request->input('address');
-              $student->role = 'student';
-              $student->status = 'active';
-              if($request->input('password') != '' && $request->input('password') != NULL){
-                  $student->password =Hash::make(trim($request->input('password')));
-              }
+              $student->college = $request->input('college');
+              $student->grade = $request->input('grade');
+              $student->subject = $request->input('subject');
+              $student->goal = $request->input('goal');
               $student->save();
-                $sMsg = 'Customer Updated';
+                $sMsg = 'Student Updated';
             }
             $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
             return redirect('dashboard/view_students');
@@ -297,9 +290,22 @@ class AdminController extends Controller
                     $request->session()->flash('alert',['message' => 'No Record Found', 'type' => 'danger']);
                     return redirect('dashboard/view_students');
                 }
+                // dd($student);
             }
-            return view('admin.add-edit-students',compact('student','rPath','studentId'));
+            $users = User::get();
+            return view('admin.add-edit-students',compact('student','rPath','studentId','users'));
         }
+    }
+
+    public function deleteStudent(Request $request)
+    {
+      if($request->isMethod('delete')){
+        $student_id = trim($request->input('student_id'));
+        $student = Student::find($student_id);
+        $student->delete();
+        $request->session()->flash('message' , 'Student Deleted Successfully');
+      }
+      return redirect(url()->previous());
     }
 
 
