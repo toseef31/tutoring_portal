@@ -140,9 +140,9 @@ label {
                   </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">First Name : *</label>
+                  <label class="control-label col-md-3 text-right">Student Name : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="first_name" required="" value="{{ $customer->first_name }}">
+                      <input type="text" class="form-control" name="student_name" required="" value="{{ $customer->student_name }}">
                   </div>
               </div>
               <div class="form-group">
@@ -219,9 +219,9 @@ label {
                           </div>
                       </div>
                       <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Name : *</label>
+                          <label class="control-label col-md-3 text-right">Student Name : *</label>
                           <div class="col-md-6">
-                              <input type="text" class="form-control" name="first_name" required="">
+                              <input type="text" class="form-control" name="student_name" required="">
                           </div>
                       </div>
                       <div class="form-group">
@@ -231,9 +231,9 @@ label {
                           </div>
                       </div>
                       <div class="form-group">
-                          <label class="control-label col-md-3 text-right">password : *</label>
+                          <label class="control-label col-md-3 text-right">College : *</label>
                           <div class="col-md-6">
-                              <input type="password" class="form-control" name="password">
+                              <input type="text" class="form-control" name="college" placeholder="College">
                           </div>
                       </div>
                       <!-- <div class="form-group">
