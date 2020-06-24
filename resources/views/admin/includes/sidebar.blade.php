@@ -36,10 +36,10 @@
           <li class="{{ request()->is('dashboard/view_customers') ? 'active' : '' }}">
             <a href="#customer"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
               <i class="nc-icon nc-single-02"></i>
-              <p>Customers</p>
+              <p>Clients</p>
             </a>
             <ul class="collapse" id="customer">
-              <li><a href="{{url('dashboard/view_customers')}}">View Customers</a></li>
+              <li><a href="{{url('dashboard/view_customers')}}">View Clients</a></li>
             </ul>
 
           </li>
