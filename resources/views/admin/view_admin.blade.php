@@ -65,7 +65,7 @@
                   @endif
                   <table class="table">
                     <thead class=" text-primary">
-                      <th>Admin Id</th>
+                      <!-- <th>Admin Id</th> -->
                       <th>Name</th>
                       <!-- <th>Role</th> -->
                       <th>Email</th>
@@ -74,7 +74,7 @@
                     <tbody>
                     @foreach($all_admin as $admin)
                       <tr>
-                        <td> {{$admin->id}}</td>
+                        <!-- <td> {{$admin->id}}</td> -->
                         <td> {{$admin->first_name}} {{$admin->last_name}}</td>
                         <!-- <td> {{$admin->role}}</td> -->
                         <td> {{$admin->email}}</td>
