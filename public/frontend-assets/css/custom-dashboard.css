@@ -1,3 +1,6 @@
+body {
+  font-family: “Poppins”, sans-serif !important;
+}
 .sidebar .sidebar-wrapper{
 	height: 93vh;
 } 
@@ -247,7 +250,7 @@ header.active .top-line {
 }
 
 .main-nav .sf-menu a:hover {
-    color: #c44741 !important;
+    color: #10C5A7 !important;
 }
 
 .main-nav .sf-menu ul li {
@@ -624,4 +627,8 @@ header.active .top-line {
 /*Border-radious*/
 .rounded-circle {
     border-radius: 50%!important;
+}
+.btn-green {
+  background: #10C5A7;
+  color: white;
 }

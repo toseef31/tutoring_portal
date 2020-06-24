@@ -65,7 +65,7 @@
                   @endif
                   <table class="table">
                     <thead class=" text-primary">
-                      <th>Student Id</th>
+                      <!-- <th>Student Id</th> -->
                       <th>Name</th>
                       <th>Email</th>
                       <th>Client Name</th>
@@ -77,10 +77,10 @@
                     <tbody>
                     @foreach($all_student as $student)
                       <tr>
-                        <td> {{$student->student_id}}</td>
+                        <!-- <td> {{$student->student_id}}</td> -->
                         <td> {{$student->student_name}}</td>
                         <td> {{$student->email}}</td>
-                        <td> {{$student->client->first_name}}</td>
+                        <td> {{$student->client->first_name}} {{$student->client->last_name}}</td>
                         <td> {{$student->college}}</td>
                         <td> {{$student->subject}}</td>
                         <td> {{$student->grade}}</td>

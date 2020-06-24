@@ -5,7 +5,7 @@
 <div class="container">
 	<div class="row justify-content-center mt-5 mb-8">
 		<div class="text-center w-100 mt-4">
-			<!-- <img src="{{asset('frontend-assets/images/logo.jpg')}}" style="width:13%"> -->
+			<img src="{{asset('frontend-assets/images/logo.png')}}" style="width:13%">
 		</div>
 		<!-- <div class="col-md-4 col-xs-12 mt-5 mb-5">
 			<div class="px-3 my-3">
@@ -54,19 +54,20 @@
 				<form action="" method="post">
 					{{ csrf_field() }}
 				  <div class="form-group">
-				    <input type="email" class="form-control" placeholder="Enter email" id="email" name="email">
+				    <input type="email" class="form-control" placeholder="Enter email" id="email" onkeyup="checkInput();" name="email">
 				  </div>
 				  <div class="form-group">
-				    <input type="password" class="form-control" placeholder="Enter password" id="pwd" name="password">
+				    <input type="password" class="form-control" placeholder="Enter password" onkeyup="checkInput();" id="pwd" name="password">
 				  </div>
-				  <div class="form-group form-check">
+				  <!-- <div class="form-group form-check">
 				    <label class="form-check-label text-danger">
 				      <input class="form-check-input" type="checkbox"> Remember me
 				    </label>
 				    <a href="{{url('forget-password')}}" class="float-right">Forget Password?</a>
-				  </div>
-				  <button type="submit" class="btn btn-danger">Submit</button>
-					 <a href="{{url('/register')}}" class="float-right mt-3">Creat new account</a>
+				  </div> -->
+				  <button type="submit" id="submit-btn" class="btn bg-gray" disabled>Login</button>
+					 <!-- <a href="{{url('/register')}}" class="float-right mt-3">Creat new account</a> -->
+					 <a href="{{url('/register')}}" class="btn btn-default btn-green">Register</a>
 				</form>
 
 			</div>
@@ -75,5 +76,20 @@
 </div>
 @endsection
 @section('script')
-
+<script>
+	function checkInput() {
+		var email = $('#email').val();
+		var password = $('#pwd').val();
+		// alert(email);
+		if (email !='' && password !='') {
+			$('#submit-btn').addClass("btn-green");
+			$('#submit-btn').removeClass("bg-gray");
+			$('#submit-btn').prop('disabled', false);
+		}else {
+			$('#submit-btn').addClass("bg-gray");
+			$('#submit-btn').removeClass("btn-green");
+			$('#submit-btn').prop('disabled', true);
+		}
+	}
+</script>
 @endsection

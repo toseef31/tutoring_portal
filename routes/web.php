@@ -26,6 +26,8 @@ Route::group(['prefix' => 'user-portal'], function () {
 	});
 	Route::get('/dashboard', 'frontend\DashboardController@index');
   Route::match(['get','post'],'/manage-profile', 'frontend\DashboardController@show');
+  Route::match(['get','post'],'/manage-profile-tutor', 'frontend\DashboardController@show_tutor');
+  Route::post('/profile/picture', 'frontend\DashboardController@profilePicture');
   Route::get('/students', 'frontend\StudentController@show');
   Route::match(['get','post'],'student/add','frontend\StudentController@addEditStudent');
   Route::match(['get','post'],'student/edit/{id}','frontend\StudentController@addEditStudent');
@@ -40,6 +42,7 @@ Route::group(['prefix' => 'dashboard'], function () {
 	Route::get('/', function(){
 		return view('/admin.index');
 	 });
+Route::match(['get','post'],'/logout', 'Admin\AdminController@logout');
 Route::match(['get','post'],'/view_admins','Admin\AdminController@all_admin');
 Route::match(['get','post'],'admin/add','Admin\AdminController@addEditAdmin');
 Route::match(['get','post'],'admin/edit/{id}','Admin\AdminController@addEditAdmin');
@@ -54,5 +57,10 @@ Route::match(['get','post'],'/view_students','Admin\AdminController@all_students
 Route::match(['get','post'],'student/add','Admin\AdminController@addEditStudent');
 Route::match(['get','post'],'student/edit/{id}','Admin\AdminController@addEditStudent');
 Route::delete('student/delete','Admin\AdminController@deleteStudent');
+
+Route::match(['get','post'],'/view_tutors','Admin\AdminController@all_tutors');
+Route::match(['get','post'],'tutor/add','Admin\AdminController@addEditTutor');
+Route::match(['get','post'],'tutor/edit/{id}','Admin\AdminController@addEditTutor');
+Route::delete('tutor/delete','Admin\AdminController@deleteTutor');
  });
 });

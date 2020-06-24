@@ -249,12 +249,12 @@ hr {
 
 .sidebar {
    position: absolute;
-  
+
 }
 
 .sidebar .sidebar-wrapper {
    position: relative;
-   
+
    width: 260px;
    z-index: 4;
    height: 100vh;
@@ -463,7 +463,7 @@ a:focus, a:hover {
 .off-canvas-sidebar[data-active-color="primary"] .nav li.active > a {
    color: #7A9E9F;
    opacity: 1;
-   
+
 }
 
 .sidebar[data-active-color="info"] .nav li.active > a,
@@ -3278,7 +3278,6 @@ textarea.form-controls {
     filter: alpha(opacity=0);
 }
 
-
 /*App Media Queries*/
 @media  only screen and (max-width: 767px){
    .main-row{
@@ -3288,7 +3287,7 @@ textarea.form-controls {
    .main-row .col-lg-6{
       padding-right: 0;
       padding-left: 0;
-   } 
+   }
    .app-view-mainCol{
       padding-right: 5px !important;
       padding-left: 5px !important;
@@ -3298,5 +3297,5 @@ textarea.form-controls {
    }
    .app-formbody{
       padding: 10px 3px !important;
-   }   
+   }
 }

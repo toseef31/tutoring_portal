@@ -30,7 +30,7 @@
   <div class="content">
     <div class="container-fluid app-view-mainCol">
       <div class="row main-row box-grid-row">
-        <div class="col-lg-4 col-sm-6">
+        <!-- <div class="col-lg-4 col-sm-6">
           <div class="cards">
             <div class="content">
               <div class="row">
@@ -51,7 +51,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: burlywood;">
             <div class="content">
@@ -97,7 +97,7 @@
           </div>
         </div>
 
-        <div class="col-lg-4 col-sm-6">
+        <!-- <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: #005fff;">
             <div class="content">
               <div class="row">
@@ -118,10 +118,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
 
-        <div class="col-lg-4 col-sm-6">
+        <!-- <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: #55c39e;">
             <div class="content">
               <div class="row">
@@ -142,8 +142,8 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-4 col-sm-6">
+        </div> -->
+        <!-- <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: brown;">
             <div class="content">
               <div class="row">
@@ -164,8 +164,8 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-4 col-sm-6">
+        </div> -->
+        <!-- <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: #e4be40;">
             <div class="content">
               <div class="row">
@@ -209,7 +209,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- <div class="col-lg-4 col-sm-6">
           <div class="cards">
             <div class="content">

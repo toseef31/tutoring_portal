@@ -154,3 +154,21 @@ input[type="radio"], input[type="checkbox"] {
     padding: 20px;
     border-color: gray;
 }
+.upload-img-btn {
+  position: relative;
+    white-space: nowrap;
+    width: 7%;
+    vertical-align: middle;
+    padding: 0 !important;
+		margin-bottom: -5px;
+}
+.file-upload-btn {
+  z-index: 2;
+  margin-left: -1px;
+  bottom: 0;
+  cursor: inherit;
+  position: absolute;
+  margin-bottom: 0px;
+  font-size: 13px;
+	margin-bottom: 0;
+}

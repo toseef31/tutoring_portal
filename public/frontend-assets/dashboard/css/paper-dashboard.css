@@ -2910,7 +2910,7 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 .navbar.navbar-absolute {
   position: absolute;
   width: 100%;
-  padding-top: 10px;
+  padding-top: 42px;
   z-index: 1029;
 }
 
@@ -3043,7 +3043,8 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 }
 
 .navbar.navbar-transparent {
-  background-color: transparent !important;
+  /* background-color: transparent !important; */
+  background-color: white !important;
   box-shadow: none;
   border-bottom: 1px solid #ddd;
 }
@@ -5034,7 +5035,7 @@ License - nucleoapp.com/license/
 .main-panel>.content {
   padding: 0 30px 30px;
   min-height: calc(100vh - 123px);
-  margin-top: 93px;
+  margin-top: 110px;
 }
 
 .main-panel>.navbar {

@@ -19,42 +19,6 @@ class DashboardController extends Controller
      public function index(Request $request)
      {
         $user=User::find(auth()->user()->id);
-        // dd($user);
-         // $userdata=DB::table('users')->where('user_id',$request->user()->user_id)->where('users.stripe_id','=', null)->first();
-         // $userplan=DB::table('users')
-         // ->join('subscriptions','subscriptions.user_user_id','=','users.user_id')
-         // ->join('plans','plans.stripe_plan','=','subscriptions.stripe_plan')
-         // ->where('users.user_id',$request->user()->user_id)->where('users.stripe_id','!=', null)->first();
-
-          //dd($userdata);
-          // if($userdata != null){
-          // $date = Carbon::parse($userdata->updated_at);
-          //    $now = Carbon::now();
-          //
-          //    $diff = $date->diffInDays($now);
-          //    //dd($diff);
-          //    if($diff > 1){
-          //        // $numbers = Number::where('num_id',$userdata->choice_number)->update(['status'=>'0']);
-          //        $number =User::find($request->user()->user_id);
-          //
-          //        $number->choice_number = '';
-          //        $number->save();
-          //    }
-          // }
-
-
-          // $unavailnumbers = Number::where('status','3')->get();
-
-          // foreach($unavailnumbers as $unavail){
-          //     $undate = Carbon::parse($unavail->updated_at);
-          //     $unnow = Carbon::now();
-          //     $undiff = $undate->diffInDays($unnow);
-          //
-          //     if($undiff > 90){
-          //         Number::where('num_id',$unavail->num_id)->update(['status'=>'0']);
-          //
-          //    }
-          // }
           $user2 = auth()->user();
           // dd($user2);
          return view('frontend.dashboard.index',compact('user'));
@@ -95,8 +59,11 @@ class DashboardController extends Controller
              $post->first_name = $request->input('first_name');
 
              $post->last_name = $request->input('last_name');
-             // $post->phone = $request->input('phone');
+             $post->phone = $request->input('phone');
              $post->address = $request->input('address');
+             $post->city = $request->input('city');
+             $post->state = $request->input('state');
+             $post->zip = $request->input('zip');
              if ($request->input('password') !=null) {
                $post->password =Hash::make(trim($request->input('password')));
              }
@@ -107,12 +74,59 @@ class DashboardController extends Controller
           return view('frontend.dashboard.profile',compact('user'));
      }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+     public function show_tutor(Request $request)
+     {
+         if($request->isMethod('post')){
+           // dd($request->all());
+             $post =User::find($request->user()->id);
+             $post->first_name = $request->input('first_name');
+
+             $post->last_name = $request->input('last_name');
+             $post->phone = $request->input('phone');
+             $post->description = $request->input('description');
+             // $post->address = $request->input('address');
+             if ($request->input('password') !=null) {
+               $post->password =Hash::make(trim($request->input('password')));
+             }
+             $post->save();
+         }
+          $user = User::findOrFail($request->user()->id);
+          // dd($user);
+          return view('frontend.dashboard.profile-tutor',compact('user'));
+     }
+
+     public function profilePicture(Request $request){
+
+       if(!$request->ajax()){
+         exit('Directory access is forbidden');
+       }
+
+       $userinfo=auth()->user();
+       if($request->file('user_image') != ''){
+
+         $fName = $_FILES['user_image']['name'];
+         $ext = @end(@explode('.', $fName));
+         if(!in_array(strtolower($ext), array('png','jpg','jpeg'))){
+           exit('1');
+         }
+
+         $user = User::find($userinfo->id);
+
+         $image = $request->file('user_image');
+         $profilePicture = 'profile-'.time().'-'.rand(000000,999999).'.'.$image->getClientOriginalExtension();
+         $destinationPath = public_path('/frontend-assets/images/dashboard/profile-photos');
+         $image->move($destinationPath, $profilePicture);
+         $user_old_image = $user->image;
+         User::where('id',$userinfo->id)->update(array('image' => $profilePicture));
+         if($user_old_image != ''){
+           @unlink(public_path('/frontend-assets/images/dashboard/profile-photos/'.$user_old_image));
+         }
+         echo url('/frontend-assets/images/dashboard/profile-photos/'.$profilePicture);
+       }
+
+     }
+
+
     public function edit($id)
     {
         //

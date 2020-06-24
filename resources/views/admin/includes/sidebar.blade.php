@@ -2,28 +2,27 @@
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
-      <div class="logo">
-        <a href="{{url('/')}}" class="simple-text logo-mini" style="width: 42%;">
+      <div class="logo" style="background: white;">
+        <a href="{{url('/')}}" class="simple-text logo-mini" style="width: 34%;float: none;margin-left: 75px;margin-bottom: -16px;">
           <div class="logo-image-small">
-            <img src="{{asset('/frontend-assets/logo.png')}}" alt="Logo">
+            <img src="{{asset('/frontend-assets/images/logo.png')}}" alt="Logo">
           </div>
         </a>
-        <a href="{{url('/')}}" class="simple-text logo-normal">
-          Tutoring Portal
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
-        </a>
+        <br>
+        <!-- <a href="{{url('/')}}" class="simple-text logo-normal" style="font-size:13px;color: black; ">
+          Smart Cookie Tutors
+
+        </a> -->
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
         @if(auth()->user()->role =='admin')
-          <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
+          <!-- <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
             <a href="{{url('/dashboard')}}">
               <i class="nc-icon nc-bank"></i>
               <p>Dashboard</p>
             </a>
-          </li>
+          </li> -->
           <li class="{{ request()->is('dashboard/view_admins') ? 'active' : '' }}">
             <a href="#admin"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
               <i class="nc-icon nc-single-02"></i>
@@ -46,11 +45,21 @@
           </li>
           <li class="{{ request()->is('dashboard/view_students') ? 'active' : '' }}">
             <a href="#student"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
-              <i class="nc-icon nc-badge"></i>
+              <i class="nc-icon nc-circle-10"></i>
               <p>Students</p>
             </a>
             <ul class="collapse" id="student">
               <li><a href="{{url('dashboard/view_students')}}">View Students</a></li>
+            </ul>
+
+          </li>
+          <li class="{{ request()->is('dashboard/view_tutors') ? 'active' : '' }}">
+            <a href="#tutor"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
+              <i class="nc-icon nc-badge"></i>
+              <p>Tutor</p>
+            </a>
+            <ul class="collapse" id="tutor">
+              <li><a href="{{url('dashboard/view_tutors')}}">View Tutors</a></li>
             </ul>
 
           </li>

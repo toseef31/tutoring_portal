@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Student;
 use App\Http\Controllers\Controller;
 use DB;
 use Session;
@@ -17,10 +18,10 @@ class RegisterController extends Controller
       use AuthenticatesUsers;
       protected $redirectTo = '/user-portal';
 
-      public function __construct()
-      {
-          $this->middleware('guest')->except('logout');
-      }
+      // public function __construct()
+      // {
+      //     $this->middleware('guest')->except('logout');
+      // }
 
       public function accountLogin(Request $request){
          return view('frontend.login');
@@ -41,13 +42,6 @@ class RegisterController extends Controller
 
           if($request->isMethod('post')){
         // dd($request->all());
-        // $rules = ['captcha' => 'required|captcha'];
-        //     $validator = validator()->make(request()->all(), $rules);
-        //     if ($validator->fails()) {
-        //        echo '<p style="color: #ff0000;">Incorrect!</p>';
-        //    } else {
-        //        echo '<p style="color: #00ff30;">Matched :)</p>';
-        //    }
 
           $mobile = str_replace(' ', '', $request->input('phone'));
              // dd($mobile);
@@ -86,16 +80,32 @@ class RegisterController extends Controller
               $input['password'] =Hash::make(trim($request->input('password')));
               $input['phone'] = trim($mobile);
               $input['address'] = trim($request->input('address'));
+              $input['city'] = trim($request->input('city'));
+              $input['state'] = trim($request->input('state'));
+              $input['zip'] = trim($request->input('zip'));
               $input['status'] ='active';
               $input['role'] ='customer';
               // $input['verify_code'] =$string;
              $userId = DB::table('users')->insertGetId($input);
+             // save student
+             $student = new Student;
+             $input2['student_name'] = trim($request->input('student_name'));
+             $input2['user_id'] = $userId;
+             $input2['email'] = trim($request->input('student_email'));
+             $input2['college'] = trim($request->input('college'));
+             $input2['college'] = trim($request->input('college'));
+             $input2['subject'] = trim($request->input('subject'));
+             $input2['grade'] = trim($request->input('grade'));
+             $input2['goal'] = trim($request->input('goal'));
+             $student_id = DB::table('students')->insertGetId($input2);
+
              $admins = User::where('role','admin')->get();
              $new_user = User::find($userId);
+             $new_student = Student::find($student_id);
              foreach ($admins as $admin) {
                $toemail =  $admin->email;
                // dd($toemail);
-               Mail::send('mail.new_user_email',['user' =>$new_user],
+               Mail::send('mail.new_user_email',['user' =>$new_user, 'student'=> $new_student],
                function ($message) use ($toemail)
                {
 
@@ -136,9 +146,13 @@ class RegisterController extends Controller
          }
 
          if ( Auth::check() ) {
-           // 
+           // dd(Auth::user()->role);
+           if (Auth::user()->role == 'tutor') {
+             return redirect('user-portal/manage-profile-tutor');
+           }else {
+             return redirect('user-portal/manage-profile');
+           }
          }
-         return redirect('user-portal');
      }
 
      public function refreshCaptcha($value='')

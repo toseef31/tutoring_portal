@@ -5,6 +5,9 @@
     margin: 0;
     padding: 0;
 }
+body {
+  font-family: “Poppins”, sans-serif !important;
+}
 
 .header-inner {
     width: 100%;
@@ -178,7 +181,8 @@ header.active .top-line {
 }
 
 .main-nav .sf-menu a:hover {
-    color: #c44741;
+    color: #10C5A7;
+    /* color: #c44741; */
 }
 
 .main-nav .sf-menu ul li {
@@ -380,7 +384,7 @@ header.active .top-line {
     }
 }
 .main-nav .sf-menu a.active{
-  color: #c44741;
+  color: #10C5A7;
 }
 /*Footer Css*/
 .site-footer
@@ -594,4 +598,12 @@ header.active .top-line {
 }
 .btn-youtube{
   background-color: #cd201f;
+}
+.btn-green {
+  background: #10C5A7;
+  color: white;
+}
+.bg-gray {
+  background: gray;
+  color:white;
 }

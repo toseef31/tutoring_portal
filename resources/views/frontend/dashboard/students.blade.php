@@ -73,7 +73,6 @@
                 <table class="table  table-bordered">
                   <thead>
                     <tr>
-                      <th>Student ID</th>
                       <th>Name</th>
                       <th>Email</th>
                       <th>Client Name</th>
@@ -88,7 +87,6 @@
                   <tbody>
                     @foreach($students as $student)
                     <tr>
-                      <td>{{$student->student_id}}</td>
                       <td>{{$student->student_name}}</td>
                       <td>{{$student->email}}</td>
                       <td>{{$student->client->first_name}}</td>

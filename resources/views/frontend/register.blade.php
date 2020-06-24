@@ -13,7 +13,15 @@
 	.intl-tel-input input{
 		padding-left: 47px !important;
 	}
+.demoInputBox{padding:7px; border:#F0F0F0 1px solid; border-radius:4px;}
+#password-strength-status {padding: 1px 7px;color: #FFFFFF; border-radius:4px;margin-top:5px;}
+.medium-password{background-color: #E4DB11;border:#BBB418 1px solid;}
+.weak-password{background-color: #FF6600;border:#AA4502 1px solid;}
+.strong-password{background-color: #12CC1A;border:#0FA015 1px solid;}
+#message {padding: 1px 7px;color: #FFFFFF; border-radius:4px;margin-top:5px;}
+
 </style>
+<link href="{{ asset('frontend-assets/css/themify-icons.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
 <div class="container">
@@ -31,51 +39,142 @@
 			<div class="signup-form mb-5 mt-5">
 				<form action="{{ url('/register') }}" method="post">
 				{{ csrf_field() }}
-					<h5 class="text-uppercase mb-3 mt-4">Create Account</h5>
+					<h5 class="text-uppercase mb-3 mt-4">Self Registration</h5>
 				  <div class="form-group">
 				  	<div class="row">
 				  		<div class="col-md-6">
-				  			<label>First Name</label>
-				  			<input type="text" class="form-control" placeholder="Enter firstname" id="first_name" name="first_name">
+				  			<label>First Name (Parent/Adult)</label>
+				  			<input type="text" class="form-control" placeholder="Enter firstname" id="first_name" name="first_name" required>
 				  		</div>
 				  		<div class="col-md-6">
-				  			<label>Last Name</label>
-				  			<input type="text" class="form-control" placeholder="Enter lastname" id="last_name" name="last_name">
+				  			<label>Last Name (Parent/Adult)</label>
+				  			<input type="text" class="form-control" placeholder="Enter lastname" id="last_name" name="last_name" required>
 				  		</div>
 				  	</div>
 				  </div>
 
 				  <div class="form-group">
-				  	<label>Email</label>
-				    <input type="email" class="form-control" placeholder="Enter email" id="email" name="email">
+				  	<label>Parent/Adult Email</label>
+				    <input type="email" class="form-control" placeholder="Enter Email" id="email" name="email" required>
 				  </div>
 					<div class="form-group">
-						<label>Address</label>
-						<input type="text" class="form-control" placeholder="Enter Address" id="address" name="address">
+						<label>Home Address</label>
+						<input type="text" class="form-control" placeholder="Enter Home Address" id="address" name="address" required>
+					</div>
+					<div class="form-group">
+				  	<label>City</label>
+						<input type="text" name="city" class="form-control" placeholder="Enter City" id="city" required>
+					</div>
+					<div class="form-group">
+						<label>State</label>
+						<select class="form-control" name="state">
+							<option value="Alabama">Alabama</option>
+							<option value="Alaska">Alaska</option>
+							<option value="Arizona">Arizona</option>
+							<option value="Arkansas">Arkansas</option>
+							<option value="California">California</option>
+							<option value="Colorado">Colorado</option>
+							<option value=" Connecticut"> Connecticut</option>
+							<option value="Delaware">Delaware</option>
+							<option value="Florida">Florida</option>
+							<option value=" Georgia"> Georgia</option>
+							<option value="Hawaii">Hawaii</option>
+							<option value="Idaho">Idaho</option>
+							<option value="Illinois">Illinois</option>
+							<option value="Indiana">Indiana</option>
+							<option value="Iowa">Iowa</option>
+							<option value="Kansas">Kansas</option>
+							<option value="Kentucky">Kentucky</option>
+							<option value="Louisiana">Louisiana</option>
+							<option value="Maine">Maine</option>
+							<option value="Maryland">Maryland</option>
+							<option value="Massachusetts">Massachusetts</option>
+							<option value="Michigan">Michigan</option>
+							<option value="Minnesota">Minnesota</option>
+							<option value="Mississippi">Mississippi</option>
+							<option value="Missouri">Missouri</option>
+							<option value="Montana">Montana</option>
+							<option value="Nebraska">Nebraska</option>
+							<option value="Nevada">Nevada</option>
+							<option value="New Hampshire">New Hampshire</option>
+							<option value="New Jersey">New Jersey</option>
+							<option value="New Mexico">New Mexico</option>
+							<option value="New York">New York</option>
+							<option value="North Carolina">North Carolina</option>
+							<option value="North Dakota">North Dakota</option>
+							<option value="Ohio">Ohio</option>
+							<option value="Oklahoma">Oklahoma</option>
+							<option value="Oregon">Oregon</option>
+							<option value="Pennsylvania">Pennsylvania</option>
+							<option value="Rhode Island">Rhode Island</option>
+							<option value="South Carolina">South Carolina</option>
+							<option value="South Dakota">South Dakota</option>
+							<option value="Tennessee">Tennessee</option>
+							<option value="Texas">Texas</option>
+							<option value="Utah">Utah</option>
+							<option value="Vermont">Vermont</option>
+							<option value="Virginia">Virginia</option>
+							<option value="Washington">Washington</option>
+							<option value="West Virginia">West Virginia</option>
+							<option value="Wisconsin">Wisconsin</option>
+							<option value="Wyoming">Wyoming</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Zip Code</label>
+						<input type="text" name="zip" class="form-control" placeholder="Enter Zip Code" id="zip" required>
 					</div>
 				  <div class="form-group">
 				  	<div class="row">
 
-				  		<div class="col-md-6">
+				  		<!-- <div class="col-md-6">
 				  			<label>Password</label>
-				  			<input type="password" class="form-control" placeholder="Enter password" id="password" name="password" autocomplete="off">
-				  		</div>
+				  			<input type="password" class="form-control" placeholder="Enter password" id="password" name="password" autocomplete="off" required>
+				  		</div> -->
+							<div class="col-md-6">
+									<label>Password:</label>
+									<input type="password" class="demoInputBox form-control" name="password" id="password" placeholder="Enter password"  onKeyUp="checkPasswordStrength();" /><div id="password-strength-status"></div>
+							</div>
 
 				  		<div class="col-md-6">
 				  			<label>Confirm Password</label>
-				  			<input type="password" class="form-control" placeholder="Enter confirm password" id="confirm_password" onkeyup='check();' autocomplete="off">
-				  			<span id='message'></span>
+				  			<input type="password" class="form-control" placeholder="Enter confirm password" id="confirm_password" onkeyup='check();' autocomplete="off" required>
+				  			<div id='message'></div>
 							</div>
 				  	</div>
 				  </div>
 				  <div class="form-group">
 				  	<label>Phone Number</label>
-				    <input type="tel"  class="form-control" placeholder="Enter phone number" id="phone_number" name="phone">
+				    <input type="tel"  class="form-control" placeholder="Enter phone number" id="phone_number" name="phone" required>
 				  </div>
+				  <div class="form-group">
+						<label>Student Name</label>
+						<input type="text" class="form-control" placeholder="Enter Student Name" id="student_name" name="student_name" required>
+					</div>
+					<div class="form-group">
+						<label>Student Grade/Level</label>
+						<input type="text" class="form-control" placeholder="Enter Grade/Level" id="grade" name="grade" required>
+					</div>
+					<div class="form-group">
+						<label>Student School/College</label>
+						<input type="text" class="form-control" placeholder="Enter School/College" id="college" name="college" required>
+					</div>
+					<div class="form-group">
+						<label>Student Email</label>
+						<input type="text" class="form-control" placeholder="Enter Student Email" id="student_email" name="student_email">
+					</div>
+					<div class="form-group">
+						<label>Student Tutoring Subject</label>
+						<input type="text" class="form-control" placeholder="Enter Tutoring Subject" id="subject" name="subject" required>
+					</div>
+						<div class="form-group">
+						<label>Student Tutoring Goals</label>
+						<textarea name="goal" class="form-control" placeholder="Tutoring Goals"></textarea>
+					</div>
 					<div class="form-group">
 						<div class="captcha">
 							<span>{!! captcha_img('math') !!}</span>
-							<button type="button" class="btn btn-success btn-refresh">Refresh</button>
+							<button type="button" class="btn btn-success btn-refresh btn-sm" style="padding: 0.5rem 0.75rem;"><i class="ti-loop"></i></button>
 						</div>
 				  	<label>Captcha</label>
 				    <input type="text"  class="form-control" placeholder="Enter Captcha" id="captcha" name="captcha">
@@ -85,7 +184,7 @@
 				      <input class="form-check-input" type="checkbox" id="terms" required> I agree to <a href="">terms & conditions</a>
 				    </label>
 				  </div>
-				  <button type="submit" class="btn btn-danger" id="Signup" disabled>Signup</button>
+				  <button type="submit" class="btn btn-green" id="Signup" disabled>Signup</button>
 				</form>
 			</div>
 		</div>
@@ -112,19 +211,52 @@ $(document).on("click","#terms",function(){
 	 });
 </script>
 <script>
+function checkPasswordStrength() {
+	var number = /([0-9])/;
+	var alphabets = /([a-zA-Z])/;
+	// var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+	if($('#password').val().length<=6) {
+		$('#password-strength-status').removeClass();
+		$('#password-strength-status').addClass('weak-password');
+		$('#password-strength-status').html("Weak (should be more than 6 characters.)");
+		$(':input[type="submit"]').prop('disabled', true);
+		check();
+	} else {
+		if($('#password').val().match(number) && $('#password').val().match(alphabets)) {
+			$('#password-strength-status').removeClass();
+			$('#password-strength-status').addClass('strong-password');
+			$('#password-strength-status').html("Strong");
+			check();
+		} else {
+			$('#password-strength-status').removeClass();
+			$('#password-strength-status').addClass('medium-password');
+			$('#password-strength-status').html("Medium (should include alphabets, numbers)");
+			$(':input[type="submit"]').prop('disabled', true);
+			check();
+		}
+	}
+}
 
 var check = function()
 {
-  if (document.getElementById('password').value ==
-    document.getElementById('confirm_password').value) {
-    document.getElementById('message').style.color = 'green';
-    document.getElementById('message').innerHTML = 'Password Match';
-		$(':input[type="submit"]').prop('disabled', false);
-  } else {
-    document.getElementById('message').style.color = 'red';
-    document.getElementById('message').innerHTML = 'Password not matching';
+	if (document.getElementById('password').value ==
+	document.getElementById('confirm_password').value) {
+		$('#message').removeClass();
+		$('#message').addClass('strong-password');
+		document.getElementById('message').innerHTML = 'Password Match';
+		var number = /([0-9])/;
+		var alphabets = /([a-zA-Z])/;
+		if($('#password').val().match(number) && $('#password').val().match(alphabets)) {
+			$(':input[type="submit"]').prop('disabled', false);
+		}else {
+			$(':input[type="submit"]').prop('disabled', true);
+		}
+	} else {
+		$('#message').removeClass();
+		$('#message').addClass('weak-password');
+		document.getElementById('message').innerHTML = 'Password not matching';
 		$(':input[type="submit"]').prop('disabled', true);
-  }
+	}
 }
 </script>
 @endsection

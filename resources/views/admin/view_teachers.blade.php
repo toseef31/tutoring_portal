@@ -13,7 +13,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Clients List</a>
+            <a class="navbar-brand" href="#pablo">Tutor List</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -50,7 +50,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <!-- <h4 class="card-title"> Clients List <a href="{{url('dashboard/admin/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Add Customer</a></h4> -->
+                <h4 class="card-title"> Tutor List <a href="{{url('dashboard/tutor/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Add Tutor</a></h4>
               </div>
 
               <div class="card-body">
@@ -71,15 +71,15 @@
                       <th class="text-right">Action</th>
                     </thead>
                     <tbody>
-                    @foreach($all_customer as $customer)
+                    @foreach($all_tutor as $tutor)
                       <tr>
-                        <td> {{$customer->first_name}} {{$customer->last_name}}</td>
-                        <!-- <td> {{$customer->role}}</td> -->
-                        <td> {{$customer->email}}</td>
+                        <td> {{$tutor->first_name}} {{$tutor->last_name}}</td>
+                        <!-- <td> {{$tutor->role}}</td> -->
+                        <td> {{$tutor->email}}</td>
                         <td class="text-right">
-                          <a href="{{url('/dashboard/customer/edit/'.$customer->id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
+                          <a href="{{url('/dashboard/tutor/edit/'.$tutor->id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
                           <!-- <i class="fa fa-eye text-success"></i> -->
-                          <a href="javascript:0;" onclick="deleteEmployer('{{ $customer->id }}')"> <i class="fa fa-trash text-danger"></i> </a>
+                          <a href="javascript:0;" onclick="deleteEmployer('{{ $tutor->id }}')"> <i class="fa fa-trash text-danger"></i> </a>
                         </td>
                       </tr>
                       @endforeach
@@ -109,10 +109,10 @@
                       <h3>Are you sure?</h3>
                       <p>You will not be able to undo this action.</p>
                       <div class="m-t-lg">
-                          <form method="post" action="{{ url('dashboard/customer/delete') }}">
+                          <form method="post" action="{{ url('dashboard/tutor/delete') }}">
                               <input type="hidden" name="_method" value="delete">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                              <input type="hidden" name="customer_id" class="actionId">
+                              <input type="hidden" name="tutor_id" class="actionId">
                               <button class="btn btn-danger" type="submit">Continue</button>
                               <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
                           </form>

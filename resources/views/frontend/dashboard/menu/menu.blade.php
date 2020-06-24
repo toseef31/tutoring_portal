@@ -6,18 +6,35 @@
       </a>
     </div>
     <ul class="nav">
-      <li  class="{{ request()->is('user-portal/dashboard') ? 'active' : '' }}">
+      <!-- <li  class="{{ request()->is('user-portal/dashboard') ? 'active' : '' }}">
         <a href="{{url('user-portal/dashboard')}}">
           <i class="ti-panel"></i>
           <p>Dashboard</p>
         </a>
-      </li>
+      </li> -->
+      @if(auth()->user()->role == 'customer')
       <li class="{{ request()->is('user-portal/manage-profile') ? 'active' : '' }}">
         <a href="{{url('user-portal/manage-profile')}}">
           <i class="ti-user"></i>
-          <p>User profile management</p>
+          <p>Client Profile</p>
         </a>
       </li>
+      @elseif(auth()->user()->role == 'tutor')
+      <li class="{{ request()->is('user-portal/manage-profile-tutor') ? 'active' : '' }}">
+        <a href="{{url('user-portal/manage-profile-tutor')}}">
+          <i class="ti-user"></i>
+          <p>Tutor Profile</p>
+        </a>
+      </li>
+      @else
+      <li class="{{ request()->is('user-portal/manage-profile') ? 'active' : '' }}">
+        <a href="{{url('user-portal/manage-profile')}}">
+          <i class="ti-user"></i>
+          <p>User Profile</p>
+        </a>
+      </li>
+      @endif
+      @if(auth()->user()->role == 'customer')
       <li class="{{ request()->is('user-portal/call-report') ? 'active' : '' }}">
         <a href="{{url('/user-portal/students')}}">
           <!-- <i class="ti-pencil-alt2"></i> -->
@@ -25,12 +42,13 @@
           <p>Students</p>
         </a>
       </li>
-      <li class="{{ request()->is('user-portal/create-extension') ? 'active' : '' }}">
+      @endif
+      <!-- <li class="{{ request()->is('user-portal/create-extension') ? 'active' : '' }}">
         <a href="{{url('user-portal/create-extension')}}">
           <i class="ti-pulse"></i>
           <p>Telephone Setting</p>
         </a>
-      </li>
+      </li> -->
 
 
 
@@ -44,18 +62,18 @@
       // dd(request());
       // dd(request()->path());
       ?>
-      <li class="{{ request()->is('user-portal/update-pricing-plan') ? 'active' : '' }}">
+      <!-- <li class="{{ request()->is('user-portal/update-pricing-plan') ? 'active' : '' }}">
         <a href="{{url('/user-portal/update-pricing-plan')}}">
           <i class="ti-image"></i>
           <p>Upgrade package</p>
         </a>
-      </li>
-      <li class="{{ request()->is('user-portal/billing-info') ? 'active' : '' }}">
+      </li> -->
+      <!-- <li class="{{ request()->is('user-portal/billing-info') ? 'active' : '' }}">
         <a href="{{url('/user-portal/billing-info')}}">
           <i class="ti-receipt"></i>
           <p>Billing Information</p>
         </a>
-      </li>
+      </li> -->
 
 
 

@@ -67,7 +67,7 @@
                     <thead class=" text-primary">
                       <th>Admin Id</th>
                       <th>Name</th>
-                      <th>Role</th>
+                      <!-- <th>Role</th> -->
                       <th>Email</th>
                       <th class="text-right">Action</th>
                     </thead>
@@ -76,7 +76,7 @@
                       <tr>
                         <td> {{$admin->id}}</td>
                         <td> {{$admin->first_name}} {{$admin->last_name}}</td>
-                        <td> {{$admin->role}}</td>
+                        <!-- <td> {{$admin->role}}</td> -->
                         <td> {{$admin->email}}</td>
                         <td class="text-right">
                           <a href="{{url('/dashboard/admin/edit/'.$admin->id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>

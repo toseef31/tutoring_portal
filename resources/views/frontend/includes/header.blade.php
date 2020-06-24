@@ -11,19 +11,19 @@
 			</div>
 		</div>
 	</div> -->
-	<div class="header-inner">
+	<div class="header-inner" style="height: 120px;">
 		<div class="container">
 
 				<div class="row">
 						<div class="col-md-12">
 								<div class="brand">
 									<a href="{{url('/user-portal')}}">
-										<!-- <img src="{{asset('frontend-assets/images/logo.jpg')}}" height="90px"> -->
+										<img src="{{asset('frontend-assets/images/logo.png')}}" style="height: 105px; padding-top: 10px;">
 									</a> </div>
 								<nav  id="nav-wrap" class="main-nav">
 									<a id="toggle-btn" class="navbar-toggler"><i class="fa fa-bars"></i> </a>
 								<ul class="sf-menu">
-										<li class=""> <a href="index.html">Home</a> </li>
+										<!-- <li class=""> <a href="index.html">Home</a> </li> -->
 										<!-- <li> <a href="about-us.html">About Us </a></li>
 										<li> <a href="products.html">Products</a></li>
 										<li> <a href="exports.html">Exports</a></li>
