@@ -95,11 +95,11 @@
 										<div class="form-group">
                       @if(SCT::checkAggrementSend($aggreement->aggreement_id,$aggreement->user_id)->status == 'Awaiting Signature')
                       <embed src="{{ url('user-portal/show_aggreement/'.$aggreement->aggreement_id) }}#toolbar=0&navpanes=0&scrollbar=0"
-                        style="width:800px; height:800px;"
+                        style="width:700px; height:800px;"
                         frameborder="0">
                       @else
                       <embed src="{{ url('user-portal/show_aggreement/'.$aggreement->aggreement_id) }}"
-                        style="width:800px; height:800px;"
+                        style="width:700px; height:800px;"
                         frameborder="0">
                       @endif
 										</div>
