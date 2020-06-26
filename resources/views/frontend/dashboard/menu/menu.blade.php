@@ -35,7 +35,7 @@
       </li>
       @endif
       @if(auth()->user()->role == 'customer')
-      <li class="{{ request()->is('user-portal/call-report') ? 'active' : '' }}">
+      <li class="{{ request()->is('user-portal/students') ? 'active' : '' }}">
         <a href="{{url('/user-portal/students')}}">
           <!-- <i class="ti-pencil-alt2"></i> -->
           <i class="ti-user"></i>
@@ -43,6 +43,13 @@
         </a>
       </li>
       @endif
+      <li class="{{ request()->is('user-portal/aggreements') ? 'active' : '' }}">
+        <a href="{{url('/user-portal/aggreements')}}">
+          <!-- <i class="ti-pencil-alt2"></i> -->
+          <i class="ti-files"></i>
+          <p>Agreements</p>
+        </a>
+      </li>
       <!-- <li class="{{ request()->is('user-portal/create-extension') ? 'active' : '' }}">
         <a href="{{url('user-portal/create-extension')}}">
           <i class="ti-pulse"></i>

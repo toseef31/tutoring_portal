@@ -32,6 +32,10 @@ Route::group(['prefix' => 'user-portal'], function () {
   Route::match(['get','post'],'student/add','frontend\StudentController@addEditStudent');
   Route::match(['get','post'],'student/edit/{id}','frontend\StudentController@addEditStudent');
   Route::delete('student/delete','frontend\StudentController@deleteStudent');
+  Route::get('/aggreements','frontend\DashboardController@getAggreements');
+  Route::get('/view_aggreement/{id}','frontend\DashboardController@ViewAggreementDetails');
+  Route::get('/show_aggreement/{id}','frontend\DashboardController@showAggreement');
+  Route::post('/sign-agreement','frontend\DashboardController@SignAggreement');
 
   });
 });
@@ -62,5 +66,15 @@ Route::match(['get','post'],'/view_tutors','Admin\AdminController@all_tutors');
 Route::match(['get','post'],'tutor/add','Admin\AdminController@addEditTutor');
 Route::match(['get','post'],'tutor/edit/{id}','Admin\AdminController@addEditTutor');
 Route::delete('tutor/delete','Admin\AdminController@deleteTutor');
+
+Route::match(['get','post'],'/view_aggreements','Admin\AdminController@all_aggreement');
+Route::match(['get','post'],'aggreement/add','Admin\AdminController@addEditAggreement');
+Route::match(['get','post'],'aggreement/edit/{id}','Admin\AdminController@addEditAggreement');
+Route::delete('aggreement/delete','Admin\AdminController@deleteAggreement');
+Route::get('/show_aggreement/{id}','Admin\AdminController@showAggreement');
+Route::get('/get_all_user/{id}','Admin\AdminController@getUserList');
+Route::get('/sendAggreement/{id}/{userID}','Admin\AdminController@sendAggreement');
+
+Route::get('pdfview',array('as'=>'pdfview','uses'=>'ItemController@pdfview'));
  });
 });

@@ -4,11 +4,14 @@ namespace App\Http\Controllers\frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Facade\SCT;
 use App\User;
 use DB;
 use Session;
 use Hash;
 use Mail;
+use Storage;
+use Response;
 class DashboardController extends Controller
 {
     /**
@@ -24,26 +27,6 @@ class DashboardController extends Controller
          return view('frontend.dashboard.index',compact('user'));
      }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -126,11 +109,49 @@ class DashboardController extends Controller
 
      }
 
+     public function getAggreements(Request $request)
+     {
+       $user_id = auth()->user()->id;
+       $aggreements = DB::table('signed_aggreements')->where('user_id',$user_id)->get();
+       return view('frontend.dashboard.all_aggreements',compact('aggreements'));
+     }
 
-    public function edit($id)
-    {
-        //
-    }
+     public function ViewAggreementDetails(Request $request ,$id)
+     {
+        $aggreement=DB::table('signed_aggreements')->where('aggreement_id',$id)->where('user_id',auth()->user()->id)->first();
+        // dd($aggreement);
+        return view('frontend.dashboard.view-aggreement',compact('aggreement'));
+
+     }
+
+     public function showAggreement(Request $request ,$id)
+     {
+        // dd('hello');
+        $document=DB::table('aggreements')->where('aggreement_id',$id)->first();
+         $filePath = $document->file;
+         $type = Storage::mimeType($filePath);
+         // dd($type);
+         if( ! Storage::exists($filePath) ) {
+         abort(404);
+         }
+         $pdfContent = Storage::get($filePath);
+         return Response::make($pdfContent, 200, [
+         'Content-Type'        => $type,
+         'Content-Disposition' => 'inline; filename="'.$filePath.'"'
+         ]);
+     }
+
+     public function SignAggreement(Request $request)
+     {
+       // dd($request->all());
+       $aggreement_id =$request->input('aggreement_id');
+       $input['user_name'] = $request->input('user_name');
+       $input['date'] = $request->input('date');
+       $input['status'] = 'Signed On';
+       $aggreement =DB::table('signed_aggreements')->where('aggreement_id',$aggreement_id)->where('user_id',auth()->user()->id)->update($input);
+       $request->session()->flash('message',"Agreement Signed Successfull");
+       return redirect('/user-portal/aggreements');
+     }
 
     /**
      * Update the specified resource in storage.

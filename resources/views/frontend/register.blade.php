@@ -179,11 +179,11 @@
 				  	<label>Captcha</label>
 				    <input type="text"  class="form-control" placeholder="Enter Captcha" id="captcha" name="captcha">
 				  </div>
-				  <div class="form-group form-check">
+				  <!-- <div class="form-group form-check">
 				    <label class="form-check-label">
 				      <input class="form-check-input" type="checkbox" id="terms" required> I agree to <a href="">terms & conditions</a>
 				    </label>
-				  </div>
+				  </div> -->
 				  <button type="submit" class="btn btn-green" id="Signup" disabled>Signup</button>
 				</form>
 			</div>
@@ -218,7 +218,7 @@ function checkPasswordStrength() {
 	if($('#password').val().length<=6) {
 		$('#password-strength-status').removeClass();
 		$('#password-strength-status').addClass('weak-password');
-		$('#password-strength-status').html("Weak (should be more than 6 characters.)");
+		$('#password-strength-status').html("Weak (6 characters or more, with at least 1 letter and one number.)");
 		$(':input[type="submit"]').prop('disabled', true);
 		check();
 	} else {
@@ -254,7 +254,7 @@ var check = function()
 	} else {
 		$('#message').removeClass();
 		$('#message').addClass('weak-password');
-		document.getElementById('message').innerHTML = 'Password not matching';
+		document.getElementById('message').innerHTML = 'Passwords do not match';
 		$(':input[type="submit"]').prop('disabled', true);
 	}
 }

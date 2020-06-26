@@ -1,8 +1,8 @@
 @extends('admin.layouts.master')
 @if($rPath == 'edit')
-    @section('title', 'Update Customer')
+    @section('title', 'Update Aggreement')
 @else
-    @section('title', 'Add Customer')
+    @section('title', 'Add Aggreement')
 @endif
 @section('content')
 <style>
@@ -70,6 +70,9 @@ label {
 .radio-div {
   display: flex;
 }
+#toolbar #buttons{
+display: none !important;
+}
 </style>
   <div class="wrapper">
     <div class="main-panel">
@@ -123,15 +126,17 @@ label {
                   <div class="card-body">
 
                     @if($rPath == 'edit')
-                    @if($student['user_image'] != '')
+                    <?php $profilePhoto=''; ?>
+                    @if($aggreement->file != '')
                     <?php
-                    $profilePhoto = url('frontend-assets/images/dashboard/profile-photos/'.$user['user_image']);
+                    // $profilePhoto = url('frontend-assets/images/dashboard/profile-photos/'.$aggreement->image);
                      ?>
                   @endif
 
           <form class="form-horizontal employers-form" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
-              <input type="hidden" name="student_id" value="{{ $student->student_id }}">
+              <input type="hidden" name="aggreement_id" value="{{ $aggreement->aggreement_id }}">
+              <input type="hidden" name="prevLogo" value="{{ $aggreement->file }}">
 
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">&nbsp;</label>
@@ -140,51 +145,49 @@ label {
                   </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Student Name : *</label>
+                  <label class="control-label col-md-3 text-right">Aggreement Name : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="student_name" required="" value="{{ $student->student_name }}">
+                      <input type="text" class="form-control" placeholder="Enter Agreement Name" name="aggrement_name" required="" value="{{$aggreement->aggreement_name}}">
                   </div>
               </div>
+
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Email : </label>
+                  <label class="control-label col-md-3 text-right">Upload PDF : *</label>
                   <div class="col-md-6">
-                      <input type="email" class="form-control" name="email" value="{{ $student->email }}">
+                      <div class="input-group input-group-file">
+                          <input class="form-control p-image" readonly="" type="text">
+                          <span class="input-group-btn upload-img-btn">
+                              <label class="btn btn-primary file-upload-btn">
+                                  <input name="agrreement_file" class="file-upload-input" type="file" onchange="getFileName(this,'p-image')">
+                                  <span class="nc-icon nc-album-2" style="color:white;"></span>
+                              </label>
+                          </span>
+                      </div>
                   </div>
               </div>
+              <!-- <iframe src="https://docs.google.com/viewerng/viewer?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true" frameborder="0" height="100%" width="100%">
+              </iframe> -->
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">School/College : *</label>
-                  <div class="col-md-6">
-                      <input type="text" class="form-control" name="college" placeholder="College" value="{{ $student->college }}">
+                <label class="control-label col-md-3 text-right"></label>
+                <div class="col-md-6">
+                  <embed src="{{ url('dashboard/show_aggreement/'.$aggreement->aggreement_id) }}"
+                    style="width:600px; height:800px;"
+                    frameborder="0">
+                  <!-- <embed src="{{ url('dashboard/show_aggreement/'.$aggreement->aggreement_id) }}#toolbar=0&navpanes=0&scrollbar=0"
+                    style="width:600px; height:800px;"
+                    frameborder="0"> -->
                   </div>
-              </div>
+                </div>
+              @if($profilePhoto !='')
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Grade/Level : *</label>
+                  <label class="control-label col-md-3 text-right">&nbsp;</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="grade" placeholder="Grade" value="{{ $student->grade }}">
+                      <span style="background-color: #f8f8f8;padding: 10px;text-align: center;display: block;">
+                          <img src="{{ $profilePhoto }}" alt="{{ $aggreement['user_firstname'].' '.$aggreement['user_lastname'] }}" style="max-width: 200px;">
+                      </span>
                   </div>
               </div>
-              <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Tutoring Subject : *</label>
-                  <div class="col-md-6">
-                      <input type="text" class="form-control" name="subject" placeholder="Subject" value="{{ $student->subject }}">
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Goals : </label>
-                  <div class="col-md-6">
-                    <textarea name="goal" class="form-control" rows="8" placeholder="Goals" cols="30">{{$student->goal}}</textarea>
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Client *</label>
-                  <div class="col-md-6">
-                    <select class="form-control" name="user_id">
-                      @foreach($users as $user)
-                      <option value="{{$user->id}}" {{$student->user_id == $user->id ? 'selected=="selected"':''}}>{{$user->first_name}} {{$user->last_name}}</option>
-                      @endforeach
-                    </select>
-                  </div>
-              </div>
+              @endif
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">&nbsp;</label>
                   <div class="col-md-6">
@@ -202,67 +205,25 @@ label {
                           </div>
                       </div>
                       <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Student Name : *</label>
+                          <label class="control-label col-md-3 text-right">Aggreement Name : *</label>
                           <div class="col-md-6">
-                              <input type="text" class="form-control" name="student_name" required="">
+                              <input type="text" class="form-control" placeholder="Enter Agreement Name" name="aggrement_name" required="">
                           </div>
                       </div>
                       <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Email : </label>
+                          <label class="control-label col-md-3 text-right">Upload PDF : *</label>
                           <div class="col-md-6">
-                              <input type="email" class="form-control" name="email" >
+                              <div class="input-group input-group-file">
+                                  <input class="form-control p-image" readonly="" type="text">
+                                  <span class="input-group-btn upload-img-btn">
+                                      <label class="btn btn-primary file-upload-btn">
+                                          <input name="agrreement_file" class="file-upload-input" type="file" onchange="getFileName(this,'p-image')" accept="application/pdf, application/vnd.ms-excel"/>
+                                          <span class="nc-icon nc-album-2" style="color:white;"></span>
+                                      </label>
+                                  </span>
+                              </div>
                           </div>
                       </div>
-                      <div class="form-group">
-                          <label class="control-label col-md-3 text-right">School/College : *</label>
-                          <div class="col-md-6">
-                              <input type="text" class="form-control" name="college" placeholder="College">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Grade/Level : *</label>
-                          <div class="col-md-6">
-                              <input type="text" class="form-control" name="grade" placeholder="Grade">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Tutoring Subject : *</label>
-                          <div class="col-md-6">
-                              <input type="text" class="form-control" name="subject" placeholder="Subject">
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Goals : </label>
-                          <div class="col-md-6">
-                            <textarea name="goal" class="form-control" rows="8" placeholder="Goals" cols="30"></textarea>
-                          </div>
-                      </div>
-                      <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Client *</label>
-                          <div class="col-md-6">
-                            <select class="form-control" name="user_id">
-                              @foreach($users as $user)
-                              <option value="{{$user->id}}">{{$user->first_name}} {{$user->last_name}}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                      </div>
-                      <!-- <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Role :</label>
-                          <div class="col-md-6 radio-div">
-                              <label class="custom-control custom-control-primary custom-radio">
-                                  <input name="role" class="custom-control-input" type="radio" value="admin" checked>
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-label">Customer</span>
-                              </label>
-                              <label class="custom-control custom-control-primary custom-radio" style="margin-left:20px;">
-                                  <input name="role" class="custom-control-input" type="radio" value="tutor">
-                                  <span class="custom-control-indicator"></span>
-                                  <span class="custom-control-label">Tutor</span>
-                              </label>
-                          </div>
-                      </div> -->
-
                       <div class="form-group">
                           <label class="control-label col-md-3 text-right">&nbsp;</label>
                           <div class="col-md-6">
@@ -299,6 +260,11 @@ label {
 
 @section('script')
 <script>
+function getFileName(obj,aClass){
+    var vValue = $(obj).val();
+    vValue = vValue.replace("C:\\fakepath\\",'');
+    $('.'+aClass).val(vValue);
+}
 $('select').on('change', function() {
   var value=this.value;
   var id=$(this).parent().attr("data-id");

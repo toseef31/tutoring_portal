@@ -42,9 +42,12 @@
       </div> -->
       <div class="container">
         <div class="row">
+          <div class="col-md-2" style="margin-top: 8px;">
+            <p><a href="{{url('/logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></p>
+          </div>
           <div class="col-md-8 col-sm-6 col-xs-12">
             <p class="copyright-text">Copyright &copy; 2020 All Rights Reserved by
-         <a href="#">Smart Cookie Tutors</a>.
+              <a href="#">Smart Cookie Tutors</a>.
             </p>
           </div>
 

@@ -1,6 +1,6 @@
 @extends('frontend.dashboard.layout.master')
 
-@section('title', 'Students Management')
+@section('title', 'Aggreements Management')
 
 @section('styling')
 
@@ -19,7 +19,7 @@
         <span class="icon-bar bar2"></span>
         <span class="icon-bar bar3"></span>
         </button>
-        <a class="navbar-brand" href="#">Students</a>
+        <a class="navbar-brand" href="#">Aggreements</a>
       </div>
     </div>
   </nav>
@@ -56,8 +56,8 @@
         <div class="col-lg-12 col-md-12 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <a href="{{url('user-portal/student/add')}}" class="btn btn-green pull-right">New Student</a>
-              <h3 class="title">Students</h3>
+              <!-- <a href="{{url('user-portal/student/add')}}" class="btn btn-green pull-right">New Student</a> -->
+              <h3 class="title">Aggreements</h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))
@@ -74,30 +74,21 @@
                 <table class="table  table-bordered">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Subject</th>
-                      <th>Grade</th>
-                      <th>School/College</th>
-                      <th colspan="2">Goal</th>
-                      <th>Created At</th>
+                      <th>Agreement Name</th>
+                      <th>Status</th>
+                      <th>Signed Date</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($students as $student)
+                    @foreach($aggreements as $aggreement)
                     <tr>
-                      <td>{{$student->student_name}}</td>
-                      <td>{{$student->email}}</td>
-                      <td>{{$student->subject}}</td>
-                      <td>{{$student->grade}}</td>
-                      <td>{{$student->college}}</td>
-                      <td colspan="2">{{$student->goal}}</td>
-                      <td>{{$student->created_at}}</td>
+                      <td>{{$aggreement->aggreement_name}}</td>
+                      <td>{{$aggreement->status}}</td>
+                      <td>{{$aggreement->date}}</td>
                       <td>
-                        <!-- <a href="{{ url('admin/users/view/'.$student->student_id) }}" data-toggle="tooltip" data-original-title="Profile"><i class="ti-eye"></i></a>&nbsp;&nbsp;&nbsp; -->
-                        <a href="{{ url('user-portal/student/edit/'.$student->student_id) }}" data-toggle="tooltip" data-original-title="Update"><i class="ti-pencil"></i></a>&nbsp;&nbsp;&nbsp;
-                        <a href="javascript:;" onclick="deleteEmployer('{{ $student->student_id }}')" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash"></i></a>
+                        <a href="{{ url('user-portal/view_aggreement/'.$aggreement->aggreement_id) }}" class="btn btn-green" data-toggle="tooltip" data-original-title="Update">View</a>&nbsp;&nbsp;&nbsp;
+                        <!-- <a href="javascript:;" onclick="deleteEmployer('{{ $aggreement->aggreement_id }}')" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash"></i></a> -->
                       </td>
                     </tr>
                     @endforeach

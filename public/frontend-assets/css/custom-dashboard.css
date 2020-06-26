@@ -3,11 +3,12 @@ body {
 }
 .sidebar .sidebar-wrapper{
 	height: 93vh;
-} 
+}
 .wrapper{
   height: auto;
   margin-left: 0;
   margin-right: 0;
+  background: #212120;
 }
 .sidebar .nav p, .off-canvas-sidebar .nav p{
   text-transform: capitalize;
@@ -189,7 +190,7 @@ header.active .top-line {
     text-transform: capitalize;
 }
 .main-nav .sf-menu .show{
-  display: inline-block !important; 
+  display: inline-block !important;
 }
 .main-nav .sf-menu .dropdown-toggle::after {
     display: inline-block;
@@ -459,7 +460,8 @@ header.active .top-line {
   font-size:15px;
   line-height:24px;
   color:#737373;
-  z-index: 1000;
+  z-index: 10;
+  position: relative;
 }
 .site-footer hr
 {

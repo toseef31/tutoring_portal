@@ -258,7 +258,7 @@ hr {
    width: 260px;
    z-index: 4;
    height: 100vh;
-   box-shadow: inset -1px 0px 0px 0px #DDDDDD;
+   /* box-shadow: inset -1px 0px 0px 0px #DDDDDD; */
 }
 
 .sidebar .sidebar-background {

@@ -16,7 +16,6 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-        @if(auth()->user()->role =='admin')
           <!-- <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
             <a href="{{url('/dashboard')}}">
               <i class="nc-icon nc-bank"></i>
@@ -24,42 +23,53 @@
             </a>
           </li> -->
           <li class="{{ request()->is('dashboard/view_admins') ? 'active' : '' }}">
-            <a href="#admin"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
+            <a href="{{url('dashboard/view_admins')}}"  role="button" aria-expanded="false" aria-controls="admin">
               <i class="nc-icon nc-single-02"></i>
               <p>Admins</p>
             </a>
-            <ul class="collapse" id="admin">
+            <!-- <ul class="collapse" id="admin">
               <li><a href="{{url('dashboard/view_admins')}}">View Admin</a></li>
-            </ul>
+            </ul> -->
 
           </li>
           <li class="{{ request()->is('dashboard/view_customers') ? 'active' : '' }}">
-            <a href="#customer"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
+            <a href="{{url('dashboard/view_customers')}}"  role="button" aria-expanded="false" aria-controls="admin">
               <i class="nc-icon nc-single-02"></i>
               <p>Clients</p>
             </a>
-            <ul class="collapse" id="customer">
+            <!-- <ul class="collapse" id="customer">
               <li><a href="{{url('dashboard/view_customers')}}">View Clients</a></li>
-            </ul>
+            </ul> -->
 
           </li>
           <li class="{{ request()->is('dashboard/view_students') ? 'active' : '' }}">
-            <a href="#student"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
+            <a href="{{url('dashboard/view_students')}}"  role="button" aria-expanded="false" aria-controls="admin">
               <i class="nc-icon nc-circle-10"></i>
               <p>Students</p>
             </a>
-            <ul class="collapse" id="student">
+            <!-- <ul class="collapse" id="student">
               <li><a href="{{url('dashboard/view_students')}}">View Students</a></li>
-            </ul>
+            </ul> -->
 
           </li>
           <li class="{{ request()->is('dashboard/view_tutors') ? 'active' : '' }}">
-            <a href="#tutor"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
+            <!-- <a href="#tutor"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin"> -->
+            <a href="{{url('dashboard/view_tutors')}}" role="button" aria-expanded="false" aria-controls="admin">
               <i class="nc-icon nc-badge"></i>
-              <p>Tutor</p>
+              <p>Tutors</p>
             </a>
-            <ul class="collapse" id="tutor">
+            <!-- <ul class="collapse" id="tutor">
               <li><a href="{{url('dashboard/view_tutors')}}">View Tutors</a></li>
+            </ul> -->
+
+          </li>
+          <li class="{{ request()->is('dashboard/view_aggreements') ? 'active' : '' }}">
+            <a href="#aggrement"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="manageJobs">
+              <i class="nc-icon nc-single-copy-04"></i>
+              <p>Agreements</p>
+            </a>
+            <ul class="collapse" id="aggrement">
+              <li><a href="{{url('dashboard/view_aggreements')}}">Agreements</a></li>
             </ul>
 
           </li>
@@ -73,22 +83,8 @@
             </ul>
 
           </li>
-          @endif
-          @if(auth()->user()->role =='admin')
-          <li>
-            <a href="#manageJobs"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="manageJobs">
-              <i class="nc-icon nc-bell-55"></i>
-              <p>Agreement</p>
-            </a>
-            <ul class="collapse" id="manageJobs">
-              <li><a href="{{url('dashboard/job_management')}}">Agreement</a></li>
-              <!-- <li><a href="{{url('dashboard/closed_jobs')}}">Closed Jobs</a></li> -->
-            </ul>
 
-          </li>
-           @endif
           <li>
-
           @if(auth()->user()->role =='admin')
             <a  data-toggle="collapse" href="#manageQuote"  role="button" aria-expanded="false" aria-controls="manageQuote">
               <i class="nc-icon nc-pin-3"></i>

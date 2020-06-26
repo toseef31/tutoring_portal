@@ -170,15 +170,84 @@ label {
                   </div>
               </div>
               <div class="form-group">
+                  <label class="control-label col-md-3 text-right">City : *</label>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control border-input" placeholder="Enter City" id="city" name="city" required="" value="{{ $customer->city}}">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="control-label col-md-3 text-right">State : *</label>
+                  <div class="col-md-6">
+                    <select class="form-control border-input" name="state" id="state" name="state">
+                      <option value="Alabama" {{$customer->state == 'Alabama' ? 'selected=="selected"':''}}>Alabama</option>
+                      <option value="Alaska" {{$customer->state == 'Alaska' ? 'selected=="selected"':''}}>Alaska</option>
+                      <option value="Arizona" {{$customer->state == 'Arizona' ? 'selected=="selected"':''}}>Arizona</option>
+                      <option value="Arkansas" {{$customer->state == 'Arkansas' ? 'selected=="selected"':''}}>Arkansas</option>
+                      <option value="California" {{$customer->state == 'California' ? 'selected=="selected"':''}}>California</option>
+                      <option value="Colorado" {{$customer->state == 'Colorado' ? 'selected=="selected"':''}}>Colorado</option>
+                      <option value=" Connecticut" {{$customer->state == 'Connecticut' ? 'selected=="selected"':''}}> Connecticut</option>
+                      <option value="Delaware" {{$customer->state == 'Delaware' ? 'selected=="selected"':''}}>Delaware</option>
+                      <option value="Florida" {{$customer->state == 'Florida' ? 'selected=="selected"':''}}>Florida</option>
+                      <option value="Georgia" {{$customer->state == 'Georgia' ? 'selected=="selected"':''}}> Georgia</option>
+                      <option value="Hawaii" {{$customer->state == 'Hawaii' ? 'selected=="selected"':''}}>Hawaii</option>
+                      <option value="Idaho" {{$customer->state == 'Idaho' ? 'selected=="selected"':''}}>Idaho</option>
+                      <option value="Illinois" {{$customer->state == 'Illinois' ? 'selected=="selected"':''}}>Illinois</option>
+                      <option value="Indiana" {{$customer->state == 'Indiana' ? 'selected=="selected"':''}}>Indiana</option>
+                      <option value="Iowa" {{$customer->state == 'Iowa' ? 'selected=="selected"':''}}>Iowa</option>
+                      <option value="Kansas" {{$customer->state == 'Kansas' ? 'selected=="selected"':''}}>Kansas</option>
+                      <option value="Kentucky" {{$customer->state == 'Kentucky' ? 'selected=="selected"':''}}>Kentucky</option>
+                      <option value="Louisiana" {{$customer->state == 'Louisiana' ? 'selected=="selected"':''}}>Louisiana</option>
+                      <option value="Maine" {{$customer->state == 'Maine' ? 'selected=="selected"':''}}>Maine</option>
+                      <option value="Maryland" {{$customer->state == 'Maryland' ? 'selected=="selected"':''}}>Maryland</option>
+                      <option value="Massachusetts" {{$customer->state == 'Massachusetts' ? 'selected=="selected"':''}}>Massachusetts</option>
+                      <option value="Michigan" {{$customer->state == 'Michigan' ? 'selected=="selected"':''}}>Michigan</option>
+                      <option value="Minnesota" {{$customer->state == 'Minnesota' ? 'selected=="selected"':''}}>Minnesota</option>
+                      <option value="Mississippi" {{$customer->state == 'Mississippi' ? 'selected=="selected"':''}}>Mississippi</option>
+                      <option value="Missouri" {{$customer->state == 'Missouri' ? 'selected=="selected"':''}}>Missouri</option>
+                      <option value="Montana" {{$customer->state == 'Montana' ? 'selected=="selected"':''}}>Montana</option>
+                      <option value="Nebraska" {{$customer->state == 'Nebraska' ? 'selected=="selected"':''}}>Nebraska</option>
+                      <option value="Nevada" {{$customer->state == 'Nevada' ? 'selected=="selected"':''}}>Nevada</option>
+                      <option value="New Hampshire" {{$customer->state == 'New Hampshire' ? 'selected=="selected"':''}}>New Hampshire</option>
+                      <option value="New Jersey" {{$customer->state == 'New Jersey' ? 'selected=="selected"':''}}>New Jersey</option>
+                      <option value="New Mexico" {{$customer->state == 'New Mexico' ? 'selected=="selected"':''}}>New Mexico</option>
+                      <option value="New York" {{$customer->state == 'New York' ? 'selected=="selected"':''}}>New York</option>
+                      <option value="North Carolina" {{$customer->state == 'North Carolina' ? 'selected=="selected"':''}}>North Carolina</option>
+                      <option value="North Dakota" {{$customer->state == 'North Dakota' ? 'selected=="selected"':''}}>North Dakota</option>
+                      <option value="Ohio" {{$customer->state == 'Ohio' ? 'selected=="selected"':''}}>Ohio</option>
+                      <option value="Oklahoma" {{$customer->state == 'Oklahoma' ? 'selected=="selected"':''}}>Oklahoma</option>
+                      <option value="Oregon" {{$customer->state == 'Oregon' ? 'selected=="selected"':''}}>Oregon</option>
+                      <option value="Pennsylvania" {{$customer->state == 'Pennsylvania' ? 'selected=="selected"':''}}>Pennsylvania</option>
+                      <option value="Rhode Island" {{$customer->state == 'Rhode Island' ? 'selected=="selected"':''}}>Rhode Island</option>
+                      <option value="South Carolina" {{$customer->state == 'South Carolina' ? 'selected=="selected"':''}}>South Carolina</option>
+                      <option value="South Dakota" {{$customer->state == 'South Dakota' ? 'selected=="selected"':''}}>South Dakota</option>
+                      <option value="Tennessee" {{$customer->state == 'Tennessee' ? 'selected=="selected"':''}}>Tennessee</option>
+                      <option value="Texas" {{$customer->state == 'Texas' ? 'selected=="selected"':''}}>Texas</option>
+                      <option value="Utah" {{$customer->state == 'Utah' ? 'selected=="selected"':''}}>Utah</option>
+                      <option value="Vermont" {{$customer->state == 'Vermont' ? 'selected=="selected"':''}}>Vermont</option>
+                      <option value="Virginia" {{$customer->state == 'Virginia' ? 'selected=="selected"':''}}>Virginia</option>
+                      <option value="Washington" {{$customer->state == 'Washington' ? 'selected=="selected"':''}}>Washington</option>
+                      <option value="West Virginia" {{$customer->state == 'West Virginia' ? 'selected=="selected"':''}}>West Virginia</option>
+                      <option value="Wisconsin" {{$customer->state == 'Wisconsin' ? 'selected=="selected"':''}}>Wisconsin</option>
+                      <option value="Wyoming" {{$customer->state == 'Wyoming' ? 'selected=="selected"':''}}>Wyoming</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="control-label col-md-3 text-right">Zip Code : *</label>
+                  <div class="col-md-6">
+                      <input type="text" name="zip" class="form-control border-input" placeholder="Enter Zip Code" id="zip" value="{{ $customer->zip}}">
+                  </div>
+              </div>
+              <div class="form-group">
                   <label class="control-label col-md-3 text-right">Password : *</label>
                   <div class="col-md-6">
                       <input type="password" class="form-control" name="password" value="">
                   </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Dollar Cost : *</label>
+                  <label class="control-label col-md-3 text-right">Credit Cost : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="dollar_cost" value="" placeholder="Dollar Cost">
+                      <input type="text" class="form-control" name="dollar_cost" value="" placeholder="Credit Cost">
                   </div>
               </div>
               <div class="form-group">
@@ -252,9 +321,9 @@ label {
                           </div>
                       </div> -->
                       <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Dollar Cost : *</label>
+                          <label class="control-label col-md-3 text-right">Credit Cost : *</label>
                           <div class="col-md-6">
-                              <input type="text" class="form-control" name="dollar_cost" value="" placeholder="Dollar Cost">
+                              <input type="text" class="form-control" name="dollar_cost" value="" placeholder="Credit Cost">
                           </div>
                       </div>
                       <div class="form-group">

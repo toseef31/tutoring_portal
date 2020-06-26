@@ -72,6 +72,7 @@
 							<h3 class="title">{{ $rPath == 'edit' ? 'Update Student' : 'Add Student' }}</h3>
 							<hr>
 						</div>
+            @include('frontend.dashboard.menu.alerts')
 						<div class="content">
 							@if($rPath == 'edit')
 							<form class="form-horizontals profile-form" action="" method="post">
@@ -142,7 +143,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Full Name</label>
-											<input type="text" class="form-controls border-input" placeholder="Enter Student Name"  name="student_name" value="">
+											<input type="text" class="form-controls border-input" placeholder="Enter Student Name"  name="student_name" value="" >
 										</div>
 									</div>
 								</div>
@@ -191,7 +192,7 @@
 								</div>
 
 								<div class="text-center">
-									<button type="submit" class="btn btn-info btn-fill btn-wd">Save</button>
+									<button type="submit" class="btn btn-info btn-wd btn-green">Save</button>
 								</div>
 
 								<div class="clearfix"></div>

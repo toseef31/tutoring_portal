@@ -109,8 +109,8 @@ class RegisterController extends Controller
                function ($message) use ($toemail)
                {
 
-                 $message->subject('Tutoring Portal.com - New User Registered');
-                 $message->from('admin@TutoringPortal.com', 'Tutoring Portal');
+                 $message->subject('Smart Cookie Tutors.com - New User Registered');
+                 $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                  $message->to($toemail);
                });
              }

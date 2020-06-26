@@ -30,7 +30,7 @@
 										<li> <a href="clients.html">Clients</a> </li> -->
 										<!-- <li> <a href="">Contact</a> </li> -->
 										@if(\Auth::check())
-										<li class="dropdown">
+										<!-- <li class="dropdown">
 											<a href="" class="dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 												<img src="{{asset('frontend-assets/images/user.jpg')}}" class="rounded-circle">{{auth()->user()->f_name}}</a>
 											<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -38,7 +38,7 @@
 							          <a class="dropdown-item" href="{{url('user-portal/change-password')}}"><i class="fas fa-lock pr-2"></i> Change Password</a>
 							          <a href="{{url('/logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a>
 							        </div>
-										</li>
+										</li> -->
 										@else
 										<li> <a href="{{url('/register')}}">Register</a> </li>
 										<li> <a href="{{url('/login')}}">Login</a> </li>
