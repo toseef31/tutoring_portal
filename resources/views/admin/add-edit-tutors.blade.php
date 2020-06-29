@@ -199,7 +199,7 @@ label {
                   <label class="control-label col-md-3 text-right">Role :</label>
                   <div class="col-md-6 radio-div">
                       <label class="custom-control custom-control-primary custom-radio">
-                          <input name="role" class="custom-control-input" type="radio" value="tutor" {{ $tutor->role == 'admin' ? 'checked="checked"' : '' }}>
+                          <input name="role" class="custom-control-input" type="radio" value="admin" {{ $tutor->role == 'admin' ? 'checked="checked"' : '' }}>
                           <span class="custom-control-indicator"></span>
                           <span class="custom-control-label">Admin</span>
                       </label>
