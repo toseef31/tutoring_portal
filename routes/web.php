@@ -36,6 +36,8 @@ Route::group(['prefix' => 'user-portal'], function () {
   Route::get('/view_aggreement/{id}','frontend\DashboardController@ViewAggreementDetails');
   Route::get('/show_aggreement/{id}','frontend\DashboardController@showAggreement');
   Route::post('/sign-agreement','frontend\DashboardController@SignAggreement');
+  Route::get('/faqs','frontend\DashboardController@faqs');
+  Route::get('/credits','frontend\DashboardController@credits');
 
   });
 });
@@ -74,6 +76,10 @@ Route::delete('aggreement/delete','Admin\AdminController@deleteAggreement');
 Route::get('/show_aggreement/{id}','Admin\AdminController@showAggreement');
 Route::get('/get_all_user/{id}','Admin\AdminController@getUserList');
 Route::get('/sendAggreement/{id}/{userID}','Admin\AdminController@sendAggreement');
+Route::match(['get','post'],'/awaiting_signature','Admin\AdminController@awaiting_signature_aggreements');
+Route::match(['get','post'],'/signed_aggreements','Admin\AdminController@signed_aggreements');
+Route::delete('pending-aggreement/delete','Admin\AdminController@deletePendingAggreement');
+Route::match(['get','post'],'/FAQ','Admin\AdminController@addEditFAQ');
 
 Route::get('pdfview',array('as'=>'pdfview','uses'=>'ItemController@pdfview'));
  });

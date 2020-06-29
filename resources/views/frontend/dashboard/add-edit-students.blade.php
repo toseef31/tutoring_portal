@@ -125,7 +125,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Goals</label>
-											<textarea name="goal" class="form-control border-input" rows="4" cols="80" placeholder="Enter Goals">{{$student->goal}}</textarea>
+											<textarea name="goal" class="form-control border-input" rows="4" cols="80" placeholder="Tell us a little about what you want to get out of tutoring!">{{$student->goal}}</textarea>
 										</div>
 									</div>
 								</div>

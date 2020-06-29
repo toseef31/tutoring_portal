@@ -15,7 +15,8 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isRole()=='admin') {
+        // if (Auth::check() && Auth::user()->isRole()=='admin') {
+        if ($request->session()->exists('sct_admin')) {
           return $next($request);
         }else {
           return redirect('/admin/login');

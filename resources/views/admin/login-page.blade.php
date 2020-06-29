@@ -19,8 +19,8 @@
                 <img class="img-responsive" src="{{asset('frontend-assets/static-images/header/search1.png')}}" alt="">
             </a>
             <div class="login-form">
-                @if(session()->has('loginError'))
-                    <div class="alert alert-danger">{{ session('loginError') }}</div>
+                @if(session()->has('loginAlert'))
+                    <div class="alert alert-danger">{{ session('loginAlert') }}</div>
                 @endif
                 <form data-toggle="validator" class="login-form" method="post">
                     {{ csrf_field() }}

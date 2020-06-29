@@ -169,7 +169,7 @@
 					</div>
 						<div class="form-group">
 						<label>Student Tutoring Goals</label>
-						<textarea name="goal" class="form-control" placeholder="Tutoring Goals"></textarea>
+						<textarea name="goal" class="form-control" placeholder="Tell us a little about what you want to get out of tutoring!"></textarea>
 					</div>
 					<div class="form-group">
 						<div class="captcha">

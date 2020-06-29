@@ -153,16 +153,16 @@ class DashboardController extends Controller
        return redirect('/user-portal/aggreements');
      }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function faqs(Request $request)
     {
-        //
+      $faq = DB::table('faqs')->first();
+      return view('frontend.dashboard.view-faqs',compact('faq'));
+    }
+
+    public function credits(Request $request)
+    {
+      $credit = DB::table('credits')->where('user_id',auth()->user()->id)->first();
+      return view('frontend.dashboard.view-credits',compact('credit'));
     }
 
     /**

@@ -96,7 +96,7 @@ label {
 
               <li class="nav-item btn-rotate dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{auth()->user()->first_name}}
+                  {{Session::get('sct_admin')->first_name}}
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
                   </p>
@@ -244,16 +244,27 @@ label {
                       <input type="password" class="form-control" name="password" value="">
                   </div>
               </div>
+              <?php
+              $credit_id = '';
+              $credit_cost = '';
+              $credit_balance= '';
+              if ($credit !='') {
+                $credit_id = $credit->credit_id;
+                $credit_cost = $credit->credit_cost;
+                $credit_balance = $credit->credit_balance;
+              }
+               ?>
+              <input type="hidden" name="credit_id" value="{{$credit_id}}">
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">Credit Cost : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="dollar_cost" value="" placeholder="Credit Cost">
+                      <input type="text" class="form-control" name="credit_cost" value="{{$credit_cost}}" placeholder="Credit Cost">
                   </div>
               </div>
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">Credit Balance : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" name="credit" value="" placeholder="Credit Balance">
+                      <input type="text" class="form-control" name="credit_balance" value="{{$credit_balance !='' ? $credit_balance:0}}" placeholder="Credit Balance">
                   </div>
               </div>
               <!-- <div class="form-group radio-div">

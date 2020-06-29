@@ -37,7 +37,6 @@
       @if(auth()->user()->role == 'customer')
       <li class="{{ request()->is('user-portal/students') ? 'active' : '' }}">
         <a href="{{url('/user-portal/students')}}">
-          <!-- <i class="ti-pencil-alt2"></i> -->
           <i class="ti-user"></i>
           <p>Students</p>
         </a>
@@ -50,6 +49,21 @@
           <p>Agreements</p>
         </a>
       </li>
+      <li class="{{ request()->is('user-portal/faqs') ? 'active' : '' }}">
+        <a href="{{url('/user-portal/faqs')}}">
+          <!-- <i class="ti-pencil-alt2"></i> -->
+          <i class="ti-book"></i>
+          <p>FAQs</p>
+        </a>
+      </li>
+      @if(auth()->user()->role == 'customer')
+      <li class="{{ request()->is('user-portal/credits') ? 'active' : '' }}">
+        <a href="{{url('/user-portal/credits')}}">
+          <i class="ti-credit-card"></i>
+          <p>Credits</p>
+        </a>
+      </li>
+      @endif
       <!-- <li class="{{ request()->is('user-portal/create-extension') ? 'active' : '' }}">
         <a href="{{url('user-portal/create-extension')}}">
           <i class="ti-pulse"></i>

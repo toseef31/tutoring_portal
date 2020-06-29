@@ -35,33 +35,94 @@ class AdminController extends Controller
         return 'email';
     }
 
+    // public function admin_login(Request $request)
+    // {
+    // if($request->isMethod('post')){
+    //   // dd($request->all());
+    //   $this->validate($request, [
+    //     'email' => 'required',
+    //     'password' => 'required',
+    //   ]);
+    //
+    //   $user_data = array(
+    //     'email'  => $request->get('email'),
+    //     'password' => $request->get('password'),
+    //     'role' => 'admin'
+    //   );
+    //
+    //   if(!Auth::attempt($user_data)){
+    //     // $fNotice = 'Please check your mobile for verification code';
+    //     $request->session()->flash('loginAlert', 'Invalid Email & Password');
+    //     return redirect('admin/login');
+    //   }
+    //   if ( Auth::check() ) {
+    //     // dd(Auth::user());
+    //   }
+    //   return redirect('dashboard/view_customers');
+    //   }
+    //   return view('admin.login-page');
+    // }
+
     public function admin_login(Request $request)
-    {
-    if($request->isMethod('post')){
-      // dd($request->all());
-      $this->validate($request, [
-        'email' => 'required',
-        'password' => 'required',
-      ]);
+   {
+        if ($request->session()->exists('sct_admin')) {
+           return redirect('/dashboard/view_customers');
+       }
 
-      $user_data = array(
-        'email'  => $request->get('email'),
-        'password' => $request->get('password'),
-        'role' => 'admin'
-      );
 
-      if(!Auth::attempt($user_data)){
-        // $fNotice = 'Please check your mobile for verification code';
-        $request->session()->flash('loginAlert', 'Invalid Email & Password');
-        return redirect('admin/login');
-      }
-      if ( Auth::check() ) {
-        // dd(Auth::user());
-      }
-      return redirect('dashboard/view_customers');
-      }
-      return view('admin.login-page');
-    }
+   if($request->isMethod('post')){
+
+          $email = $request->input('email');
+           // $password = Hash::make(trim($request->input('password')));
+           $password = trim($request->input('password'));
+           // dd($password);
+     $user = $this->doLogin($email,$password);
+     if($user == 'invalid'){
+       $request->session()->flash('loginAlert', 'Invalid Email & Password');
+
+         return redirect('admin/login');
+
+     }
+     else{
+
+       $request->session()->put('sct_admin', $user);
+
+
+
+         return redirect('dashboard/view_customers');
+
+     }
+
+
+   }
+       return view('/admin.login-page');
+   }
+
+   public function doLogin($email,$password){
+       /* do login */
+       // dd($password);
+       $user = DB::table('users')->where('email','=',$email)->where('role','admin')->first();
+       // dd($user);
+       if(empty($user)){
+           return 'invalid';
+       }else{
+         if (!Hash::check($password, $user->password)) {
+           return 'invalid';
+         }else {
+           // dd($user);
+           return $user;
+         }
+       }
+   /* end */
+ }
+
+ public function logout(Request $request){
+      // Session::flush();
+      Session::forget('sct_admin');
+       // Auth::logout();
+       return redirect('admin/login');
+ }
+
 
     public function all_admin(Request $request)
     {
@@ -186,6 +247,9 @@ class AdminController extends Controller
             if($request->input('password') != '' && $request->input('password') != NULL){
                 $customer->password =Hash::make(trim($request->input('password')));
             }
+            $credit_cost = $request->input('credit_cost');
+            $credit_balance = $request->input('credit_balance');
+
             if($customerId == ''){
                 $customerId = $customer->save();
                 $sMsg = 'New Customer Added';
@@ -207,6 +271,18 @@ class AdminController extends Controller
               }
               $customer->save();
                 $sMsg = 'Customer Updated';
+                $credit_id = $request->input('credit_id');
+                if ($credit_cost !='') {
+                  $input['credit_cost'] = $request->input('credit_cost');
+                  $input['user_id'] = $customerId;
+                  $input['credit_balance'] = $request->input('credit_balance');
+                  if ($credit_id !='') {
+                    DB::table('credits')->where('credit_id',$credit_id)->update($input);
+
+                  }else {
+                    DB::table('credits')->insert($input);
+                  }
+                }
             }
             $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
             return redirect('dashboard/view_customers');
@@ -216,13 +292,14 @@ class AdminController extends Controller
             if($rPath == 'edit'){
                 $customerId = $request->segment(4);
                 $customer = User::findOrFail($customerId);
-                // dd($user);
+                $credit = DB::table('credits')->where('user_id',$customerId)->first();
+                // dd($credit);
                 if($customer == null){
                     $request->session()->flash('alert',['message' => 'No Record Found', 'type' => 'danger']);
                     return redirect('dashboard/view_customers');
                 }
             }
-            return view('admin.add-edit-customers',compact('customer','rPath','customerId'));
+            return view('admin.add-edit-customers',compact('customer','rPath','customerId','credit'));
         }
     }
 
@@ -419,6 +496,28 @@ class AdminController extends Controller
        return view('admin.view_aggreements',compact('all_aggreement'));
     }
 
+    public function awaiting_signature_aggreements(Request $request)
+    {
+      $pending_aggreement = DB::table('signed_aggreements')->where('status','Awaiting Signature')->orderBy('signed_id','desc')->get();
+       return view('admin.pending_aggreements',compact('pending_aggreement'));
+    }
+    public function signed_aggreements(Request $request)
+    {
+      $signed_aggreement = DB::table('signed_aggreements')->where('status','Signed on')->orderBy('signed_id','desc')->get();
+       return view('admin.signed_aggreements',compact('signed_aggreement'));
+    }
+
+    public function deletePendingAggreement(Request $request)
+    {
+      if($request->isMethod('delete')){
+        $signed_id = trim($request->input('signed_id'));
+        $aggreement = DB::table('signed_aggreements')->where('signed_id',$signed_id)->delete();
+        $request->session()->flash('message' , 'Agreement Deleted Successfully');
+      }
+      return redirect(url()->previous());
+    }
+
+
     public function addEditAggreement(Request $request){
       // dd($request->all());
       $aggreementId = 0;
@@ -526,10 +625,33 @@ class AdminController extends Controller
       echo $send;
     }
 
-    public function logout(Request $request){
-          Auth::logout();
-          return redirect('admin/login');
+    public function addEditFAQ(Request $request){
+      // dd($request->all());
+      $faqId = 0;
+        $faqId = $request->input('faq_id');
+        if($request->isMethod('post')){
+          $input ['description'] = $request->input('description');
+
+            if($faqId == ''){
+                $faqId = DB::table('faqs')->insertGetId($input);
+                $sMsg = 'New FAQ Added';
+            }else{
+              $faqId = DB::table('faqs')->where('faq_id',$faqId)->update($input);
+
+                $sMsg = 'FAQ Updated';
+            }
+            $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
+            return redirect('dashboard/FAQ');
+        }else{
+            $faq = array();
+            $faqId = '0';
+            $faq = DB::table('faqs')->first();
+            // dd($faq);
+            return view('admin.add-edit-faqs',compact('faq','faqId'));
+        }
     }
+
+
 
 
     public function index()

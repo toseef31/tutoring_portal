@@ -99,7 +99,7 @@ display: none !important;
 
               <li class="nav-item btn-rotate dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{auth()->user()->first_name}}
+                  {{Session::get('sct_admin')->first_name}}
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
                   </p>

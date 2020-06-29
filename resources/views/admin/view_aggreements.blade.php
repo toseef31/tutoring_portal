@@ -149,7 +149,7 @@ overflow-y: auto;
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Aggreements List</a>
+            <a class="navbar-brand" href="#pablo">Agreements List</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -162,7 +162,7 @@ overflow-y: auto;
 
               <li class="nav-item btn-rotate dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{auth()->user()->first_name}}
+                  {{Session::get('sct_admin')->first_name}}
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
                   </p>
@@ -186,7 +186,7 @@ overflow-y: auto;
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Aggreements List <a href="{{url('dashboard/aggreement/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Add Aggreement</a></h4>
+                <h4 class="card-title"> Agreements List <a href="{{url('dashboard/aggreement/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Add Agreement</a></h4>
               </div>
 
               <div class="card-body">
@@ -202,7 +202,7 @@ overflow-y: auto;
                   <table class="table">
                     <thead class=" text-primary">
                       <th>Name</th>
-                      <th>Send Aggreement</th>
+                      <th>Send Agreement</th>
                       <th class="text-right">Action</th>
                     </thead>
                     <tbody>

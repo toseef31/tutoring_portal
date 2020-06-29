@@ -63,16 +63,30 @@
             </ul> -->
 
           </li>
-          <li class="{{ request()->is('dashboard/view_aggreements') ? 'active' : '' }}">
+          <li class="{{ request()->is('dashboard/view_aggreements') || request()->is('dashboard/awaiting_signature') || request()->is('dashboard/signed_aggreements') ? 'active' : '' }}">
             <a href="#aggrement"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="manageJobs">
               <i class="nc-icon nc-single-copy-04"></i>
               <p>Agreements</p>
             </a>
+            @if(request()->is('dashboard/view_aggreements') || request()->is('dashboard/awaiting_signature') || request()->is('dashboard/signed_aggreements'))
+            <ul class="collapse show" id="aggrement">
+            @else
             <ul class="collapse" id="aggrement">
-              <li><a href="{{url('dashboard/view_aggreements')}}">Agreements</a></li>
+            @endif
+              <li class="{{ request()->is('dashboard/view_aggreements') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/view_aggreements')}}">View Agreements</a></li>
+              <li class="{{ request()->is('dashboard/awaiting_signature') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/awaiting_signature')}}">Awaiting signature</a></li>
+              <li class="{{ request()->is('dashboard/signed_aggreements') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/signed_aggreements')}}">Signed on</a></li>
             </ul>
-
           </li>
+         <li  class="{{ request()->is('dashboard/FAQ') ? 'active' : '' }}">
+           <a class="" href="{{url('dashboard/FAQ')}}" role="button" aria-expanded="false" aria-controls="customer">
+             <i class="nc-icon nc-diamond"></i>
+             <p>FAQ</p>
+           </a>
+           <ul class="collapse" id="faq">
+             <li><a href="{{url('dashboard/customer-message')}}">FAQ</a></li>
+           </ul>
+         </li>
           <li>
             <a href="#certification"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
               <i class="nc-icon nc-bell-55"></i>
@@ -85,7 +99,7 @@
           </li>
 
           <li>
-          @if(auth()->user()->role =='admin')
+          @if(Session::get('sct_admin')->role =='admin')
             <a  data-toggle="collapse" href="#manageQuote"  role="button" aria-expanded="false" aria-controls="manageQuote">
               <i class="nc-icon nc-pin-3"></i>
               <p>Time Sheets</p>
@@ -96,18 +110,7 @@
             </ul>
           </li>
            @endif
-           @if(auth()->user()->role =='admin')
-          <li>
-            <a class="" data-toggle="collapse" href="#customer" role="button" aria-expanded="false" aria-controls="customer">
-              <i class="nc-icon nc-diamond"></i>
-              <p>FAQ</p>
-            </a>
-            <ul class="collapse" id="customer">
-              <li><a href="{{url('dashboard/customer-message')}}">FAQ</a></li>
-              <!-- <li><a href="">Archieved</a></li> -->
-              <!-- <li><a href="">Completed</a></li> -->
-            </ul>
-          </li>
+
           <!-- <li>
             <a class="" data-toggle="collapse" href="#blog" role="button" aria-expanded="false" aria-controls="customer">
               <i class="nc-icon nc-diamond"></i>
@@ -158,8 +161,7 @@
               <li><a href="{{url('')}}">Customer Messages</a></li>
             </ul>
           </li> -->
-          @endif
-           @if(auth()->user()->role =='admin')
+           @if(Session::get('sct_admin')->role =='admin')
            <!-- <li>
              <a href="#managepayment"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="manageJobs">
                <i class="nc-icon nc-single-02"></i>
@@ -171,7 +173,7 @@
 
            </li> -->
           @endif
-           @if(auth()->user()->role =='admin')
+           @if(Session::get('sct_admin')->role =='admin')
           <!-- <li>
             <a href="{{url('dashboard/help-menu')}}">
               <i class="nc-icon nc-single-02"></i>
