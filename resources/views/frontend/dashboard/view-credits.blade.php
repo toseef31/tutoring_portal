@@ -110,7 +110,7 @@
 									@if($credit !='')
 									<button type="submit" class="btn btn-info btn-green btn-wd">Buy</button>
 									@else
-									<button type="submit" class="btn btn-info btn-green btn-wd" disabled>Buy</button>
+									<button type="submit" class="btn bg-gray" disabled style="background: gray;color: white;">Buy</button>
 									@endif
 								</div>
 								<div class="clearfix"></div>
