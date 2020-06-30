@@ -28,7 +28,7 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{asset('/frontend-assets/dashboard/img/logo/ms-icon-144x144.png')}}">
     <meta name="theme-color" content="#ffffff">
-    <title>Tutoring Portal</title>
+    <title>Smart Cookie Tutors</title>
     @yield('styling')
   </head>
   <body>

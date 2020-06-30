@@ -52,6 +52,7 @@
             </div>
           </div>
         </div> -->
+        @if(auth()->user()->role == 'customer')
         <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: burlywood;">
             <div class="content">
@@ -64,7 +65,7 @@
                 <div class="col-xs-12">
                   <a href="{{url('user-portal/manage-profile')}}" class="text-white">
                     <div class="numbers">
-                      User Profile Management
+                      Client Profile
                     </div>
                   </a>
                 </div>
@@ -74,6 +75,31 @@
             </div>
           </div>
         </div>
+        @else
+        <div class="col-lg-4 col-sm-6">
+          <div class="cards" style="background-color: #005fff;">
+            <div class="content">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="icon-big text-white text-center">
+                    <i class="ti-user"></i>
+                  </div>
+                </div>
+                <div class="col-xs-12">
+                  <a href="{{url('user-portal/manage-profile-tutor')}}" class="text-white">
+                    <div class="numbers">
+                      Tutor Profile
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="footer">
+              </div>
+            </div>
+          </div>
+        </div>
+        @endif
+        @if(auth()->user()->role == 'customer')
         <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: #7429b9e6;">
             <div class="content">
@@ -96,44 +122,20 @@
             </div>
           </div>
         </div>
-
-        <!-- <div class="col-lg-4 col-sm-6">
-          <div class="cards" style="background-color: #005fff;">
-            <div class="content">
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="icon-big text-white text-center">
-                    <i class="ti-pulse"></i>
-                  </div>
-                </div>
-                <div class="col-xs-12">
-                  <a href="{{url('user-portal/create-extension')}}" class="text-white">
-                    <div class="numbers">
-                      Telephone Setting
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div class="footer">
-              </div>
-            </div>
-          </div>
-        </div> -->
-
-
-        <!-- <div class="col-lg-4 col-sm-6">
+        @endif
+        <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: #55c39e;">
             <div class="content">
               <div class="row">
                 <div class="col-xs-12">
                   <div class="icon-big text-white text-center">
-                    <i class="ti-map"></i>
+                    <i class="ti-files"></i>
                   </div>
                 </div>
                 <div class="col-xs-12">
-                  <a href="{{url('user-portal/disposition-call-report')}}" class="text-white">
+                  <a href="{{url('/user-portal/aggreements')}}" class="text-white">
                     <div class="numbers">
-                      Disposition of calls report
+                      Agreements
                     </div>
                   </a>
                 </div>
@@ -142,20 +144,20 @@
               </div>
             </div>
           </div>
-        </div> -->
-        <!-- <div class="col-lg-4 col-sm-6">
+        </div>
+        <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: brown;">
             <div class="content">
               <div class="row">
                 <div class="col-xs-12">
                   <div class="icon-big text-white text-center">
-                    <i class="ti-receipt"></i>
+                    <i class="ti-book"></i>
                   </div>
                 </div>
                 <div class="col-xs-12">
-                  <a href="{{url('user-portal/billing-info')}}" class="text-white">
+                  <a href="{{url('/user-portal/faqs')}}" class="text-white">
                     <div class="numbers">
-                      Billing Information
+                      FAQs
                     </div>
                   </a>
                 </div>
@@ -164,20 +166,42 @@
               </div>
             </div>
           </div>
-        </div> -->
-        <!-- <div class="col-lg-4 col-sm-6">
+        </div>
+        <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: #e4be40;">
             <div class="content">
               <div class="row">
                 <div class="col-xs-12">
                   <div class="icon-big text-white text-center">
-                    <i class="ti-image"></i>
+                    <i class="ti-credit-card"></i>
                   </div>
                 </div>
                 <div class="col-xs-12">
-                  <a href="{{url('/update-pricing-plan')}}" class="text-white">
+                  <a href="{{url('/user-portal/credits')}}" class="text-white">
                     <div class="numbers">
-                      Upgrade package
+                      Credits
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="footer">
+              </div>
+            </div>
+          </div>
+        </div>
+       <div class="col-lg-4 col-sm-6">
+          <div class="cards" style="background-color: #0085c6;">
+            <div class="content">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="icon-big text-white text-center">
+                    <i class="fas fa-sign-out-alt"></i>
+                  </div>
+                </div>
+                <div class="col-xs-12">
+                  <a href="{{url('/logout')}}" class="text-white">
+                    <div class="numbers">
+                      Logout
                     </div>
                   </a>
                 </div>
@@ -188,28 +212,6 @@
           </div>
         </div>
 
-        <div class="col-lg-4 col-sm-6">
-          <div class="cards" style="background-color: #0085c6;">
-            <div class="content">
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="icon-big text-white text-center">
-                    <i class="ti-comments"></i>
-                  </div>
-                </div>
-                <div class="col-xs-12">
-                  <a href="" class="text-white">
-                    <div class="numbers">
-                      WebRTC
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div class="footer">
-              </div>
-            </div>
-          </div>
-        </div> -->
         <!-- <div class="col-lg-4 col-sm-6">
           <div class="cards">
             <div class="content">

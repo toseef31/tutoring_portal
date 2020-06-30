@@ -118,9 +118,9 @@ blockquote small {
    line-height: 1;
 }
 
-strong {
+/* strong {
    color: #403D39;
-}
+} */
 
 .icon-primary {
    color: #7A9E9F;

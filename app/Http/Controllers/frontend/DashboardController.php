@@ -119,7 +119,6 @@ class DashboardController extends Controller
      public function ViewAggreementDetails(Request $request ,$id)
      {
         $aggreement=DB::table('signed_aggreements')->where('aggreement_id',$id)->where('user_id',auth()->user()->id)->first();
-        // dd($aggreement);
         return view('frontend.dashboard.view-aggreement',compact('aggreement'));
 
      }
@@ -147,7 +146,7 @@ class DashboardController extends Controller
        $aggreement_id =$request->input('aggreement_id');
        $input['user_name'] = $request->input('user_name');
        $input['date'] = $request->input('date');
-       $input['status'] = 'Signed On';
+       $input['status'] = 'Signed';
        $aggreement =DB::table('signed_aggreements')->where('aggreement_id',$aggreement_id)->where('user_id',auth()->user()->id)->update($input);
        $request->session()->flash('message',"Agreement Signed Successfull");
        return redirect('/user-portal/aggreements');

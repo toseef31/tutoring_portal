@@ -395,7 +395,7 @@ class AdminController extends Controller
 
     public function all_tutors(Request $request)
     {
-      $all_tutor = User::where('role','tutor')->orderBy('id','desc')->get();
+      $all_tutor = User::where('role','<>','customer')->orderBy('id','desc')->get();
        return view('admin.view_teachers',compact('all_tutor'));
     }
 
@@ -492,7 +492,6 @@ class AdminController extends Controller
     public function all_aggreement(Request $request)
     {
       $all_aggreement = DB::table('aggreements')->orderBy('aggreement_id','desc')->get();
-      // dd($all_aggreement);
        return view('admin.view_aggreements',compact('all_aggreement'));
     }
 
@@ -503,7 +502,7 @@ class AdminController extends Controller
     }
     public function signed_aggreements(Request $request)
     {
-      $signed_aggreement = DB::table('signed_aggreements')->where('status','Signed on')->orderBy('signed_id','desc')->get();
+      $signed_aggreement = DB::table('signed_aggreements')->where('status','Signed')->orderBy('signed_id','desc')->get();
        return view('admin.signed_aggreements',compact('signed_aggreement'));
     }
 
@@ -606,14 +605,13 @@ class AdminController extends Controller
       $clients = User::where('role','customer')->get();
       $tutors = User::where('role','tutor')->get();
       $users = User::where('role','<>','admin')->get();
-      // dd($tutor);
-      // return $user;
       return view('admin.ajax-users-list',compact('clients','tutors','id'));
     }
 
     public function sendAggreement(Request $request,$aggreement_id,$user_id)
     {
       $get_aggreement = DB::table('aggreements')->where('aggreement_id',$aggreement_id)->first();
+      $get_user = DB::table('users')->where('id',$user_id)->first();
       $aggreement_name = $get_aggreement->aggreement_name;
       $aggreement_file= $get_aggreement->file;
       $input['aggreement_id'] = $aggreement_id;
@@ -622,6 +620,16 @@ class AdminController extends Controller
       $input['aggreement_file'] = $aggreement_file;
       $input['status'] = 'Awaiting Signature';
       $send = DB::table('signed_aggreements')->insertGetId($input);
+      $toemail =  $get_user->email;
+      // dd($send);
+      Mail::send('mail.new_agreement_email',['user' =>$get_user,'agreement_id'=>$aggreement_id],
+      function ($message) use ($toemail)
+      {
+
+        $message->subject('Smart Cookie Tutors.com - New Agreement Available for Review');
+        $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+        $message->to($toemail);
+      });
       echo $send;
     }
 
@@ -649,6 +657,12 @@ class AdminController extends Controller
             // dd($faq);
             return view('admin.add-edit-faqs',compact('faq','faqId'));
         }
+    }
+
+    public function getTutorList(Request $request,$id)
+    {
+      $tutors = User::where('role','<>','customer')->orderBy('id','desc')->get();
+      return view('admin.ajax-tutors-list',compact('tutors','id'));
     }
 
 

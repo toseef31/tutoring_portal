@@ -3,7 +3,7 @@
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo" style="background: white;">
-        <a href="{{url('/')}}" class="simple-text logo-mini" style="width: 34%;float: none;margin-left: 75px;margin-bottom: -16px;">
+        <a href="{{url('/dashboard/view_customers')}}" class="simple-text logo-mini" style="width: 34%;float: none;margin-left: 75px;margin-bottom: -16px;">
           <div class="logo-image-small">
             <img src="{{asset('/frontend-assets/images/logo.png')}}" alt="Logo">
           </div>
@@ -75,7 +75,7 @@
             @endif
               <li class="{{ request()->is('dashboard/view_aggreements') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/view_aggreements')}}">View Agreements</a></li>
               <li class="{{ request()->is('dashboard/awaiting_signature') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/awaiting_signature')}}">Awaiting signature</a></li>
-              <li class="{{ request()->is('dashboard/signed_aggreements') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/signed_aggreements')}}">Signed on</a></li>
+              <li class="{{ request()->is('dashboard/signed_aggreements') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/signed_aggreements')}}">Signed</a></li>
             </ul>
           </li>
          <li  class="{{ request()->is('dashboard/FAQ') ? 'active' : '' }}">

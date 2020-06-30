@@ -1,9 +1,11 @@
 <div class="sidebar hidden-xs" data-background-color="black" data-active-color="danger">
   <div class="sidebar-wrapper">
     <div class="logo">
-      <a href="#" class="simple-text" id="dash_Name">
+      <!-- <a href="#" class="simple-text" id="dash_Name">
         {{auth()->user()->first_name}}
-      </a>
+      </a> -->
+      <span class="simple-text" id="dash_Name">{{auth()->user()->first_name}}</span>
+
     </div>
     <ul class="nav">
       <!-- <li  class="{{ request()->is('user-portal/dashboard') ? 'active' : '' }}">
@@ -27,10 +29,10 @@
         </a>
       </li>
       @else
-      <li class="{{ request()->is('user-portal/manage-profile') ? 'active' : '' }}">
-        <a href="{{url('user-portal/manage-profile')}}">
+      <li class="{{ request()->is('user-portal/manage-profile-tutor') ? 'active' : '' }}">
+        <a href="{{url('user-portal/manage-profile-tutor')}}">
           <i class="ti-user"></i>
-          <p>User Profile</p>
+          <p>Tutor Profile</p>
         </a>
       </li>
       @endif
@@ -64,6 +66,13 @@
         </a>
       </li>
       @endif
+      <li>
+        <a href="{{url('/logout')}}">
+          <i class="fas fa-sign-out-alt"></i>
+          <p>Logout</p>
+        </a>
+      </li>
+
       <!-- <li class="{{ request()->is('user-portal/create-extension') ? 'active' : '' }}">
         <a href="{{url('user-portal/create-extension')}}">
           <i class="ti-pulse"></i>

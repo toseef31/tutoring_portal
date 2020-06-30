@@ -607,3 +607,11 @@ header.active .top-line {
   background: gray;
   color:white;
 }
+@media(max-width: 490px){
+  .navbar-hidden {
+    display: none !important;
+  }
+  .brand{
+    padding-left: 50%;
+	}
+}

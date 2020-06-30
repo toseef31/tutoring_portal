@@ -118,6 +118,13 @@
             nav.removeClass('navbar-fixed-top');
         }
     });
+
+		$('.navbar-toggle').click(function(){
+
+			$('.sidebar').toggle();
+			$(".sidebar").removeClass("hidden-xs");
+
+		});
   </script>
   <script>
         var current = location.pathname;

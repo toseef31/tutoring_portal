@@ -12,6 +12,7 @@ use DB;
 use Session;
 use Hash;
 use Mail;
+use Redirect;
 
 class RegisterController extends Controller
 {
@@ -132,7 +133,6 @@ class RegisterController extends Controller
              'email' => 'required',
              'password' => 'required',
          ]);
-
          $user_data = array(
              'email'  => $request->get('email'),
              'password' => $request->get('password'),
@@ -146,11 +146,16 @@ class RegisterController extends Controller
          }
 
          if ( Auth::check() ) {
-           // dd(Auth::user()->role);
-           if (Auth::user()->role == 'tutor') {
-             return redirect('user-portal/manage-profile-tutor');
-           }else {
-             return redirect('user-portal/manage-profile');
+           if ($request->session()->has('previous_url')) {
+             $url =$request->session()->get('previous_url');
+             session()->forget('previous_url');
+             return redirect($url);
+           } else {
+             if (Auth::user()->role == 'tutor') {
+               return redirect('user-portal/manage-profile-tutor');
+             }else {
+               return redirect('user-portal/manage-profile');
+             }
            }
          }
      }

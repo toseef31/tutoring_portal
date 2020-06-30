@@ -9,7 +9,6 @@
 @section('content')
 
 @include('frontend.dashboard.menu.menu')
-
 <div class="main-panel">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">

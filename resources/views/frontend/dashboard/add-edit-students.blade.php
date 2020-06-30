@@ -82,7 +82,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Full Name</label>
-											<input type="text" class="form-controls border-input" placeholder="Enter Student Name"  name="student_name" value="{{$student->student_name}}">
+											<input type="text" class="form-controls border-input" placeholder="Enter Student Name"  name="student_name" value="{{$student->student_name}}" required>
 										</div>
 									</div>
 								</div>
@@ -90,7 +90,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Grade</label>
-											<input type="text" class="form-control border-input" placeholder="Enter Grade" id="grade" name="grade" value="{{$student->grade}}">
+											<input type="text" class="form-control border-input" placeholder="Enter Grade" id="grade" name="grade" value="{{$student->grade}}"required>
 										</div>
 									</div>
 								</div>
@@ -107,7 +107,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>School/College</label>
-											<input type="text" name="college" class="form-controls border-input" placeholder="Enter School/College"  value="{{$student->college}}">
+											<input type="text" name="college" class="form-controls border-input" placeholder="Enter School/College"  value="{{$student->college}}" required>
 										</div>
 									</div>
 								</div>
@@ -116,7 +116,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Subject</label>
-											<input type="text" class="form-control border-input" placeholder="Enter Subject" id="subject" name="subject" value="{{$student->subject}}">
+											<input type="text" class="form-control border-input" placeholder="Enter Subject" id="subject" name="subject" value="{{$student->subject}}" required>
 										</div>
 									</div>
 								</div>
@@ -143,7 +143,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Full Name</label>
-											<input type="text" class="form-controls border-input" placeholder="Enter Student Name"  name="student_name" value="" >
+											<input type="text" class="form-controls border-input" placeholder="Enter Student Name"  name="student_name" value=""  required>
 										</div>
 									</div>
 								</div>
@@ -151,7 +151,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Grade</label>
-											<input type="text" class="form-control border-input" placeholder="Enter Grade" id="grade" name="grade" value="">
+											<input type="text" class="form-control border-input" placeholder="Enter Grade" id="grade" name="grade" value="" required>
 										</div>
 									</div>
 								</div>
@@ -168,7 +168,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>School/College</label>
-											<input type="text" name="college" class="form-controls border-input" placeholder="Enter School/College"  value="">
+											<input type="text" name="college" class="form-controls border-input" placeholder="Enter School/College"  value="" required>
 										</div>
 									</div>
 								</div>
@@ -177,7 +177,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Subject</label>
-											<input type="text" class="form-control border-input" placeholder="Enter Subject" id="subject" name="subject">
+											<input type="text" class="form-control border-input" placeholder="Enter Subject" id="subject" name="subject" required>
 										</div>
 									</div>
 								</div>
@@ -186,7 +186,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Goals</label>
-											<textarea name="goal" class="form-control border-input" rows="4" cols="80" placeholder="Enter Goals"></textarea>
+											<textarea name="goal" class="form-control border-input" rows="4" cols="80" placeholder="Tell us a little about what you want to get out of tutoring!"></textarea>
 										</div>
 									</div>
 								</div>

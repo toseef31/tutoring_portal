@@ -79,8 +79,7 @@
                       <th>Subject</th>
                       <th>Grade</th>
                       <th>School/College</th>
-                      <th colspan="2">Goal</th>
-                      <th>Created At</th>
+                      <th>Goal</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -92,8 +91,7 @@
                       <td>{{$student->subject}}</td>
                       <td>{{$student->grade}}</td>
                       <td>{{$student->college}}</td>
-                      <td colspan="2">{{$student->goal}}</td>
-                      <td>{{$student->created_at}}</td>
+                      <td>{{$student->goal}}</td>
                       <td>
                         <!-- <a href="{{ url('admin/users/view/'.$student->student_id) }}" data-toggle="tooltip" data-original-title="Profile"><i class="ti-eye"></i></a>&nbsp;&nbsp;&nbsp; -->
                         <a href="{{ url('user-portal/student/edit/'.$student->student_id) }}" data-toggle="tooltip" data-original-title="Update"><i class="ti-pencil"></i></a>&nbsp;&nbsp;&nbsp;

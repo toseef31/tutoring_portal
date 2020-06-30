@@ -634,3 +634,12 @@ header.active .top-line {
   background: #10C5A7;
   color: white;
 }
+.bg-gray{
+  background-color: gray !important;
+  color: white;
+}
+@media(max-width: 490px){
+	.brand{
+    padding-left: 50%;
+	}
+}

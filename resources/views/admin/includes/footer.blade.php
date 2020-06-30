@@ -16,10 +16,7 @@
       </nav>
       <div class="credits ml-auto">
         <span class="copyright">
-          ©
-          <script>
-            document.write(new Date().getFullYear())
-          </script>, made with <i class="fa fa-heart heart"></i> by Peek International
+          Copyright © 2020 All Rights Reserved by Smart Cookie Tutors
         </span>
       </div>
     </div>

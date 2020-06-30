@@ -21,7 +21,7 @@
 										<img src="{{asset('frontend-assets/images/logo.png')}}" style="height: 105px; padding-top: 10px;">
 									</a> </div>
 								<nav  id="nav-wrap" class="main-nav">
-									<a id="toggle-btn" class="navbar-toggler"><i class="fa fa-bars"></i> </a>
+									<a id="toggle-btn" class="navbar-toggler navbar-hidden hidden-xs"><i class="fa fa-bars"></i> </a>
 								<ul class="sf-menu">
 										<!-- <li class=""> <a href="index.html">Home</a> </li> -->
 										<!-- <li> <a href="about-us.html">About Us </a></li>

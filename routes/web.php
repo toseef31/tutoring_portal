@@ -80,6 +80,7 @@ Route::match(['get','post'],'/awaiting_signature','Admin\AdminController@awaitin
 Route::match(['get','post'],'/signed_aggreements','Admin\AdminController@signed_aggreements');
 Route::delete('pending-aggreement/delete','Admin\AdminController@deletePendingAggreement');
 Route::match(['get','post'],'/FAQ','Admin\AdminController@addEditFAQ');
+Route::get('/get_all_tutors/{id}','Admin\AdminController@getTutorList');
 
 Route::get('pdfview',array('as'=>'pdfview','uses'=>'ItemController@pdfview'));
  });
