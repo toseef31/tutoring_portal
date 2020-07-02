@@ -89,7 +89,11 @@
                     <tr>
                       <td>{{$student->student_name}}</td>
                       <td>{{SCT::getClientName($student->user_id)->first_name}} {{SCT::getClientName($student->user_id)->last_name}}</td>
+                      @if(SCT::getClientCredit($student->user_id) !='')
                       <td>{{SCT::getClientCredit($student->user_id)->credit_balance}}</td>
+                      @else
+                      <td>0</td>
+                      @endif
                       <td>{{$student->hourly_pay_rate}}</td>
                       <td>{{$student->email}}</td>
                       <td>{{$student->subject}}</td>
