@@ -19,7 +19,7 @@ class CreateSignedAggreementsTable extends Migration
           $table->integer('user_id');
           $table->string('aggreement_name');
           $table->string('aggreement_file');
-          $table->enum('status', ['Awaiting Signature', 'Signed On']);
+          $table->enum('status', ['Awaiting Signature', 'Signed']);
           $table->string('user_name')->nullable();
           $table->string('date')->nullable();
           $table->timestamps();

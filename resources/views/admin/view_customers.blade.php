@@ -1,5 +1,9 @@
 @extends('admin.layouts.master')
 @section('content')
+<?php
+$searchBy = array('first_name' => 'First Name', 'last_name' => 'Last Name', 'email' => 'Email');
+$s_app = Session()->get('clientsSearch');
+?>
   <div class="wrapper">
     <div class="main-panel">
       <!-- Navbar -->
@@ -54,6 +58,30 @@
               </div>
 
               <div class="card-body">
+                <form method="post" action="{{ url('dashboard/view_customers') }}">
+                  <div class="row">
+                        {{ csrf_field() }}
+                        <div class="col-md-4">
+                            <label>Search By</label>
+                            <select class="form-control select2" name="searchBy">
+                              @foreach($searchBy as $x => $y)
+                                  <option value="{{ $x }}" {{ $x == $s_app['searchBy'] ? 'selected="selected"' : '' }}>{{ $y }}</option>
+                              @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Search String</label>
+                            <input type="text" class="form-control" name="search" placeholder="Type here ..." value="{{ $s_app['search'] }}" style="line-height: 2;">
+                        </div>
+                        <div class="col-md-4" style="margin-top: -8px;">
+                            <label style="display: block;">&nbsp;</label>
+                            <button class="btn btn-primary" type="submit" name="filter">Search</button>
+                            @if($s_app !=null)
+                                <a class="btn btn-default" href="{{ url('dashboard/view_customers?reset=true') }}">Reset</a>
+                            @endif
+                        </div>
+                    </div>
+              </form>
                 <div class="table-responsive">
                   @if(session()->has('message'))
                     <div class="row">
@@ -86,6 +114,7 @@
 
                     </tbody>
                   </table>
+                  {!! $all_customer->render() !!}
                 </div>
               </div>
             </div>

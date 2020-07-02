@@ -186,7 +186,7 @@ overflow-y: auto;
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Agreements List <a href="{{url('dashboard/aggreement/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Add Agreement</a></h4>
+                <h4 class="card-title"> Agreements List <a href="{{url('dashboard/agreement/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Add Agreement</a></h4>
               </div>
 
               <div class="card-body">
@@ -206,16 +206,16 @@ overflow-y: auto;
                       <th class="text-right">Action</th>
                     </thead>
                     <tbody>
-                    @foreach($all_aggreement as $aggreement)
+                    @foreach($all_agreement as $agreement)
                       <tr>
-                        <td> {{$aggreement->aggreement_name}}</td>
+                        <td> {{$agreement->aggreement_name}}</td>
                         <td>
-                          <a href="javascript:0;" class="btn btn-primary" onclick="GetUsers('{{ $aggreement->aggreement_id }}')"> Send </a>
+                          <a href="javascript:0;" class="btn btn-primary" onclick="GetUsers('{{ $agreement->aggreement_id }}')"> Send </a>
                          </td>
                         <td class="text-right">
-                          <a href="{{url('/dashboard/aggreement/edit/'.$aggreement->aggreement_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
+                          <a href="{{url('/dashboard/agreement/edit/'.$agreement->aggreement_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
                           <!-- <i class="fa fa-eye text-success"></i> -->
-                          <a href="javascript:0;" onclick="deleteEmployer('{{ $aggreement->aggreement_id }}')"> <i class="fa fa-trash text-danger"></i> </a>
+                          <a href="javascript:0;" onclick="deleteEmployer('{{ $agreement->aggreement_id }}')"> <i class="fa fa-trash text-danger"></i> </a>
                         </td>
                       </tr>
                       @endforeach
@@ -245,7 +245,7 @@ overflow-y: auto;
                       <h3>Are you sure?</h3>
                       <p>You will not be able to undo this action.</p>
                       <div class="m-t-lg">
-                          <form method="post" action="{{ url('dashboard/aggreement/delete') }}">
+                          <form method="post" action="{{ url('dashboard/agreement/delete') }}">
                               <input type="hidden" name="_method" value="delete">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
                               <input type="hidden" name="aggreement_id" class="actionId">
@@ -297,14 +297,14 @@ function GetUsers(id){
     });
 }
 
-function sendAggreement(id,user_id) {
+function sendAgreement(id,user_id) {
   // alert(id+','+user_id);
   var temp = "<button class='btn btn-success' disabled>Sent</button>"
   $('.user-'+user_id).removeClass('btn btn-primary');
   $('.user-'+user_id).html(temp);
   $.ajax({
           type: "get",
-          url: "{{ url('dashboard/sendAggreement') }}/"+id+'/'+user_id,
+          url: "{{ url('dashboard/sendAgreement') }}/"+id+'/'+user_id,
           // data:{id:id,value:value},
           success: function(response){
             // $('.show_modal').html(response);

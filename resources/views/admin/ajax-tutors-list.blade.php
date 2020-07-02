@@ -31,16 +31,25 @@
                 <div class="chat_people">
                   <div class="chat_img"> <img src="{{asset('frontend-assets/images/user-profile.png')}}" alt="sunil"> </div>
                   <div class="chat_ib">
-                    @if(SCT::checkAggrementSend($id,$tutor->id) !='')
-                    <h5>{{$tutor->first_name}} {{$tutor->last_name}} <span><button class="btn btn-success" disabled>Sent</button> </span></h5>
-                    @else
-                    <h5>{{$tutor->first_name}} {{$tutor->last_name}} <span><a href="javascript:void(0);" onclick="sendAggreement({{$id}},{{$tutor->id}})" class="btn btn-primary user-{{$tutor->id}}">Assign</a></span>
-                       </h5>
-                    @endif
+                    @if(SCT::checkTutorAssign($id,$tutor->id) !='')
+                    <h5>{{$tutor->first_name}} {{$tutor->last_name}}
+                      <span class="tutor-{{$tutor->id}}"><a href="javascript:void(0);" onclick="DeleteAssignTutor({{$id}},{{$tutor->id}})" class="btn btn-danger user-{{$tutor->id}}">Delete</a> </span></h5>
                     <div class="rating-div-{{$tutor->id}}">
-                      <span class="heading_rate">Hourly Pay Rate</span> <input type="text" class="form-control heading_input rate-{{$tutor->id}}" id="rate-{{$tutor->id}}" name="pay_rate" placeholder="Amount" value=""></span>
+                      <span class="heading_rate">Hourly Pay Rate</span><span class="amount_show">{{SCT::checkTutorAssign($id,$tutor->id)->hourly_pay_rate}}$</span>
                     </div>
-                    <!-- <h5>{{$tutor->first_name}} {{$tutor->last_name}} <span><a href="{{url('/dashboard/sendAggreement/'.$id.'/'.$tutor->id)}}" class="btn btn-primary">Request Signature</a> </span></h5> -->
+                    <div class="rating2-div-{{$tutor->id}}">
+
+                    </div>
+                    @else
+                    <h5>{{$tutor->first_name}} {{$tutor->last_name}} <span class="tutor-{{$tutor->id}}"><a href="javascript:void(0);" onclick="AssignTutor({{$id}},{{$tutor->id}})" class="btn btn-primary user-{{$tutor->id}}">Assign</a></span></h5>
+                     <div class="rating-div-{{$tutor->id}}">
+                       <span class="heading_rate">Hourly Pay Rate</span> <input type="text" class="form-control heading_input rate-{{$tutor->id}}" id="rate-{{$tutor->id}}" name="pay_rate" placeholder="Amount" value=""></span>
+                     </div>
+                     <div class="rating2-div-{{$tutor->id}}">
+
+                     </div>
+                    @endif
+
                     @if($tutor->role == 'customer')
                     <p>Client</p>
                     @else

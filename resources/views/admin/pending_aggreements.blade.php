@@ -65,22 +65,22 @@
                   @endif
                   <table class="table">
                     <thead class=" text-primary">
-                      <th>Aggrement Name</th>
+                      <th>Agrement Name</th>
                       <th>User Name</th>
                       <th>Role</th>
                       <th>Status</th>
                       <th class="text-right">Action</th>
                     </thead>
                     <tbody>
-                    @foreach($pending_aggreement as $aggreement)
+                    @foreach($pending_agreement as $agreement)
                       <tr>
-                        <td> {{$aggreement->aggreement_name}}</td>
-                        <td> {{SCT::GetUser($aggreement->user_id)->first_name}} {{SCT::GetUser($aggreement->user_id)->last_name}}</td>
-                        <td> {{SCT::GetUser($aggreement->user_id)->role}}</td>
-                        <td> {{$aggreement->status}}</td>
+                        <td> {{$agreement->aggreement_name}}</td>
+                        <td> {{SCT::GetUser($agreement->user_id)->first_name}} {{SCT::GetUser($agreement->user_id)->last_name}}</td>
+                        <td> {{SCT::GetUser($agreement->user_id)->role}}</td>
+                        <td> {{$agreement->status}}</td>
                         <td class="text-right">
-                          <!-- <a href="{{url('/dashboard/customer/edit/'.$aggreement->signed_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a> -->
-                          <a href="javascript:0;" onclick="deleteEmployer('{{ $aggreement->signed_id }}')"> <i class="fa fa-trash text-danger"></i> </a>
+                          <!-- <a href="{{url('/dashboard/customer/edit/'.$agreement->signed_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a> -->
+                          <a href="javascript:0;" onclick="deleteEmployer('{{ $agreement->signed_id }}')"> <i class="fa fa-trash text-danger"></i> </a>
                         </td>
                       </tr>
                       @endforeach
@@ -110,7 +110,7 @@
                       <h3>Are you sure?</h3>
                       <p>You will not be able to undo this action.</p>
                       <div class="m-t-lg">
-                          <form method="post" action="{{ url('dashboard/pending-aggreement/delete') }}">
+                          <form method="post" action="{{ url('dashboard/pending-agreement/delete') }}">
                               <input type="hidden" name="_method" value="delete">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
                               <input type="hidden" name="signed_id" class="actionId">

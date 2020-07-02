@@ -1,19 +1,29 @@
-@extends('layouts.app')
+@extends('frontend.dashboard.layout.master')
 @section('content')
+<style>
+  .wrapper {
+    background: white;
+  }
+
+</style>
 <div class="container">
        <h1 class="text-center pt-5">Payment Information</h1>
-    <div class="row justify-content-center my-5">
+    <div class="row justify-content-center my-5" style="margin-bottom:9.6rem;">
         <div class="col-md-4 my-5">
           <img src="{{asset('frontend-assets/images/CreditCard.png')}}" width="100%" class="mt-5">
         </div>
-        <div class="col-md-6  my-5">
+        <div class="col-md-6  my-5" >
             <div class="">
-                <p class="mb-4 font-weight-bold">You will be charged @if($plan == '1') £{{ number_format(0, 2) }} for Basic Plan @else ${{ number_format(85, 2) }} for 	Premium Plan @endif</p>
-                <p class="mb-4 font-weight-bold">£85 monthly membership fee after the trial period</p>
+                <p class="mb-4 font-weight-bold">You will be charged  ${{ number_format($total, 2) }} for buy {{$credit_balance}} Credit  </p>
+                <!-- <p class="mb-4 font-weight-bold">£85 monthly membership fee after the trial period</p> -->
             </div>
             <div class="card">
-                <form action="{{ url('partner/subscribe_process') }}" method="post" id="payment-form">
+                <form action="{{ url('user-portal/subscribe_process') }}" method="post" id="payment-form">
                      {{ csrf_field() }}
+                     <input type="hidden" name="credit_id" value="{{$credit_id}}">
+                     <input type="hidden" name="credit_balance" value="{{$credit_balance}}">
+                     <input type="hidden" name="credit_cost" value="{{$credit_cost}}">
+                     <input type="hidden" name="total" value="{{$total}}">
                     <div class="form-group">
                         <div class="card-header">
                             <label for="card-element">
@@ -26,7 +36,7 @@
                             </div>
                             <!-- Used to display form errors. -->
                             <div id="card-errors" role="alert"></div>
-					
+
                         </div>
                     </div>
                     <div class="card-footer text-right">
@@ -43,7 +53,7 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script>
     // Create a Stripe client.
-var stripe = Stripe('pk_test_aL2Rl72N1ah9z90MKwNvAHHT00WiDY8EN5');
+var stripe = Stripe('pk_test_AZHJmyUnFodTZHqYT3DaUs4k0050uHKq8K');
 //alert(stripe);
 // Create an instance of Elements.
 var elements = stripe.elements();

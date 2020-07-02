@@ -1,8 +1,8 @@
 @extends('admin.layouts.master')
 @if($rPath == 'edit')
-    @section('title', 'Update Aggreement')
+    @section('title', 'Update Agreement')
 @else
-    @section('title', 'Add Aggreement')
+    @section('title', 'Add Agreement')
 @endif
 @section('content')
 <style>
@@ -127,16 +127,16 @@ display: none !important;
 
                     @if($rPath == 'edit')
                     <?php $profilePhoto=''; ?>
-                    @if($aggreement->file != '')
+                    @if($agreement->file != '')
                     <?php
-                    // $profilePhoto = url('frontend-assets/images/dashboard/profile-photos/'.$aggreement->image);
+                    // $profilePhoto = url('frontend-assets/images/dashboard/profile-photos/'.agreement->image);
                      ?>
                   @endif
 
           <form class="form-horizontal employers-form" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
-              <input type="hidden" name="aggreement_id" value="{{ $aggreement->aggreement_id }}">
-              <input type="hidden" name="prevLogo" value="{{ $aggreement->file }}">
+              <input type="hidden" name="aggreement_id" value="{{ $agreement->aggreement_id }}">
+              <input type="hidden" name="prevLogo" value="{{ $agreement->file }}">
 
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">&nbsp;</label>
@@ -145,9 +145,9 @@ display: none !important;
                   </div>
               </div>
               <div class="form-group">
-                  <label class="control-label col-md-3 text-right">Aggreement Name : *</label>
+                  <label class="control-label col-md-3 text-right">Agreement Name : *</label>
                   <div class="col-md-6">
-                      <input type="text" class="form-control" placeholder="Enter Agreement Name" name="aggrement_name" required="" value="{{$aggreement->aggreement_name}}">
+                      <input type="text" class="form-control" placeholder="Enter Agreement Name" name="aggrement_name" required="" value="{{$agreement->aggreement_name}}">
                   </div>
               </div>
 
@@ -170,10 +170,10 @@ display: none !important;
               <div class="form-group">
                 <label class="control-label col-md-3 text-right"></label>
                 <div class="col-md-6">
-                  <embed src="{{ url('dashboard/show_aggreement/'.$aggreement->aggreement_id) }}"
+                  <embed src="{{ url('dashboard/show_agreement/'.$agreement->aggreement_id) }}"
                     style="width:600px; height:800px;"
                     frameborder="0">
-                  <!-- <embed src="{{ url('dashboard/show_aggreement/'.$aggreement->aggreement_id) }}#toolbar=0&navpanes=0&scrollbar=0"
+                  <!-- <embed src="{{ url('dashboard/show_agreement/'.$agreement->aggreement_id) }}#toolbar=0&navpanes=0&scrollbar=0"
                     style="width:600px; height:800px;"
                     frameborder="0"> -->
                   </div>
@@ -183,7 +183,7 @@ display: none !important;
                   <label class="control-label col-md-3 text-right">&nbsp;</label>
                   <div class="col-md-6">
                       <span style="background-color: #f8f8f8;padding: 10px;text-align: center;display: block;">
-                          <img src="{{ $profilePhoto }}" alt="{{ $aggreement['user_firstname'].' '.$aggreement['user_lastname'] }}" style="max-width: 200px;">
+                          <img src="{{ $profilePhoto }}" alt="{{ agreement['user_firstname'].' '.agreement['user_lastname'] }}" style="max-width: 200px;">
                       </span>
                   </div>
               </div>
@@ -205,7 +205,7 @@ display: none !important;
                           </div>
                       </div>
                       <div class="form-group">
-                          <label class="control-label col-md-3 text-right">Aggreement Name : *</label>
+                          <label class="control-label col-md-3 text-right">Agreement Name : *</label>
                           <div class="col-md-6">
                               <input type="text" class="form-control" placeholder="Enter Agreement Name" name="aggrement_name" required="">
                           </div>

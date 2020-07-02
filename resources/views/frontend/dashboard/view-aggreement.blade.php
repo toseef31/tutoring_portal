@@ -26,8 +26,8 @@
 					<span class="icon-bar bar2"></span>
 					<span class="icon-bar bar3"></span>
 				</button>
-				@if($aggreement !='')
-	        @if(SCT::checkAggrementSend($aggreement->aggreement_id,$aggreement->user_id)->status == 'Awaiting Signature')
+				@if($agreement !='')
+	        @if(SCT::checkAggrementSend($agreement->aggreement_id,$agreement->user_id)->status == 'Awaiting Signature')
 					<a class="navbar-brand" href="#">Sign Agreement</a>
 	        @else
 	        <a class="navbar-brand" href="#">Signed Agreement</a>
@@ -78,8 +78,8 @@
 				<div class="col-lg-9 col-md-9 app-view-mainCol">
 					<div class="cards">
 						<div class="header">
-							@if($aggreement !='')
-	              @if(SCT::checkAggrementSend($aggreement->aggreement_id,$aggreement->user_id)->status == 'Awaiting Signature')
+							@if($agreement !='')
+	              @if(SCT::checkAggrementSend($agreement->aggreement_id,$agreement->user_id)->status == 'Awaiting Signature')
 								<h3 class="title">Sign Agreement</h3>
 	              @else
 								<h3 class="title">Signed Agreement</h3>
@@ -89,34 +89,34 @@
 						</div>
             @include('frontend.dashboard.menu.alerts')
 						<div class="content">
-							@if($aggreement !='')
+							@if($agreement !='')
 							<form class="form-horizontals profile-form" action="{{url('user-portal/sign-agreement')}}" method="post">
 								{{ csrf_field() }}
-								<input type="hidden" name="aggreement_id" value="{{$aggreement->aggreement_id}}">
+								<input type="hidden" name="aggreement_id" value="{{$agreement->aggreement_id}}">
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Agreement Name</label>
-											<input type="text" class="form-controls border-input" placeholder="Enter Student Name"  name="aggreement_name" value="{{$aggreement->aggreement_name}}" readonly>
+											<input type="text" class="form-controls border-input" placeholder="Enter Student Name"  name="aggreement_name" value="{{$agreement->aggreement_name}}" readonly>
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-                      @if(SCT::checkAggrementSend($aggreement->aggreement_id,$aggreement->user_id)->status == 'Awaiting Signature')
-                      <embed class="pdf_view"  src="{{ url('user-portal/show_aggreement/'.$aggreement->aggreement_id) }}#toolbar=0&navpanes=0&scrollbar=0"
+                      @if(SCT::checkAggrementSend($agreement->aggreement_id,$agreement->user_id)->status == 'Awaiting Signature')
+                      <embed class="pdf_view"  src="{{ url('user-portal/show_agreement/'.$agreement->aggreement_id) }}#toolbar=0&navpanes=0&scrollbar=0"
                         style="width:700px; height:800px;"
                         frameborder="0">
                       @else
-                      <embed class="pdf_view" src="{{ url('user-portal/show_aggreement/'.$aggreement->aggreement_id) }}"
+                      <embed class="pdf_view" src="{{ url('user-portal/show_agreement/'.$agreement->aggreement_id) }}"
                         style="width:700px; height:800px;"
                         frameborder="0">
                       @endif
 										</div>
 									</div>
 								</div>
-                @if(SCT::checkAggrementSend($aggreement->aggreement_id,$aggreement->user_id)->status == 'Awaiting Signature')
+                @if(SCT::checkAggrementSend($agreement->aggreement_id,$agreement->user_id)->status == 'Awaiting Signature')
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">

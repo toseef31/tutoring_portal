@@ -9,7 +9,6 @@ class SCT {
   {
     $aggreement = DB::table('signed_aggreements')->where('aggreement_id',$aggrement_id)->where('user_id',$user_id)->first();
     return $aggreement;
-    // dd($aggreement);
   }
   public function GetUser($user_id)
   {
@@ -19,6 +18,21 @@ class SCT {
   public function checkCredit($user_id)
   {
     $user = DB::table('credits')->where('user_id',$user_id)->first();
+    return $user;
+  }
+  public function checkTutorAssign($student_id,$tutor_id)
+  {
+    $assign = DB::table('tutor_assign')->where('student_id',$student_id)->where('tutor_id',$tutor_id)->first();
+    return $assign;
+  }
+  public function getStudentName($student_id)
+  {
+    $student = DB::table('students')->where('student_id',$student_id)->first();
+    return $student;
+  }
+  public function getClientName($user_id)
+  {
+    $user = DB::table('users')->where('id',$user_id)->first();
     return $user;
   }
 }

@@ -47,9 +47,9 @@
                   @if(SCT::checkAggrementSend($id,$client->id) !='')
                   <h5>{{$client->first_name}} {{$client->last_name}} <span><button class="btn btn-success" disabled>Sent</button> </span></h5>
                   @else
-                  <h5>{{$client->first_name}} {{$client->last_name}} <span><a href="javascript:void(0);" onclick="sendAggreement({{$id}},{{$client->id}})" class="btn btn-primary user-{{$client->id}}">Request Signature</a> </span></h5>
+                  <h5>{{$client->first_name}} {{$client->last_name}} <span><a href="javascript:void(0);" onclick="sendAgreement({{$id}},{{$client->id}})" class="btn btn-primary user-{{$client->id}}">Request Signature</a> </span></h5>
                   @endif
-                  <!-- <h5>{{$client->first_name}} {{$client->last_name}} <span><a href="{{url('/dashboard/sendAggreement/'.$id.'/'.$client->id)}}" class="btn btn-primary">Request Signature</a> </span></h5> -->
+                  <!-- <h5>{{$client->first_name}} {{$client->last_name}} <span><a href="{{url('/dashboard/sendAgreement/'.$id.'/'.$client->id)}}" class="btn btn-primary">Request Signature</a> </span></h5> -->
                   @if($client->role == 'customer')
                   <p>Client</p>
                   @else
@@ -69,9 +69,9 @@
                   @if(SCT::checkAggrementSend($id,$tutor->id) !='')
                   <h5>{{$tutor->first_name}} {{$tutor->last_name}} <span><button class="btn btn-success" disabled>Sent</button> </span></h5>
                   @else
-                  <h5>{{$tutor->first_name}} {{$tutor->last_name}} <span><a href="javascript:void(0);" onclick="sendAggreement({{$id}},{{$tutor->id}})" class="btn btn-primary user-{{$tutor->id}}">Request Signature</a> </span></h5>
+                  <h5>{{$tutor->first_name}} {{$tutor->last_name}} <span><a href="javascript:void(0);" onclick="sendAgreement({{$id}},{{$tutor->id}})" class="btn btn-primary user-{{$tutor->id}}">Request Signature</a> </span></h5>
                   @endif
-                  <!-- <h5>{{$tutor->first_name}} {{$tutor->last_name}} <span><a href="{{url('/dashboard/sendAggreement/'.$id.'/'.$tutor->id)}}" class="btn btn-primary">Request Signature</a> </span></h5> -->
+                  <!-- <h5>{{$tutor->first_name}} {{$tutor->last_name}} <span><a href="{{url('/dashboard/sendAgreement/'.$id.'/'.$tutor->id)}}" class="btn btn-primary">Request Signature</a> </span></h5> -->
                   @if($tutor->role == 'customer')
                   <p>Client</p>
                   @else

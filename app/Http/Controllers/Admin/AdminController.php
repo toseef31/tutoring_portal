@@ -204,8 +204,34 @@ class AdminController extends Controller
 
     public function all_customers(Request $request)
     {
-      $all_customer = User::where('role','customer')->orderBy('id','desc')->get();
-       return view('admin.view_customers',compact('all_customer'));
+      // dd($request->all());
+      $app = session()->get('sct_admin');
+      if ($app =="") {
+        return redirect('/admin');
+      }
+    	if($request->isMethod('post')){
+    		$request->session()->put('clientsSearch',$request->all());
+    	}
+
+    	if($request->input('reset') && $request->input('reset') == 'true'){
+    		$request->session()->forget('clientsSearch');
+    		return redirect('dashboard/view_customers');
+    	}
+      $s_app = $request->session()->get('clientsSearch');
+      if ($s_app ==null) {
+        $s_app=[];
+      }
+      // dd($s_app);
+    $all_customer = DB::table('users')->where('role','=','customer')
+                  ->where(function ($query) use ($s_app) {
+                      if(count($s_app) > 0){
+                          if($s_app['search'] != ''){
+                              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                          }
+                      }
+                  })->orderBy('first_name','asc')->paginate(15);
+
+      return view('admin.view_customers',compact('all_customer'));
     }
 
 
@@ -316,8 +342,80 @@ class AdminController extends Controller
 
     public function all_students(Request $request)
     {
-      $all_student = Student::orderBy('student_id','desc')->get();
-       return view('admin.view_students',compact('all_student'));
+      // dd($request->all());
+      $app = session()->get('sct_admin');
+      if ($app =="") {
+        return redirect('/admin');
+      }
+      if($request->isMethod('post')){
+        $request->session()->put('studentsSearch',$request->all());
+      }
+
+      if($request->input('reset') && $request->input('reset') == 'true'){
+        $request->session()->forget('studentsSearch');
+        return redirect('dashboard/view_students');
+      }
+      $s_app = $request->session()->get('studentsSearch');
+      if ($s_app ==null) {
+        $s_app=[];
+      }
+      // dd($s_app);
+      $type ='';
+      $all_client='';
+      $all_student='';
+    if ($s_app ==[] ) {
+      $type ='client_search';
+      $all_client = DB::table('users')->where('role','=','customer')
+                    ->where(function ($query) use ($s_app) {
+                        if(count($s_app) > 0){
+                            if($s_app['search'] != ''){
+                                $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                            }
+                        }
+                    })->orderBy('first_name','asc')->paginate(15);
+
+                    foreach ($all_client as &$student) {
+                      $student->student=DB::table('students')->where('user_id','=',$student->id)
+                      ->where(function ($query) use ($s_app) {
+                          if(count($s_app) > 0){
+                              if($s_app['search'] != ''){
+                                  $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                              }
+                          }
+                      })->orderBy('student_name','asc')->get();
+                    }
+
+    }elseif($s_app['searchBy']!='student_name') {
+      $type ='client_search';
+      // dd("client");
+    $all_client = DB::table('users')->where('role','=','customer')
+                  ->where(function ($query) use ($s_app) {
+                      if(count($s_app) > 0){
+                          if($s_app['search'] != ''){
+                              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                          }
+                      }
+                  })->orderBy('first_name','asc')->paginate(15);
+
+              foreach ($all_client as &$student) {
+                $student->student=DB::table('students')->where('user_id','=',$student->id)
+                ->orderBy('student_name','asc')->get();
+          }
+        }else {
+          $type='student_search';
+          $all_student = DB::table('students')
+                        ->where(function ($query) use ($s_app) {
+                            if(count($s_app) > 0){
+                                if($s_app['search'] != ''){
+                                    $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                                }
+                            }
+                        })->orderBy('student_name','asc')->paginate(15);
+        }
+
+          // dd($type);
+      // $all_student = Student::orderBy('student_id','desc')->get();
+       return view('admin.view_students',compact('all_client','all_student','type'));
     }
 
     public function addEditStudent(Request $request){
@@ -489,44 +587,44 @@ class AdminController extends Controller
       return redirect(url()->previous());
     }
 
-    public function all_aggreement(Request $request)
+    public function all_agreement(Request $request)
     {
-      $all_aggreement = DB::table('aggreements')->orderBy('aggreement_id','desc')->get();
-       return view('admin.view_aggreements',compact('all_aggreement'));
+      $all_agreement = DB::table('aggreements')->orderBy('aggreement_id','desc')->get();
+       return view('admin.view_aggreements',compact('all_agreement'));
     }
 
-    public function awaiting_signature_aggreements(Request $request)
+    public function awaiting_signature_agreements(Request $request)
     {
-      $pending_aggreement = DB::table('signed_aggreements')->where('status','Awaiting Signature')->orderBy('signed_id','desc')->get();
-       return view('admin.pending_aggreements',compact('pending_aggreement'));
+      $pending_agreement = DB::table('signed_aggreements')->where('status','Awaiting Signature')->orderBy('signed_id','desc')->get();
+       return view('admin.pending_aggreements',compact('pending_agreement'));
     }
-    public function signed_aggreements(Request $request)
+    public function signed_agreements(Request $request)
     {
-      $signed_aggreement = DB::table('signed_aggreements')->where('status','Signed')->orderBy('signed_id','desc')->get();
-       return view('admin.signed_aggreements',compact('signed_aggreement'));
+      $signed_agreement = DB::table('signed_aggreements')->where('status','Signed')->orderBy('signed_id','desc')->get();
+       return view('admin.signed_aggreements',compact('signed_agreement'));
     }
 
-    public function deletePendingAggreement(Request $request)
+    public function deletePendingAgreement(Request $request)
     {
       if($request->isMethod('delete')){
         $signed_id = trim($request->input('signed_id'));
-        $aggreement = DB::table('signed_aggreements')->where('signed_id',$signed_id)->delete();
+        $agreement = DB::table('signed_aggreements')->where('signed_id',$signed_id)->delete();
         $request->session()->flash('message' , 'Agreement Deleted Successfully');
       }
       return redirect(url()->previous());
     }
 
 
-    public function addEditAggreement(Request $request){
+    public function addEditAgreement(Request $request){
       // dd($request->all());
-      $aggreementId = 0;
+      $agreementId = 0;
         $rPath = $request->segment(3);
         if($request->isMethod('post')){
-            $aggreementId = $request->input('aggreement_id');
+            $agreementId = $request->input('aggreement_id');
             $this->validate($request, [
                 'aggrement_name' => 'required|max:100',
             ]);
-            if($aggreementId == 0 || $aggreementId ==null){
+            if($agreementId == 0 || $agreementId ==null){
 
                 $this->validate($request, [
                     'agrreement_file' => 'required|mimes:pdf|max:10000',
@@ -542,38 +640,38 @@ class AdminController extends Controller
               $input['file'] = $upload;
             }
 
-            if($aggreementId == ''){
+            if($agreementId == ''){
 
                 DB::table('aggreements')->insert($input);
-                $sMsg = 'New Aggreement Added';
+                $sMsg = 'New Agreement Added';
             }else{
 
-              DB::table('aggreements')->where('aggreement_id',$aggreementId)->update($input);
-                $sMsg = 'Aggreement Updated';
+              DB::table('aggreements')->where('aggreement_id',$agreementId)->update($input);
+                $sMsg = 'Agreement Updated';
             }
             $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
-            return redirect('dashboard/view_aggreements');
+            return redirect('dashboard/view_agreements');
         }else{
-            $aggreement = array();
-            $aggreementId = '0';
+            $agreement = array();
+            $agreementId = '0';
             if($rPath == 'edit'){
-                $aggreementId = $request->segment(4);
-                $aggreement = DB::table('aggreements')->where('aggreement_id',$aggreementId)->first();
+                $agreementId = $request->segment(4);
+                $agreement = DB::table('aggreements')->where('aggreement_id',$agreementId)->first();
                 // dd($user);
                 if($request->has('download')){
                   $pdf = PDF::loadView('pdfview');
                   return $pdf->download('pdfview.pdf');
                 }
-                if($aggreement == null){
+                if($agreement == null){
                     $request->session()->flash('alert',['message' => 'No Record Found', 'type' => 'danger']);
-                    return redirect('dashboard/view_aggreements');
+                    return redirect('dashboard/view_agreements');
                 }
             }
-            return view('admin.add-edit-aggreements',compact('aggreement','rPath','aggreementId'));
+            return view('admin.add-edit-aggreements',compact('agreement','rPath','agreementId'));
         }
     }
 
-    public function showAggreement(Request $request ,$id)
+    public function showAgreement(Request $request ,$id)
     {
        // dd('hello');
        $document=DB::table('aggreements')->where('aggreement_id',$id)->first();
@@ -590,11 +688,11 @@ class AdminController extends Controller
         ]);
     }
 
-    public function deleteAggreement(Request $request)
+    public function deleteAgreement(Request $request)
     {
       if($request->isMethod('delete')){
-        $aggreement_id = trim($request->input('aggreement_id'));
-        $tutor = DB::table('aggreements')->where('aggreement_id',$aggreement_id)->delete();
+        $agreement_id = trim($request->input('aggreement_id'));
+        $tutor = DB::table('aggreements')->where('aggreement_id',$agreement_id)->delete();
         $request->session()->flash('message' , 'Agreement Deleted Successfully');
       }
       return redirect(url()->previous());
@@ -608,21 +706,21 @@ class AdminController extends Controller
       return view('admin.ajax-users-list',compact('clients','tutors','id'));
     }
 
-    public function sendAggreement(Request $request,$aggreement_id,$user_id)
+    public function sendAgreement(Request $request,$agreement_id,$user_id)
     {
-      $get_aggreement = DB::table('aggreements')->where('aggreement_id',$aggreement_id)->first();
+      $get_agreement = DB::table('aggreements')->where('aggreement_id',$agreement_id)->first();
       $get_user = DB::table('users')->where('id',$user_id)->first();
-      $aggreement_name = $get_aggreement->aggreement_name;
-      $aggreement_file= $get_aggreement->file;
-      $input['aggreement_id'] = $aggreement_id;
+      $agreement_name = $get_agreement->aggreement_name;
+      $agreement_file= $get_agreement->file;
+      $input['aggreement_id'] = $agreement_id;
       $input['user_id'] = $user_id;
-      $input['aggreement_name'] = $aggreement_name;
-      $input['aggreement_file'] = $aggreement_file;
+      $input['aggreement_name'] = $agreement_name;
+      $input['aggreement_file'] = $agreement_file;
       $input['status'] = 'Awaiting Signature';
       $send = DB::table('signed_aggreements')->insertGetId($input);
       $toemail =  $get_user->email;
       // dd($send);
-      Mail::send('mail.new_agreement_email',['user' =>$get_user,'agreement_id'=>$aggreement_id],
+      Mail::send('mail.new_agreement_email',['user' =>$get_user,'agreement_id'=>$agreement_id],
       function ($message) use ($toemail)
       {
 
@@ -663,6 +761,25 @@ class AdminController extends Controller
     {
       $tutors = User::where('role','<>','customer')->orderBy('id','desc')->get();
       return view('admin.ajax-tutors-list',compact('tutors','id'));
+    }
+
+    public function AssignTutor(Request $request)
+    {
+      $student_id = $request->input('student_id');
+      $student = DB::table('students')->where('student_id',$student_id)->first();
+      $user_id = $student->user_id;
+      $input['tutor_id'] = $request->input('tutor_id');
+      $input['student_id'] = $student_id;
+      $input['user_id'] = $user_id;
+      $input['hourly_pay_rate'] = $request->input('amount');
+      $assign = DB::table('tutor_assign')->insertGetId($input);
+      echo $assign;
+    }
+
+    public function DeleteAssignTutor(Request $request, $id, $tutor_id)
+    {
+      $unassign = DB::table('tutor_assign')->where('student_id',$id)->where('tutor_id',$tutor_id)->delete();
+      dd($unassign);
     }
 
 

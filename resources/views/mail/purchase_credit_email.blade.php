@@ -61,14 +61,14 @@
       </center>
       <hr>
       <p class='lead'> Hello {{$user->first_name}} {{$user->last_name}} , </p>
-      <p style="color:#74787e;">New Agreement is available for review.</p>
+      <p style="color:#74787e;">You have successfully purchased credits and your new credit balance is {{$credit->credit_balance}}.</p>
       <br>
       <hr>
       <br>
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
       <center>
-         <a href="{{url('/user-portal/view_agreement/'.$agreement_id)}}" class='btn pt-2'>
-        Click To Review Agreement
+         <a href="{{$credit->receipt_url}}" class='btn pt-2'>
+        Click To View Receipt
       </a>
     </center>
     <table class="m_1888394735623576276footer" align="center" width="620" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:0 auto;padding:0;text-align:center;width:620px"><tbody><tr>

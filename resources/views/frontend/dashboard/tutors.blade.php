@@ -1,6 +1,6 @@
 @extends('frontend.dashboard.layout.master')
 
-@section('title', 'Agreements Management')
+@section('title', 'Tutors')
 
 @section('styling')
 
@@ -19,7 +19,7 @@
         <span class="icon-bar bar2"></span>
         <span class="icon-bar bar3"></span>
         </button>
-        <a class="navbar-brand" href="#">Agreements</a>
+        <a class="navbar-brand" href="#">Tutors</a>
       </div>
     </div>
   </nav>
@@ -56,8 +56,7 @@
         <div class="col-lg-12 col-md-12 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <!-- <a href="{{url('user-portal/student/add')}}" class="btn btn-green pull-right">New Student</a> -->
-              <h3 class="title">Agreements</h3>
+              <h3 class="title">Tutors</h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))
@@ -70,31 +69,36 @@
         			@endif
             </div>
             <div class="content">
+              @if(count($tutors)>0)
               <div class="table-responsive">
                 <table class="table  table-bordered">
                   <thead>
                     <tr>
-                      <th>Agreement Name</th>
-                      <th>Status</th>
-                      <th>Signed Date</th>
-                      <th>Action</th>
+                      <th>Name</th>
+                      <th>Image</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Assign Student</th>
+                      <th>Description</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($agreements as $agreement)
+                    @foreach($tutors as $tutor)
                     <tr>
-                      <td>{{$agreement->aggreement_name}}</td>
-                      <td>{{$agreement->status}}</td>
-                      <td>{{$agreement->date}}</td>
-                      <td>
-                        <a href="{{ url('user-portal/view_agreement/'.$agreement->aggreement_id) }}" class="btn btn-green" data-toggle="tooltip" data-original-title="Update">View</a>&nbsp;&nbsp;&nbsp;
-                        <!-- <a href="javascript:;" onclick="deleteEmployer('{{ $agreement->aggreement_id }}')" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash"></i></a> -->
-                      </td>
+                      <td>{{$tutor->first_name}} {{$tutor->last_name}}</td>
+                      <td><img src="{{asset('/frontend-assets/images/dashboard/profile-photos/'.$tutor->image)}}" alt="" style="width:100px;height: 100px;border-radius:50%;"> </td>
+                      <td>{{$tutor->email}}</td>
+                      <td>{{$tutor->phone}}</td>
+                      <td>{{SCT::getStudentName($tutor->student_id)->student_name}}</td>
+                      <td>{{$tutor->description}}</td>
                     </tr>
                     @endforeach
                   </tbody>
                 </table>
               </div>
+              @else
+              <h4>Tutor assignment pending</h4>
+              @endif
             </div>
             <hr>
           </div>

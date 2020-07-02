@@ -63,19 +63,19 @@
             </ul> -->
 
           </li>
-          <li class="{{ request()->is('dashboard/view_aggreements') || request()->is('dashboard/awaiting_signature') || request()->is('dashboard/signed_aggreements') ? 'active' : '' }}">
+          <li class="{{ request()->is('dashboard/view_agreements') || request()->is('dashboard/awaiting_signature') || request()->is('dashboard/signed_agreements') ? 'active' : '' }}">
             <a href="#aggrement"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="manageJobs">
               <i class="nc-icon nc-single-copy-04"></i>
               <p>Agreements</p>
             </a>
-            @if(request()->is('dashboard/view_aggreements') || request()->is('dashboard/awaiting_signature') || request()->is('dashboard/signed_aggreements'))
+            @if(request()->is('dashboard/view_agreements') || request()->is('dashboard/awaiting_signature') || request()->is('dashboard/signed_agreements'))
             <ul class="collapse show" id="aggrement">
             @else
             <ul class="collapse" id="aggrement">
             @endif
-              <li class="{{ request()->is('dashboard/view_aggreements') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/view_aggreements')}}">View Agreements</a></li>
+              <li class="{{ request()->is('dashboard/view_agreements') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/view_agreements')}}">View Agreements</a></li>
               <li class="{{ request()->is('dashboard/awaiting_signature') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/awaiting_signature')}}">Awaiting signature</a></li>
-              <li class="{{ request()->is('dashboard/signed_aggreements') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/signed_aggreements')}}">Signed</a></li>
+              <li class="{{ request()->is('dashboard/signed_agreements') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/signed_agreements')}}">Signed</a></li>
             </ul>
           </li>
          <li  class="{{ request()->is('dashboard/FAQ') ? 'active' : '' }}">

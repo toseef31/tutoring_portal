@@ -18,6 +18,7 @@ class CreateCreditsTable extends Migration
             $table->string('user_id');
             $table->string('credit_balance')->nullable();
             $table->string('credit_cost');
+            $table->enum('status', ['First Purchase', 'Purchased Before']);
             $table->timestamps();
         });
     }

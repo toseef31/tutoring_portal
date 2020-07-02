@@ -4,6 +4,7 @@ namespace App\Http\Controllers\frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Laravel\Cashier\Cashier;
 use App\Facade\SCT;
 use App\User;
 use DB;
@@ -109,21 +110,21 @@ class DashboardController extends Controller
 
      }
 
-     public function getAggreements(Request $request)
+     public function getAgreements(Request $request)
      {
        $user_id = auth()->user()->id;
-       $aggreements = DB::table('signed_aggreements')->where('user_id',$user_id)->get();
-       return view('frontend.dashboard.all_aggreements',compact('aggreements'));
+       $agreements = DB::table('signed_aggreements')->where('user_id',$user_id)->get();
+       return view('frontend.dashboard.all_aggreements',compact('agreements'));
      }
 
-     public function ViewAggreementDetails(Request $request ,$id)
+     public function ViewAgreementDetails(Request $request ,$id)
      {
-        $aggreement=DB::table('signed_aggreements')->where('aggreement_id',$id)->where('user_id',auth()->user()->id)->first();
-        return view('frontend.dashboard.view-aggreement',compact('aggreement'));
+        $agreement=DB::table('signed_aggreements')->where('aggreement_id',$id)->where('user_id',auth()->user()->id)->first();
+        return view('frontend.dashboard.view-aggreement',compact('agreement'));
 
      }
 
-     public function showAggreement(Request $request ,$id)
+     public function showAgreement(Request $request ,$id)
      {
         // dd('hello');
         $document=DB::table('aggreements')->where('aggreement_id',$id)->first();
@@ -140,16 +141,16 @@ class DashboardController extends Controller
          ]);
      }
 
-     public function SignAggreement(Request $request)
+     public function SignAgreement(Request $request)
      {
        // dd($request->all());
-       $aggreement_id =$request->input('aggreement_id');
+       $agreement_id =$request->input('aggreement_id');
        $input['user_name'] = $request->input('user_name');
        $input['date'] = $request->input('date');
        $input['status'] = 'Signed';
-       $aggreement =DB::table('signed_aggreements')->where('aggreement_id',$aggreement_id)->where('user_id',auth()->user()->id)->update($input);
+       $agreement =DB::table('signed_aggreements')->where('aggreement_id',$agreement_id)->where('user_id',auth()->user()->id)->update($input);
        $request->session()->flash('message',"Agreement Signed Successfull");
-       return redirect('/user-portal/aggreements');
+       return redirect('/user-portal/agreements');
      }
 
     public function faqs(Request $request)
@@ -163,6 +164,95 @@ class DashboardController extends Controller
       $credit = DB::table('credits')->where('user_id',auth()->user()->id)->first();
       return view('frontend.dashboard.view-credits',compact('credit'));
     }
+
+    public function buyCredit(Request $request)
+       {
+          // dd($request->all());
+          $credit_id = $request->input('credit_id');
+          $credit_cost = $request->input('credit_cost');
+          $credit_balance = $request->input('credit_balance');
+          $total = $credit_cost*$credit_balance;
+          // dd($total);
+           return view('frontend.dashboard.show', compact('credit_id','credit_cost','credit_balance','total'));
+       }
+
+       public function subscribe_process(Request $request)
+       {
+         // dd($request->all());
+         try {
+           $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+           $userId=auth()->user()->id;
+           $user = User::find($userId);
+           $tokenId= $request->stripeToken;
+           $total = $request->total*100;
+           $credit_id = $request->input('credit_id');
+           $credit_balance = $request->input('credit_balance');
+           $credit_cost = $request->input('credit_cost');
+           $get_credit = DB::table('credits')->where('credit_id',$credit_id)->first();
+
+           // dd($get_credit);
+           $customer = $user->createAsStripeCustomer($tokenId,[
+             'email' => $user->email,
+           ]);
+           $stripeCharge = $user->charge($total);
+           $new_credit_balance = $get_credit->credit_balance+$credit_balance;
+           $status = $get_credit->status;
+           $data['stripeToken'] = $tokenId;
+           DB::table('users')->where('id',$userId)->update($data);
+
+           $receipt =$stripeCharge['receipt_url'];
+           $input['credit_balance'] = $new_credit_balance;
+           $input['status'] = 'Purchased Before';
+           $input['receipt_url'] = $receipt;
+           DB::table('credits')->where('credit_id',$credit_id)->update($input);
+           $new_credit = DB::table('credits')->where('credit_id',$credit_id)->first();
+
+           $toemail =  $user->email;
+           // dd($send);
+           Mail::send('mail.purchase_credit_email',['user' =>$user,'credit'=>$new_credit],
+           function ($message) use ($toemail)
+           {
+
+             $message->subject('Smart Cookie Tutors.com - New Credit Purchased');
+             $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+             $message->to($toemail);
+           });
+
+           $admins = User::where('role','admin')->get();
+          if ($status == 'First Purchase') {
+           foreach ($admins as $admin) {
+             $toemail =  $admin->email;
+             // dd($send);
+             Mail::send('mail.new_user_credit_email',['user' =>$user,'credit'=>$new_credit],
+             function ($message) use ($toemail)
+             {
+
+               $message->subject('Smart Cookie Tutors.com - New Credit Purchased');
+               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+               $message->to($toemail);
+             });
+           }
+         }
+
+           // dd($stripeCharge);
+
+           $request->session()->flash('message', 'Credits Purchased successfully');
+           return redirect('/user-portal/credits');
+         } catch (\Exception $ex) {
+           return $ex->getMessage();
+         }
+
+       }
+
+       public function studentTutor(Request $request)
+       {
+         $tutors = DB::table('tutor_assign')
+                  ->join('users','users.id','=','tutor_assign.tutor_id')
+                  ->where('tutor_assign.user_id','=',auth()->user()->id)->get();
+                  // dd($tutor);
+        return view('frontend.dashboard.tutors',compact('tutors'));
+       }
+
 
     /**
      * Remove the specified resource from storage.
