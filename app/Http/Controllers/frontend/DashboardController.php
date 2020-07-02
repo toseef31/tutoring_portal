@@ -253,6 +253,15 @@ class DashboardController extends Controller
         return view('frontend.dashboard.tutors',compact('tutors'));
        }
 
+       public function TutorStudents(Request $request)
+       {
+         $students = DB::table('tutor_assign')
+                  ->join('students','students.student_id','=','tutor_assign.student_id')
+                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->get();
+                  // dd($students);
+        return view('frontend.dashboard.tutor-students',compact('students'));
+       }
+
 
     /**
      * Remove the specified resource from storage.

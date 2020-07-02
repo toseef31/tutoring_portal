@@ -3,6 +3,15 @@
 @section('title', 'My Profile')
 
 @section('styling')
+<style>
+/* .demoInputBox{padding:7px; border:#F0F0F0 1px solid; border-radius:4px;} */
+#password-strength-status {padding: 1px 7px;color: #FFFFFF; border-radius:4px;margin-top:5px;}
+.medium-password{background-color: #E4DB11;border:#BBB418 1px solid;}
+.weak-password{background-color: #FF6600;border:#AA4502 1px solid;}
+.strong-password{background-color: #12CC1A;border:#0FA015 1px solid;}
+#message {padding: 1px 7px;color: #FFFFFF; border-radius:4px;margin-top:5px;}
+
+</style>
 @endsection
 @section('content')
 
@@ -124,11 +133,24 @@ if($user->image != ''){
 										</div>
 									</div>
 								</div>
-								<div class="row">
+								<!-- <div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Change Password</label>
 											<input type="password" class="form-control border-input" placeholder="Enter password" id="password" name="password" autocomplete="off">
+										</div>
+									</div>
+								</div> -->
+								<div class="row">
+									<div class="form-group">
+										<div class="col-md-6">
+											<label>Change Password</label>
+											<input type="password" class="demoInputBox form-control border-input" name="password" id="password" placeholder="Enter password"  onKeyUp="checkPasswordStrength();" /><div id="password-strength-status"></div>
+										</div>
+										<div class="col-md-6">
+							  			<label>Confirm Password</label>
+							  			<input type="password" class="form-control" placeholder="Enter confirm password" id="confirm_password" onkeyup='check();' autocomplete="off">
+							  			<div id='message'></div>
 										</div>
 									</div>
 								</div>
@@ -143,7 +165,7 @@ if($user->image != ''){
 								</div> -->
 
 								<div class="text-center">
-									<button type="submit" class="btn btn-info btn-green btn-wd">Update Profile</button>
+									<button type="submit" class="btn btn-info btn-green btn-wd" id="submit-btn">Update Profile</button>
 								</div>
 
 								<div class="clearfix"></div>
@@ -189,6 +211,85 @@ function uploadpicture(){
 			}
 		}
 	});
+}
+</script>
+<script>
+function checkPasswordStrength() {
+	var number = /([0-9])/;
+	var alphabets = /([a-zA-Z])/;
+	// var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+	if ($('#password').val().length > 0) {
+
+	if($('#password').val().length<=6) {
+		$('#password-strength-status').removeClass();
+		$('#password-strength-status').addClass('weak-password');
+		$('#password-strength-status').html("Weak (6 characters or more, with at least 1 letter and one number.)");
+		$(':input[type="submit"]').prop('disabled', true);
+		$('#submit-btn').addClass("bg-gray");
+		$('#submit-btn').removeClass("btn-green");
+		check();
+	} else {
+		if($('#password').val().match(number) && $('#password').val().match(alphabets)) {
+			$('#password-strength-status').removeClass();
+			$('#password-strength-status').addClass('strong-password');
+			$('#password-strength-status').html("Strong");
+			$(':input[type="submit"]').prop('disabled', false);
+			$('#submit-btn').removeClass("bg-gray");
+			$('#submit-btn').addClass("btn-green");
+			check();
+		} else {
+			$('#password-strength-status').removeClass();
+			$('#password-strength-status').addClass('medium-password');
+			$('#password-strength-status').html("Medium (should include alphabets, numbers)");
+			$(':input[type="submit"]').prop('disabled', true);
+			$('#submit-btn').addClass("bg-gray");
+			$('#submit-btn').removeClass("btn-green");
+			check();
+		}
+	}
+}else {
+	$(':input[type="submit"]').prop('disabled', false);
+	$('#submit-btn').removeClass("bg-gray");
+	$('#submit-btn').addClass("btn-green");
+	$('#password-strength-status').removeClass('weak-password');
+	$('#password-strength-status').removeClass('medium-password');
+	$('#password-strength-status').removeClass('strong-password');
+	$('#message').removeClass('weak-password');
+
+}
+}
+var check = function()
+{
+	if ($('#password').val().length > 0 ) {
+
+	if (document.getElementById('password').value ==
+	document.getElementById('confirm_password').value) {
+		$('#message').removeClass();
+		$('#message').addClass('strong-password');
+		document.getElementById('message').innerHTML = 'Password Match';
+		var number = /([0-9])/;
+		var alphabets = /([a-zA-Z])/;
+		if($('#password').val().match(number) && $('#password').val().match(alphabets)) {
+			$(':input[type="submit"]').prop('disabled', false);
+			$('#submit-btn').removeClass("bg-gray");
+			$('#submit-btn').addClass("btn-green");
+		}else {
+			$(':input[type="submit"]').prop('disabled', true);
+			$('#submit-btn').addClass("bg-gray");
+			$('#submit-btn').removeClass("btn-green");
+		}
+	} else {
+		$('#message').removeClass();
+		$('#message').addClass('weak-password');
+		document.getElementById('message').innerHTML = 'Passwords do not match';
+		$(':input[type="submit"]').prop('disabled', true);
+		$('#submit-btn').addClass("bg-gray");
+		$('#submit-btn').removeClass("btn-green");
+	}
+}else {
+	$(':input[type="submit"]').prop('disabled', false);
+}
+
 }
 </script>
 

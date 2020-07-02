@@ -35,6 +35,11 @@ class SCT {
     $user = DB::table('users')->where('id',$user_id)->first();
     return $user;
   }
+  public function getClientCredit($user_id)
+  {
+    $user = DB::table('credits')->where('user_id',$user_id)->first();
+    return $user;
+  }
 }
 
 ?>

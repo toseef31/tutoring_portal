@@ -1,6 +1,6 @@
 @extends('frontend.dashboard.layout.master')
 
-@section('title', 'Tutors')
+@section('title', 'Students Management')
 
 @section('styling')
 
@@ -19,7 +19,7 @@
         <span class="icon-bar bar2"></span>
         <span class="icon-bar bar3"></span>
         </button>
-        <a class="navbar-brand" href="#">Tutors</a>
+        <a class="navbar-brand" href="#">Students</a>
       </div>
     </div>
   </nav>
@@ -56,7 +56,7 @@
         <div class="col-lg-12 col-md-12 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <h3 class="title">Tutors</h3>
+              <h3 class="title">Students</h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))
@@ -69,37 +69,39 @@
         			@endif
             </div>
             <div class="content">
-              @if(count($tutors)>0)
               <div class="table-responsive">
                 <table class="table  table-bordered">
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Image</th>
+                      <th>Client Name</th>
+                      <th>Client Credit</th>
+                      <th>Hourly Rate</th>
                       <th>Email</th>
-                      <th>Phone</th>
-                      <th>Assign Student</th>
-                      <th>Description</th>
+                      <th>Subject</th>
+                      <th>Grade</th>
+                      <th>School/College</th>
+                      <th>Goal</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($tutors as $tutor)
+                    @foreach($students as $student)
                     <tr>
-                      <td>{{$tutor->first_name}} {{$tutor->last_name}}</td>
-                      <td><img src="{{asset('/frontend-assets/images/dashboard/profile-photos/'.$tutor->image)}}" alt="" style="width:100px;height: 100px;border-radius:50%;"> </td>
-                      <td>{{$tutor->email}}</td>
-                      <td>{{$tutor->phone}}</td>
-                      <td>{{SCT::getStudentName($tutor->student_id)->student_name}}</td>
-                      <td>{{$tutor->description}}</td>
+                      <td>{{$student->student_name}}</td>
+                      <td>{{SCT::getClientName($student->user_id)->first_name}} {{SCT::getClientName($student->user_id)->last_name}}</td>
+                      <td>{{SCT::getClientCredit($student->user_id)->credit_balance}}</td>
+                      <td>{{$student->hourly_pay_rate}}</td>
+                      <td>{{$student->email}}</td>
+                      <td>{{$student->subject}}</td>
+                      <td>{{$student->grade}}</td>
+                      <td>{{$student->college}}</td>
+                      <td>{{$student->goal}}</td>
+
                     </tr>
                     @endforeach
                   </tbody>
                 </table>
               </div>
-              @else
-              <h4>Tutor assignment pending <img src="{{asset('/frontend-assets/images/user.jpg')}}" alt=""></h4>
-
-              @endif
             </div>
             <hr>
           </div>

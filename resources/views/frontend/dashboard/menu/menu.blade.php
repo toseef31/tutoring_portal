@@ -50,6 +50,14 @@
         </a>
       </li>
       @endif
+      @if(auth()->user()->role == 'tutor')
+      <li class="{{ request()->is('user-portal/tutor-students') ? 'active' : '' }}">
+        <a href="{{url('/user-portal/tutor-students')}}">
+          <i class="ti-user"></i>
+          <p>Students</p>
+        </a>
+      </li>
+      @endif
       <li class="{{ request()->is('user-portal/agreements') ? 'active' : '' }}">
         <a href="{{url('/user-portal/agreements')}}">
           <!-- <i class="ti-pencil-alt2"></i> -->
