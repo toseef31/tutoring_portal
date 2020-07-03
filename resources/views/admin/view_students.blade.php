@@ -312,7 +312,11 @@ $s_app = Session()->get('studentsSearch');
               <tbody>
                 @foreach($all_student as $student)
                 <tr>
+                  @if(SCT::getClientName($student->user_id) !='')
                   <td> {{SCT::getClientName($student->user_id)->first_name}} {{SCT::getClientName($student->user_id)->last_name}}</td>
+                  @else
+                  <td></td>
+                  @endif
                   <td> {{$student->student_name}}</td>
                   <td> {{$student->email}}</td>
                   <td>

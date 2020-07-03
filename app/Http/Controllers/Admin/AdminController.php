@@ -243,7 +243,7 @@ class AdminController extends Controller
             $customerId = $request->input('customer_id');
             $this->validate($request, [
                 'first_name' => 'required|max:100',
-                'email' => 'required|email|max:255',
+                'email' => 'required|email|max:255|unique:users',
                 'phone' => 'required',
                 'address' => 'required',
                 'city' => 'required',
@@ -700,9 +700,8 @@ class AdminController extends Controller
 
     public function getUserList(Request $request,$id)
     {
-      $clients = User::where('role','customer')->get();
-      $tutors = User::where('role','tutor')->get();
-      $users = User::where('role','<>','admin')->get();
+      $clients = User::where('role','customer')->orderBy('first_name','asc')->get();
+      $tutors = User::where('role','tutor')->orderBy('first_name','asc')->get();
       return view('admin.ajax-users-list',compact('clients','tutors','id'));
     }
 
