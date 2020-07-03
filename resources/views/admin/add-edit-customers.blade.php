@@ -178,7 +178,7 @@ label {
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">State : *</label>
                   <div class="col-md-6">
-                    <select class="form-control border-input" name="state" id="state" name="state">
+                    <select class="form-control border-input" name="state" id="state">
                       <option value="Alabama" {{$customer->state == 'Alabama' ? 'selected=="selected"':''}}>Alabama</option>
                       <option value="Alaska" {{$customer->state == 'Alaska' ? 'selected=="selected"':''}}>Alaska</option>
                       <option value="Arizona" {{$customer->state == 'Arizona' ? 'selected=="selected"':''}}>Arizona</option>
@@ -236,6 +236,17 @@ label {
                   <label class="control-label col-md-3 text-right">Zip Code : *</label>
                   <div class="col-md-6">
                       <input type="text" name="zip" class="form-control border-input" placeholder="Enter Zip Code" id="zip" value="{{ $customer->zip}}">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="control-label col-md-3 text-right">Time Zone : *</label>
+                  <div class="col-md-6">
+                    <select class="form-control border-input" name="time_zone" id="time_zone">
+                      <option value="Pacific Time" {{$customer->time_zone == 'Pacific Time' ? 'selected=="selected"':''}}>Pacific Time</option>
+                      <option value="Mountain Time" {{$customer->time_zone == 'Mountain Time' ? 'selected=="selected"':''}}>Mountain Time</option>
+                      <option value="Central Time" {{$customer->time_zone == 'Central Time' ? 'selected=="selected"':''}}>Central Time</option>
+                      <option value="Eastern Time" {{$customer->time_zone == 'Eastern Time' ? 'selected=="selected"':''}}>Eastern Time</option>
+                    </select>
                   </div>
               </div>
               <div class="form-group">

@@ -124,13 +124,17 @@
 						<label>Zip Code</label>
 						<input type="text" name="zip" class="form-control" placeholder="Enter Zip Code" id="zip" required>
 					</div>
+					<div class="form-group">
+						<label>Time Zone</label>
+						<select class="form-control" name="time_zone">
+							<option value="Pacific Time">Pacific Time</option>
+							<option value="Mountain Time">Mountain Time</option>
+							<option value="Central Time">Central Time</option>
+							<option value="Eastern Time">Eastern Time</option>
+						</select>
+					</div>
 				  <div class="form-group">
 				  	<div class="row">
-
-				  		<!-- <div class="col-md-6">
-				  			<label>Password</label>
-				  			<input type="password" class="form-control" placeholder="Enter password" id="password" name="password" autocomplete="off" required>
-				  		</div> -->
 							<div class="col-md-6">
 									<label>Password:</label>
 									<input type="password" class="demoInputBox form-control" name="password" id="password" placeholder="Enter password"  onKeyUp="checkPasswordStrength();" /><div id="password-strength-status"></div>

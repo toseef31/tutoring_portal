@@ -290,6 +290,7 @@ class AdminController extends Controller
               $customer->city = $request->input('city');
               $customer->state = $request->input('state');
               $customer->zip = $request->input('zip');
+              $customer->time_zone = $request->input('time_zone');
               $customer->role = 'customer';
               $customer->status = 'active';
               if($request->input('password') != '' && $request->input('password') != NULL){
@@ -539,6 +540,7 @@ class AdminController extends Controller
               $tutor->phone = $request->input('phone');
               $tutor->status = 'active';
               $tutor->description = $request->input('description');
+              $tutor->time_zone = $request->input('time_zone');
               if($request->hasFile('profilePhoto')){
                   $image = $request->file('profilePhoto');
 

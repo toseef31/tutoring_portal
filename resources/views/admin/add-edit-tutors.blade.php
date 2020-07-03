@@ -166,6 +166,17 @@ label {
                   </div>
               </div>
               <div class="form-group">
+                  <label class="control-label col-md-3 text-right">Time Zone : *</label>
+                  <div class="col-md-6">
+                    <select class="form-control border-input" name="time_zone" id="time_zone">
+                      <option value="Pacific Time" {{$tutor->time_zone == 'Pacific Time' ? 'selected=="selected"':''}}>Pacific Time</option>
+                      <option value="Mountain Time" {{$tutor->time_zone == 'Mountain Time' ? 'selected=="selected"':''}}>Mountain Time</option>
+                      <option value="Central Time" {{$tutor->time_zone == 'Central Time' ? 'selected=="selected"':''}}>Central Time</option>
+                      <option value="Eastern Time" {{$tutor->time_zone == 'Eastern Time' ? 'selected=="selected"':''}}>Eastern Time</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="form-group">
                   <label class="control-label col-md-3 text-right">Profile Photo : *</label>
                   <div class="col-md-6">
                       <div class="input-group input-group-file">

@@ -48,6 +48,7 @@ class DashboardController extends Controller
              $post->city = $request->input('city');
              $post->state = $request->input('state');
              $post->zip = $request->input('zip');
+             $post->time_zone = $request->input('time_zone');
              if ($request->input('password') !=null) {
                $post->password =Hash::make(trim($request->input('password')));
              }
@@ -68,6 +69,7 @@ class DashboardController extends Controller
              $post->last_name = $request->input('last_name');
              $post->phone = $request->input('phone');
              $post->description = $request->input('description');
+             $post->time_zone = $request->input('time_zone');
              // $post->address = $request->input('address');
              if ($request->input('password') !=null) {
                $post->password =Hash::make(trim($request->input('password')));

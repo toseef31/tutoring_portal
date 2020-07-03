@@ -84,6 +84,7 @@ class RegisterController extends Controller
               $input['city'] = trim($request->input('city'));
               $input['state'] = trim($request->input('state'));
               $input['zip'] = trim($request->input('zip'));
+              $input['time_zone'] = trim($request->input('time_zone'));
               $input['status'] ='active';
               $input['role'] ='customer';
               // $input['verify_code'] =$string;

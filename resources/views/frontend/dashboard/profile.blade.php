@@ -112,7 +112,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>State</label>
-											<select class="form-control border-input" name="state" id="state" name="state">
+											<select class="form-control border-input" name="state" id="state">
 												<option value="Alabama" {{$user->state == 'Alabama' ? 'selected=="selected"':''}}>Alabama</option>
 												<option value="Alaska" {{$user->state == 'Alaska' ? 'selected=="selected"':''}}>Alaska</option>
 												<option value="Arizona" {{$user->state == 'Arizona' ? 'selected=="selected"':''}}>Arizona</option>
@@ -172,6 +172,19 @@
 										<div class="form-group">
 											<label>Zip Code</label>
 											<input type="text" name="zip" class="form-control border-input" placeholder="Enter Zip Code" id="zip" value="{{ $user->zip}}">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>Time Zone</label>
+											<select class="form-control border-input" name="time_zone" id="time_zone">
+												<option value="Pacific Time" {{$user->time_zone == 'Pacific Time' ? 'selected=="selected"':''}}>Pacific Time</option>
+												<option value="Mountain Time" {{$user->time_zone == 'Mountain Time' ? 'selected=="selected"':''}}>Mountain Time</option>
+												<option value="Central Time" {{$user->time_zone == 'Central Time' ? 'selected=="selected"':''}}>Central Time</option>
+												<option value="Eastern Time" {{$user->time_zone == 'Eastern Time' ? 'selected=="selected"':''}}>Eastern Time</option>
+											</select>
 										</div>
 									</div>
 								</div>
