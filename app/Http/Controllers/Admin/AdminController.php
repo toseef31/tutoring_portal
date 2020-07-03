@@ -243,7 +243,7 @@ class AdminController extends Controller
             $customerId = $request->input('customer_id');
             $this->validate($request, [
                 'first_name' => 'required|max:100',
-                'email' => 'required|email|max:255|unique:users',
+                'email' => 'required|email|max:255',
                 'phone' => 'required',
                 'address' => 'required',
                 'city' => 'required',
