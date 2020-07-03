@@ -76,7 +76,13 @@
                       <tr>
                         <td> {{$agreement->aggreement_name}}</td>
                         <td> {{SCT::GetUser($agreement->user_id)->first_name}} {{SCT::GetUser($agreement->user_id)->last_name}}</td>
-                        <td> {{SCT::GetUser($agreement->user_id)->role}}</td>
+                        @if(SCT::GetUser($agreement->user_id)->role == 'customer')
+                        <td>Client</td>
+                        @elseif(SCT::GetUser($agreement->user_id)->role == 'tutor')
+                        <td>Tutor</td>
+                        @else
+                        <td>Admin</td>
+                        @endif
                         <td> {{$agreement->status}}</td>
                         <td class="text-right">
                           <!-- <a href="{{url('/dashboard/customer/edit/'.$agreement->signed_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a> -->

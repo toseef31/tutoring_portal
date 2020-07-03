@@ -73,6 +73,14 @@
 					<div class="cards">
 						<div class="header">
 							<h3 class="title">Edit Profile</h3>
+							@if(session()->has('message'))
+								<div class="row">
+									<div class="alert alert-success">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+										<strong>Message:</strong>{{session()->get('message')}}
+									</div>
+								</div>
+							@endif
 							<hr>
 						</div>
 						<div class="content">
@@ -219,6 +227,15 @@
 										</div>
 									</div>
 								</div>
+								<div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" name="automated_email" id="automated_email" value="1" {{$user->automated_email =='Subscribe' ? 'checked':''}}> Subscribe to Automated Email
+                      </label>
+                    </div>
+                  </div>
+                </div>
 
 								<!-- <div class="row">
 									<div class="col-md-12">

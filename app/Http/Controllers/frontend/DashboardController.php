@@ -49,6 +49,13 @@ class DashboardController extends Controller
              $post->state = $request->input('state');
              $post->zip = $request->input('zip');
              $post->time_zone = $request->input('time_zone');
+             $automated_emai = '';
+             $automated_emai = $request->input('automated_email');
+             if ($automated_emai !='') {
+               $post->automated_email = 'Subscribe';
+             }else {
+               $post->automated_email = 'Unsubscribe';
+             }
              if ($request->input('password') !=null) {
                $post->password =Hash::make(trim($request->input('password')));
              }
@@ -208,17 +215,19 @@ class DashboardController extends Controller
            $input['receipt_url'] = $receipt;
            DB::table('credits')->where('credit_id',$credit_id)->update($input);
            $new_credit = DB::table('credits')->where('credit_id',$credit_id)->first();
+           if ($user->automated_email == 'Subscribe') {
+             $toemail =  $user->email;
+             // dd($send);
+             Mail::send('mail.purchase_credit_email',['user' =>$user,'credit'=>$new_credit],
+             function ($message) use ($toemail)
+             {
 
-           $toemail =  $user->email;
-           // dd($send);
-           Mail::send('mail.purchase_credit_email',['user' =>$user,'credit'=>$new_credit],
-           function ($message) use ($toemail)
-           {
+               $message->subject('Smart Cookie Tutors.com - New Credit Purchased');
+               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+               $message->to($toemail);
+             });
+         }
 
-             $message->subject('Smart Cookie Tutors.com - New Credit Purchased');
-             $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
-             $message->to($toemail);
-           });
 
            $admins = User::where('role','admin')->get();
           if ($status == 'First Purchase') {
@@ -262,6 +271,23 @@ class DashboardController extends Controller
                   ->where('tutor_assign.tutor_id','=',auth()->user()->id)->get();
                   // dd($students);
         return view('frontend.dashboard.tutor-students',compact('students'));
+       }
+
+       public function UnsubscribeEmail(Request $request)
+       {
+         if(auth()->user()->automated_email == 'Unsubscribe'){
+           $request->session()->flash('message',"You have already Unsubscribed Emails");
+           return redirect('/user-portal/manage-profile');
+         }
+         return view('frontend.dashboard.unsubscribe-email');
+       }
+
+       public function UnsubscribeEmailConfirm(Request $request)
+       {
+         $input['automated_email']='Unsubscribe';
+         DB::table('users')->where('id',auth()->user()->id)->update($input);
+         $request->session()->flash('message',"Unsubscribe Emails Successfully");
+         return redirect('/user-portal/manage-profile');
        }
 
 

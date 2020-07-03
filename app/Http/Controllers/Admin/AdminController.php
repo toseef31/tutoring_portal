@@ -719,18 +719,21 @@ class AdminController extends Controller
       $input['aggreement_file'] = $agreement_file;
       $input['status'] = 'Awaiting Signature';
       $send = DB::table('signed_aggreements')->insertGetId($input);
-      $toemail =  $get_user->email;
-      // dd($send);
-      Mail::send('mail.new_agreement_email',['user' =>$get_user,'agreement_id'=>$agreement_id],
-      function ($message) use ($toemail)
-      {
+      if ($get_user->automated_email == 'Subscribe') {
+        $toemail =  $get_user->email;
+        // dd($send);
+        Mail::send('mail.new_agreement_email',['user' =>$get_user,'agreement_id'=>$agreement_id],
+        function ($message) use ($toemail)
+        {
 
-        $message->subject('Smart Cookie Tutors.com - New Agreement Available for Review');
-        $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
-        $message->to($toemail);
-      });
-      echo $send;
+          $message->subject('Smart Cookie Tutors.com - New Agreement Available for Review');
+          $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+          $message->to($toemail);
+        });
     }
+    echo $send;
+  }
+
 
     public function addEditFAQ(Request $request){
       // dd($request->all());
