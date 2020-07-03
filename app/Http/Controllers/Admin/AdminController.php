@@ -475,7 +475,7 @@ class AdminController extends Controller
                 }
                 // dd($student);
             }
-            $users = User::get();
+            $users = User::where('role','customer')->orderBy('first_name','asc')->get();
             return view('admin.add-edit-students',compact('student','rPath','studentId','users'));
         }
     }
