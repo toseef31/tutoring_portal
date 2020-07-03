@@ -1,6 +1,6 @@
 @extends('frontend.dashboard.layout.master')
 
-@section('title', 'Tutors')
+@section('title', 'Unsubscribe Emails')
 
 @section('styling')
 
@@ -19,7 +19,7 @@
         <span class="icon-bar bar2"></span>
         <span class="icon-bar bar3"></span>
         </button>
-        <a class="navbar-brand" href="#">Tutors</a>
+        <a class="navbar-brand" href="#">Unsubscribe Emails</a>
       </div>
     </div>
   </nav>
@@ -56,7 +56,7 @@
         <div class="col-lg-9 col-md-9 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <h3 class="title">Tutors</h3>
+              <h3 class="title">Unsubscribe Emails</h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))
