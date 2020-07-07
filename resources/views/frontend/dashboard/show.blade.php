@@ -12,7 +12,7 @@
         <div class="col-md-4 my-5">
           <img src="{{asset('frontend-assets/images/CreditCard.png')}}" width="100%" class="mt-5">
         </div>
-        <div class="col-md-6  my-5" >
+        <div class="col-md-6 my-5">
             <div class="">
                 <p class="mb-4 font-weight-bold">You will be charged  ${{ number_format($total, 2) }} for buy {{$credit_balance}} Credit  </p>
                 <!-- <p class="mb-4 font-weight-bold">£85 monthly membership fee after the trial period</p> -->

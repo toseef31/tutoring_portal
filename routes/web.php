@@ -44,6 +44,12 @@ Route::group(['prefix' => 'user-portal'], function () {
   Route::get('/tutor-students', 'frontend\DashboardController@TutorStudents');
   Route::get('/unsubscribe-email', 'frontend\DashboardController@UnsubscribeEmail');
   Route::get('/unsubscribe-email-confirm', 'frontend\DashboardController@UnsubscribeEmailConfirm');
+  Route::get('/tutor-sessions', 'frontend\DashboardController@tutorSessions');
+  Route::match(['get','post'],'session/add','frontend\DashboardController@addEditSession');
+  Route::match(['get','post'],'session/edit/{id}','frontend\DashboardController@addEditSession');
+  Route::get('/gettutorCallenderData', 'frontend\DashboardController@get_session_data');
+  Route::get('/tutor-sessions-details/{id}', 'frontend\DashboardController@tutorSessionsDetails');
+  Route::post('end-session','frontend\DashboardController@EndSession');
 
   });
 });

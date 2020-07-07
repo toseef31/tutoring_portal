@@ -57,6 +57,12 @@
           <p>Students</p>
         </a>
       </li>
+      <li class="{{ request()->is('user-portal/tutor-sessions') ? 'active' : '' }}">
+        <a href="{{url('/user-portal/tutor-sessions')}}">
+          <i class="ti-calendar"></i>
+          <p>Sessions</p>
+        </a>
+      </li>
       @endif
       <li class="{{ request()->is('user-portal/agreements') ? 'active' : '' }}">
         <a href="{{url('/user-portal/agreements')}}">

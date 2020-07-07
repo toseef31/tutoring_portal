@@ -78,7 +78,7 @@
 								<div class="row">
 									<div class="alert alert-success">
 										<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-										<strong>Message:</strong>{{session()->get('message')}}
+										{{session()->get('message')}}
 									</div>
 								</div>
 							@endif
@@ -108,7 +108,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<select class="form-control" name="credit_balance">
-												<option value="">Select Credit</option>
+												<option value="">Number of Credits</option>
 												@if($credit !='')
 												@if(SCT::checkCredit(auth()->user()->id)->status =='Purchased Before')
 												<option value="4" selected>4</option>

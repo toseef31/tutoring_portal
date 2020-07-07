@@ -182,7 +182,7 @@ class DashboardController extends Controller
           $credit_balance = $request->input('credit_balance');
           $total = $credit_cost*$credit_balance;
           // dd($total);
-           return view('frontend.dashboard.show', compact('credit_id','credit_cost','credit_balance','total'));
+           return view('frontend.dashboard.show2', compact('credit_id','credit_cost','credit_balance','total'));
        }
 
        public function subscribe_process(Request $request)
@@ -247,7 +247,7 @@ class DashboardController extends Controller
 
            // dd($stripeCharge);
 
-           $request->session()->flash('message', 'Credits Purchased successfully');
+           $request->session()->flash('message', 'Thank you for your credit purchase!');
            return redirect('/user-portal/credits');
          } catch (\Exception $ex) {
            return $ex->getMessage();
@@ -286,19 +286,131 @@ class DashboardController extends Controller
        {
          $input['automated_email']='Unsubscribe';
          DB::table('users')->where('id',auth()->user()->id)->update($input);
-         $request->session()->flash('message',"Unsubscribe Emails Successfully");
+         $request->session()->flash('message',"Your subscription preferences have been successfully updated");
          return redirect('/user-portal/manage-profile');
        }
 
+       /////////////// Sessions //////////////////////////
+       public function tutorSessions(Request $request)
+       {
+         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(5)->get();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+         return view('frontend.dashboard.tutor_sessions',compact('sessions'));
+       }
+
+       public function get_session_data(Request $request) {
+
+         $session = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(5)->get();
+         // dd($session);
+         echo json_encode($session);
+
+       }
+
+       public function tutorSessionsDetails(Request $request,$id)
+       {
+         $session = DB::table('sessions')->where('session_id',$id)->where('tutor_id',auth()->user()->id)->first();
+         // dd($session);
+         return view('frontend.dashboard.session-details',compact('session'));
+       }
+
+       public function addEditSession(Request $request){
+         // dd($request->all());
+         $session_id = 0;
+           $rPath = $request->segment(3);
+           if($request->isMethod('post')){
+              $session_id = $request->input('session_id');
+              $data = $request->input('student_id');
+               $data = explode(',',$data);
+               $student_id = $data[0];
+               $user_id = $data[1];
+               // dd($student_id,$user_id);
+
+               $input['tutor_id'] =auth()->user()->id;
+               $input['student_id'] = $student_id;
+               $input['user_id'] = $user_id;
+               $input['subject']= $request->input('subject');
+               $input['date']= $request->input('date');
+               $input['time']= $request->input('time');
+               $input['duration']= $request->input('duration');
+               $input['location']= $request->input('location');
+               $session_type = $request->input('initial_session');
+               if ($session_type !='') {
+                 $input['session_type']  = 'First Session';
+               }else {
+                 $input['session_type']  = 'Session Before';
+               }
+               $recurs_weekly = $request->input('recurs_weekly');
+               if ($recurs_weekly !='') {
+                 $input['recurs_weekly']  = 'Yes';
+               }else {
+                 $input['recurs_weekly']  = 'No';
+               }
+               $input['status']  = 'Confirm';
+
+               if($session_id == ''){
+                   $session_id = DB::table('sessions')->insertGetId($input);
+                   $sMsg = 'New Session Added';
+               }else{
+                   $session='';
+                   $session = Student::findOrFail($session_id);
+                   $session->user_id =auth()->user()->id;
+                   $session->session_name = $request->input('session_name');
+                   $session->grade = $request->input('grade');
+                   $session->email = $request->input('session_email');
+                   $session->college = $request->input('college');
+                   $session->subject = $request->input('subject');
+                   $session->goal = $request->input('goal');
+                   $session_id = $session->save();
+                   $sMsg = 'Student Updated';
+               }
+               $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
+               return redirect('user-portal/tutor-sessions');
+           }else{
+               $session = array();
+               $session_id = '0';
+               if($rPath == 'edit'){
+                   $session_id = $request->segment(4);
+                   $session = Student::findOrFail($session_id);
+                   if($session == null){
+                       $request->session()->flash('alert',['message' => 'No Record Found', 'type' => 'danger']);
+                       return redirect('user-portal/tutor-sessions');
+                   }
+                   // dd($student);
+               }
+               $assign_students = DB::table('tutor_assign')
+                        ->join('students','students.student_id','=','tutor_assign.student_id')
+                        ->where('tutor_assign.tutor_id','=',auth()->user()->id)->get();
+               return view('frontend.dashboard.add-edit-sessions',compact('session','rPath','session_id','assign_students'));
+           }
+       }
+
+       public function EndSession(Request $request)
+       {
+         // dd($request->all());
+         $session_id = $request->input('session_id');
+         $duration = $request->input('duration');
+         $session_data = DB::table('sessions')->where('session_id',$session_id)->first();
+         $user_id = $session_data->user_id;
+         $student_id = $session_data->student_id;
+         $data['status'] = 'End';
+         $data['duration'] = $duration;
+         $credit_data = DB::table('credits')->where('user_id',$user_id)->first();
+         $credit_balance = $credit_data->credit_balance;
+         // dd($credit_balance);
+         if ($duration == '0:30') {
+           $credit_balance = $credit_balance-0.5;
+         }elseif ($duration == '1:00') {
+           $credit_balance = $credit_balance-1;
+         }elseif ($duration == '1:30') {
+           $credit_balance = $credit_balance-1.5;
+         }elseif ($duration == '2:00') {
+           $credit_balance = $credit_balance-0;
+         }
+         // dd($credit_balance);
+         $input['credit_balance'] = $credit_balance;
+         $session = DB::table('sessions')->where('session_id',$session_id)->update($data);
+         $credit = DB::table('credits')->where('user_id',$user_id)->update($input);
+         echo $session;
+       }
+
 }

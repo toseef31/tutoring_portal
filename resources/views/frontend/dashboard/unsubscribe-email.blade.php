@@ -1,6 +1,6 @@
 @extends('frontend.dashboard.layout.master')
 
-@section('title', 'Unsubscribe Emails')
+@section('title', 'Unsubscribe From Emails')
 
 @section('styling')
 
@@ -19,7 +19,7 @@
         <span class="icon-bar bar2"></span>
         <span class="icon-bar bar3"></span>
         </button>
-        <a class="navbar-brand" href="#">Unsubscribe Emails</a>
+        <a class="navbar-brand" href="#">Unsubscribe From Emails</a>
       </div>
     </div>
   </nav>
@@ -56,7 +56,7 @@
         <div class="col-lg-9 col-md-9 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <h3 class="title">Unsubscribe Emails</h3>
+              <h3 class="title">Unsubscribe From Emails</h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))
@@ -70,8 +70,7 @@
             </div>
             <div class="content">
 
-              <h4>Unsubscribe Email </h4>
-              <p>You will not receive any emails after click on Unsubscribe Button</p>
+              <p>If you unsubscribe, you will no longer receive any automated emails from Smart Cookie Tutors. Are you sure you wish to proceed?</p>
               <div class="text-center">
                 <a href="{{url('/user-portal/manage-profile')}}" class="btn btn-info btn-green btn-wd">Cancel</a>
                 <a href="{{url('/user-portal/unsubscribe-email-confirm')}}" class="btn btn-info btn-danger btn-wd">Unsubscribe</a>

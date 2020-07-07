@@ -58,6 +58,7 @@
   <script src="{{ asset('/frontend-assets/js/jquery.min.js') }}"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="{{ asset('/frontend-assets/bootstrap/js/bootstrap.min.js') }}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.10/js/superfish.min.js"></script>
   <!-- Custom Script -->
   <script src="{{ asset('/frontend-assets/js/script.js') }}"></script>
   <script>

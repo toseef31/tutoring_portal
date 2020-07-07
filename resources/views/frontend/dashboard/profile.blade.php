@@ -77,7 +77,7 @@
 								<div class="row">
 									<div class="alert alert-success">
 										<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-										<strong>Message:</strong>{{session()->get('message')}}
+										{{session()->get('message')}}
 									</div>
 								</div>
 							@endif
@@ -231,7 +231,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" name="automated_email" id="automated_email" value="1" {{$user->automated_email =='Subscribe' ? 'checked':''}}> Subscribe to Automated Email
+                        <input class="form-check-input" type="checkbox" name="automated_email" id="automated_email" value="1" {{$user->automated_email =='Subscribe' ? 'checked':''}}> Subscribe to Automated Emails
                       </label>
                     </div>
                   </div>

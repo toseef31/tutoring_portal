@@ -74,19 +74,21 @@
                 <table class="table  table-bordered">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Image</th>
+                      <th>Tutor</th>
                       <th>Email</th>
                       <th>Phone</th>
-                      <th>Assign Student</th>
-                      <th>Description</th>
+                      <th>Assigned To</th>
+                      <th>About Your Tutor</th>
                     </tr>
                   </thead>
                   <tbody>
                     @foreach($tutors as $tutor)
                     <tr>
-                      <td>{{$tutor->first_name}} {{$tutor->last_name}}</td>
-                      <td><img src="{{asset('/frontend-assets/images/dashboard/profile-photos/'.$tutor->image)}}" alt="" style="width:100px;height: 100px;border-radius:50%;"> </td>
+                      <td>
+                        <div class="text-center">
+                          <img src="{{asset('/frontend-assets/images/dashboard/profile-photos/'.$tutor->image)}}" alt="" style="width:100px;height: 100px;border-radius:50%;">
+                        </div>
+                        <p class="text-center" style="margin-top:10px;">{{$tutor->first_name}} {{$tutor->last_name}}</p> </td>
                       <td>{{$tutor->email}}</td>
                       <td>{{$tutor->phone}}</td>
                       <td>{{SCT::getStudentName($tutor->student_id)->student_name}}</td>

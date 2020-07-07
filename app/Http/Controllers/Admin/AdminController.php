@@ -293,6 +293,12 @@ class AdminController extends Controller
               $customer->time_zone = $request->input('time_zone');
               $customer->role = 'customer';
               $customer->status = 'active';
+              $automated_email = $request->input('automated_email');
+              if ($automated_email !='') {
+                $customer->automated_email = 'Subscribe';
+              }else {
+                $customer->automated_email = 'Unsubscribe';
+              }
               if($request->input('password') != '' && $request->input('password') != NULL){
                   $customer->password =Hash::make(trim($request->input('password')));
               }

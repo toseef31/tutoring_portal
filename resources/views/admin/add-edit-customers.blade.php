@@ -278,6 +278,14 @@ label {
                       <input type="text" class="form-control" name="credit_balance" value="{{$credit_balance !='' ? $credit_balance:0}}" placeholder="Credit Balance">
                   </div>
               </div>
+              <div class="form-group">
+                <!-- <label class="form-check-label control-label col-md-3 text-right"></label> -->
+                  <label class="control-label col-md-3 text-right"></label>
+                  <div class="col-md-6">
+                      <input class="form-check-input" type="checkbox" name="automated_email" id="automated_email" value="1" {{$customer->automated_email =='Subscribe' ? 'checked':''}}> <span style="margin-left: 20px;">Subscribe to Automated Emails</span>
+                  </div>
+
+              </div>
               <!-- <div class="form-group radio-div">
                   <label class="control-label col-md-3 text-right">Role :</label>
                   <div class="col-md-6 radio-div">
