@@ -89,7 +89,12 @@
                   <tbody>
                     <tr>
                       <td>{{SCT::getStudentName($session->student_id)->student_name}}</td>
-                      <td>{{SCT::getClientCredit($session->user_id)->credit_balance}}</td>
+                      <td>@if(SCT::getClientCredit($session->user_id) !='')
+                        {{SCT::getClientCredit($session->user_id)->credit_balance}}
+                        @else
+                        0
+                        @endif
+                      </td>
                       <td>{{$session->subject}}</td>
                       <td>
                         @if($session->session_type =='First Session')
