@@ -73,6 +73,7 @@
               <img src="{{asset('frontend-assets/images/american-card.png')}}" width="10%" class="mt-5">
               <img src="{{asset('frontend-assets/images/visa-card.png')}}" width="10%" class="mt-5">
               <img src="{{asset('frontend-assets/images/master-card.png')}}" width="10%" class="mt-5">
+              <img src="{{asset('frontend-assets/images/discover-card.png')}}" width="11%" class="mt-5">
 
               <p class="mb-4 font-weight-bold">You will be charge  ${{ number_format($total, 2) }} for buy {{$credit_balance}} @if($credit_balance ==1) Credit @else Credits @endif </p>
               <form action="{{ url('user-portal/subscribe_process') }}" method="post" id="payment-form">
