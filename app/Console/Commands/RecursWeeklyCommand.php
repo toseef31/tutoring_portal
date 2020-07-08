@@ -53,25 +53,30 @@ class RecursWeeklyCommand extends Command
     //     $message->to($toemail);
     //   });
 
-    dd("asdf");
-      $sessions = DB::table('sessions')->where('status','Confirm')->get();
+      // $sessions = DB::table('sessions')->where('recurs_weekly','Yes')->get();
+      $sessions = DB::table('sessions')->where('recurs_weekly','Yes')->where('status','End')->get();
       foreach ($sessions as $session) {
-        $session_date = $session->date;
         $date1 =date("Y-m-d");
-        $date2 =$session->date;
+        $date2 = date("Y-m-d", strtotime('+5 days',strtotime($session->date)));
         if ($date1 == $date2) {
+          $session_data = DB::table('sessions')->where('session_id',$session->session_id)->first();
+          $input['tutor_id'] = $session_data->tutor_id;
+          $input['student_id'] = $session_data->student_id;
+          $input['user_id'] = $session_data->user_id;
+          $input['subject'] = $session_data->subject;
+          $input['duration'] = $session_data->duration;
+          $input['date'] = date("Y-m-d", strtotime('+7 days',strtotime($session->date)));
+          $input['time'] = $session_data->time;
+          $input['location'] = $session_data->location;
+          $input['session_type'] = $session_data->session_type;
+          $input['recurs_weekly'] = $session_data->recurs_weekly;
+          $input['status'] = 'Confirm';
+          $new_session = DB::table('sessions')->insert($input);
+          // dd($session->date,$input);
+
           // date_default_timezone_set("America/New_York");
-          date_default_timezone_set("Asia/Karachi");
-          $time1 = date("h:i");
-          $time2 = date("h:i", strtotime('+2 hour +30 minutes',strtotime($session->time)));
-          // $time2 = date('h:i', strtotime($session->time));
-          // $new_time = date("h:i", strtotime('+2 hour +30 minutes'));
-          // $new_time2 = date("h:i", strtotime('+2 hour +30 minutes',strtotime($session->time)));
-          if ($time1 >= $time2) {
-            // dd($time1,$time2);
-            $input['status'] = 'End';
-            DB::table('sessions')->where('session_id',$session->session_id)->update($input);
-          }
+          // date_default_timezone_set("Asia/Karachi");
+
         }
       }
 
