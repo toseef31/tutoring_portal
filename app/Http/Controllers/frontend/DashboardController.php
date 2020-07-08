@@ -314,10 +314,10 @@ class DashboardController extends Controller
        }
 
        public function addEditSession(Request $request){
-         // dd($request->all());
          $session_id = 0;
            $rPath = $request->segment(3);
            if($request->isMethod('post')){
+             // dd($request->all());
              $date= $request->input('date');
              $time= $request->input('time');
              $prev_session = DB::table('sessions')->where('date',$date)->where('time',$time)->where('tutor_id',auth()->user()->id)->where('status','confirm')->first();
@@ -368,31 +368,42 @@ class DashboardController extends Controller
                }
                $input['status']  = 'Confirm';
 
+               $credit_agreement = DB::table('signed_aggreements')->where('user_id',$user_id)->where('status','Awaiting Signature')->first();
+               if ($credit_agreement !='') {
+                 $sMsg = 'You can not scheduled this session because the client has pending agreement to sign';
+                 $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                 return redirect(url()->previous());
+               }
+
                if($session_id == ''){
-                 $credit_agreement = DB::table('signed_aggreements')->where('user_id',$user_id)->where('status','Awaiting Signature')->first();
-                 if ($credit_agreement !='') {
-                   $sMsg = 'You can not scheduled this session because the client has pending agreement to sign';
-                   $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
-                   return redirect(url()->previous());
-                 }
+                     $credit_balance='';
+                     $check_credit = DB::table('credits')->where('user_id',$user_id)->first();
+                     if ($check_credit !=null) {
+                       $credit_balance = $check_credit->credit_balance;
+                     }
+                     if ($credit_balance !='' && $credit_balance > 0) {
+                       $session_id = DB::table('sessions')->insertGetId($input);
+                     }else {
+                       $sMsg = 'You can not scheduled this session because the client has 0 credit';
+                       $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                       return redirect(url()->previous());
+                     }
+                     $sMsg = 'New Session Added';
 
-                 $credit_balance='';
-                 $check_credit = DB::table('credits')->where('user_id',$user_id)->first();
-                 if ($check_credit !=null) {
-                   $credit_balance = $check_credit->credit_balance;
-                 }
-
-                 if ($credit_balance !='' && $credit_balance > 0) {
-                   $session_id = DB::table('sessions')->insertGetId($input);
-                 }else {
-                   $sMsg = 'You can not scheduled this session because the client has 0 credit';
-                   $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
-                   return redirect(url()->previous());
-                 }
-                 $sMsg = 'New Session Added';
                }else{
-
-                   $sMsg = 'Student Updated';
+                     $credit_balance='';
+                     $check_credit = DB::table('credits')->where('user_id',$user_id)->first();
+                     if ($check_credit !=null) {
+                       $credit_balance = $check_credit->credit_balance;
+                     }
+                     if ($credit_balance !='' && $credit_balance > 0) {
+                       $session_id = DB::table('sessions')->where('session_id',$session_id)->update($input);
+                     }else {
+                       $sMsg = 'You can not scheduled this session because the client has 0 credit';
+                       $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                       return redirect(url()->previous());
+                     }
+                       $sMsg = 'Session Updated';
                }
                $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
                return redirect('user-portal/tutor-sessions');
@@ -401,7 +412,8 @@ class DashboardController extends Controller
                $session_id = '0';
                if($rPath == 'edit'){
                    $session_id = $request->segment(4);
-                   $session = Student::findOrFail($session_id);
+                   $session = DB::table('sessions')->where('session_id',$session_id)->first();
+                   // dd($session);
                    if($session == null){
                        $request->session()->flash('alert',['message' => 'No Record Found', 'type' => 'danger']);
                        return redirect('user-portal/tutor-sessions');

@@ -77,61 +77,85 @@
 							@if($rPath == 'edit')
 							<form class="form-horizontals profile-form" action="" method="post">
 								{{ csrf_field() }}
-								<input type="hidden" name="student_id" value="{{$student->student_id}}">
+								<input type="hidden" name="session_id" value="{{$session->session_id}}">
+                <div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>Students</label>
+											<select class="form-control border-input" name="student_id" id="student_id" required>
+                        <option value="">Select Student</option>
+                        @foreach($assign_students as $students)
+												<option value="{{$students->student_id}},{{$students->user_id}}" {{$session->student_id == $students->student_id ? 'selected=="selected"':''}}>{{$students->student_name}}</option>
+                        @endforeach
+											</select>
+										</div>
+									</div>
+								</div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Subject</label>
+                      <input type="text" class="form-control border-input" placeholder="Enter Subject" id="subject" name="subject" value="{{$session->subject}}" required>
+                    </div>
+                  </div>
+                </div>
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-											<label>Full Name</label>
-											<input type="text" class="form-controls border-input" placeholder="Enter Student Name"  name="student_name" value="{{$student->student_name}}" required>
+											<label>Date</label>
+											<input type="date" class="form-control border-input" placeholder="Select Date" id="date" name="date" value="{{$session->date}}" required>
+										</div>
+									</div>
+								</div>
+                <div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>Time</label>
+                      <input type="time" class="form-control" id="time" name="time" value="{{$session->time}}" required>
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-											<label>Grade</label>
-											<input type="text" class="form-control border-input" placeholder="Enter Grade" id="grade" name="grade" value="{{$student->grade}}"required>
-										</div>
+											<label>Duration</label>
+                      <select class="form-control border-input" name="duration" id="duration">
+												<option value="0:30" {{$session->duration == '0:30' ? 'selected="selected"' : ''}}>0:30</option>
+												<option value="1:00" {{$session->duration == '1:00' ? 'selected="selected"' : ''}}>1:00</option>
+												<option value="1:30" {{$session->duration == '1:30' ? 'selected="selected"' : ''}}>1:30</option>
+												<option value="2:00" {{$session->duration == '2:00' ? 'selected="selected"' : ''}}>2:00</option>
+											</select>
+                    </div>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label>Email</label>
-											<input type="email" class="form-controls border-input" name="student_email" placeholder="Enter email" value="{{$student->email}}">
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label>School/College</label>
-											<input type="text" name="college" class="form-controls border-input" placeholder="Enter School/College"  value="{{$student->college}}" required>
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label>Subject</label>
-											<input type="text" class="form-control border-input" placeholder="Enter Subject" id="subject" name="subject" value="{{$student->subject}}" required>
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label>Goals</label>
-											<textarea name="goal" class="form-control border-input" rows="4" cols="80" placeholder="Tell us a little about what you want to get out of tutoring!">{{$student->goal}}</textarea>
-										</div>
-									</div>
-								</div>
-
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Location</label>
+                      <input type="text" class="form-control border-input" placeholder="Enter Location" id="location" name="location" value="{{$session->location}}" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" name="initial_session" id="initial_session" value="1" {{$session->session_type == 'First Session' ? 'checked':''}}> Initial Session
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" name="recurs_weekly" id="recurs_weekly" value="1" {{$session->recurs_weekly == 'Yes' ? 'checked':'disabled'}} > Recurs Weekly
+                      </label>
+                    </div>
+                  </div>
+                </div>
 								<div class="text-center">
-									<button type="submit" class="btn btn-info btn-fill btn-wd">Update</button>
+									<button type="submit" class="btn btn-info btn-wd btn-green">Save</button>
 								</div>
 
 								<div class="clearfix"></div>
@@ -172,7 +196,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>Time</label>
-                      <input type="time" class="form-control" id="time" name="time">
+                      <input type="time" class="form-control" id="time" name="time" required>
 										</div>
 									</div>
 								</div>

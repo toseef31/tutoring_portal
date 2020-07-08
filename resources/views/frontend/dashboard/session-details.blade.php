@@ -130,7 +130,7 @@
                         @if($show !='')
                         <a href="javascript:;" onclick="EndSession('{{ $session->session_id }}')" class="btn btn-green" data-toggle="tooltip" data-original-title="Update">End Session</a>&nbsp;&nbsp;&nbsp;
                         @endif
-                        <a href="{{ url('user-portal/student/edit/'.$session->session_id) }}" class="btn btn-green" data-toggle="tooltip" data-original-title="Update" style="margin-top: 4px;">Edit Session</a>&nbsp;&nbsp;&nbsp;
+                        <a href="{{ url('user-portal/session/edit/'.$session->session_id) }}" class="btn btn-green" data-toggle="tooltip" data-original-title="Update" style="margin-top: 4px;">Edit Session</a>&nbsp;&nbsp;&nbsp;
                         <a href="javascript:;" onclick="CancelSession('{{ $session->session_id }}')" class="btn btn-danger" data-toggle="tooltip" data-original-title="Delete" style="margin-top: 4px;">Cancel Session</i></a>
                         @endif
                       </td>
