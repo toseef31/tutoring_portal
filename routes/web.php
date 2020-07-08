@@ -50,6 +50,7 @@ Route::group(['prefix' => 'user-portal'], function () {
   Route::get('/gettutorCallenderData', 'frontend\DashboardController@get_session_data');
   Route::get('/tutor-sessions-details/{id}', 'frontend\DashboardController@tutorSessionsDetails');
   Route::post('end-session','frontend\DashboardController@EndSession');
+  Route::delete('cancel-session','frontend\DashboardController@CancelSession');
 
   });
 });

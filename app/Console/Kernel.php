@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\CustomCommand'
+        'App\Console\Commands\CustomCommand',
+        'App\Console\Commands\RecursWeeklyCommand'
     ];
 
     /**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('command:endsession')->everyMinute();
+        $schedule->command('command:recursweekly')->everyMinute();
     }
 
     /**

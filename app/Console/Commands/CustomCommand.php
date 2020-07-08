@@ -59,6 +59,7 @@ class CustomCommand extends Command
         $date1 =date("Y-m-d");
         $date2 =$session->date;
         if ($date1 == $date2) {
+          // date_default_timezone_set("America/New_York");
           date_default_timezone_set("Asia/Karachi");
           $time1 = date("h:i");
           $time2 = date("h:i", strtotime('+2 hour +30 minutes',strtotime($session->time)));

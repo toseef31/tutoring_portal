@@ -168,7 +168,7 @@
         </div>
     </div>
 </div>
-<div id="modal-warning" role="dialog" class="modal fade in" data-backdrop="static" data-keyboard="false">
+<div id="modal-cancelsession" role="dialog" class="modal fade in" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content bg-warning animated bounceIn">
             <div class="modal-header">
@@ -182,12 +182,18 @@
                     <span class="icon icon-exclamation-triangle icon-5x"></span>
                     <h3>Are you sure?</h3>
                     <p>You will not be able to undo this action.</p>
+
                     <div class="m-t-lg">
-                        <form method="post" action="{{ url('user-portal/student/delete') }}">
+                        <form method="post" action="{{ url('user-portal/cancel-session') }}">
                             <input type="hidden" name="_method" value="delete">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="session_id" class="actionId">
-                            <button class="btn btn-danger" type="button">Continue</button>
+                            <div class="form-group">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="notify_client" id="notify_client" value="1" checked> Notify client of cancellation
+                              </label>
+                            </div>
+                            <button class="btn btn-danger" type="submit">Continue</button>
                             <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
                         </form>
                     </div>
@@ -205,11 +211,15 @@ function EndSession(sessionId){
     $('.actionId').val(sessionId);
     $('#modal-endsession').modal();
 }
-function doAction(){
-    var userId = $('.actionId').val();
-    if(userId != ''){
-        alert('delete this '+userId);
-    }
+// function doAction(){
+//     var userId = $('.actionId').val();
+//     if(userId != ''){
+//         alert('delete this '+userId);
+//     }
+// }
+function CancelSession(sessionId){
+    $('.actionId').val(sessionId);
+    $('#modal-cancelsession').modal();
 }
 
 $("#end_session").submit(function (e) {

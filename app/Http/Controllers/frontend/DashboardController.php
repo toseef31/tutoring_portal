@@ -293,7 +293,7 @@ class DashboardController extends Controller
        /////////////// Sessions //////////////////////////
        public function tutorSessions(Request $request)
        {
-         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(5)->get();
+         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
 
          return view('frontend.dashboard.tutor_sessions',compact('sessions'));
        }
@@ -348,19 +348,29 @@ class DashboardController extends Controller
                $input['status']  = 'Confirm';
 
                if($session_id == ''){
+                 $credit_agreement = DB::table('signed_aggreements')->where('user_id',$user_id)->where('status','Awaiting Signature')->first();
+                 if ($credit_agreement !='') {
+                   $sMsg = 'You can not scheduled this session because the client has pending agreement to sign';
+                   $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                   return redirect(url()->previous());
+                 }
+
+                 $credit_balance='';
+                 $check_credit = DB::table('credits')->where('user_id',$user_id)->first();
+                 if ($check_credit !=null) {
+                   $credit_balance = $check_credit->credit_balance;
+                 }
+
+                 if ($credit_balance !='' && $credit_balance > 0) {
                    $session_id = DB::table('sessions')->insertGetId($input);
-                   $sMsg = 'New Session Added';
+                 }else {
+                   $sMsg = 'You can not scheduled this session because the client has 0 credit';
+                   $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                   return redirect(url()->previous());
+                 }
+                 $sMsg = 'New Session Added';
                }else{
-                   $session='';
-                   $session = Student::findOrFail($session_id);
-                   $session->user_id =auth()->user()->id;
-                   $session->session_name = $request->input('session_name');
-                   $session->grade = $request->input('grade');
-                   $session->email = $request->input('session_email');
-                   $session->college = $request->input('college');
-                   $session->subject = $request->input('subject');
-                   $session->goal = $request->input('goal');
-                   $session_id = $session->save();
+
                    $sMsg = 'Student Updated';
                }
                $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
@@ -379,7 +389,7 @@ class DashboardController extends Controller
                }
                $assign_students = DB::table('tutor_assign')
                         ->join('students','students.student_id','=','tutor_assign.student_id')
-                        ->where('tutor_assign.tutor_id','=',auth()->user()->id)->get();
+                        ->where('tutor_assign.tutor_id','=',auth()->user()->id)->orderBy('student_name','asc')->get();
                return view('frontend.dashboard.add-edit-sessions',compact('session','rPath','session_id','assign_students'));
            }
        }
@@ -411,6 +421,36 @@ class DashboardController extends Controller
          $session = DB::table('sessions')->where('session_id',$session_id)->update($data);
          $credit = DB::table('credits')->where('user_id',$user_id)->update($input);
          echo $session;
+       }
+
+       public function CancelSession(Request $request){
+         // dd($request->all());
+         if($request->isMethod('delete')){
+           $session_id = trim($request->input('session_id'));
+           $notify_client ='';
+           $notify_client = $request->input('notify_client');
+           if ($notify_client !='') {
+             $session_details = DB::table('sessions')->where('session_id',$session_id)->first();
+             $user = DB::table('users')->where('id',$session_details->user_id)->first();
+             $tutor = DB::table('users')->where('id',$session_details->tutor_id)->first();
+             $student = DB::table('students')->where('student_id',$session_details->student_id)->first();
+             // dd($student);
+             if ($user->automated_email == 'Subscribe') {
+               $toemail =  $user->email;
+               Mail::send('mail.tutor_cancel_session_email',['user' =>$user,'tutor' =>$tutor,'student' =>$student,'session'=>$session_details],
+               function ($message) use ($toemail)
+               {
+                 $message->subject('Smart Cookie Tutors.com - Session Cancelled');
+                 $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                 $message->to($toemail);
+               });
+             }
+           }
+
+           $session = DB::table('sessions')->where('session_id',$session_id)->delete();
+           $request->session()->flash('message' , 'Session Cancelled Successfully');
+         }
+         return redirect('user-portal/tutor-sessions');
        }
 
 }
