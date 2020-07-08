@@ -48,7 +48,7 @@ class CustomCommand extends Command
     //   function ($message) use ($toemail)
     //   {
     //
-    //     $message->subject('Smart Cookie Tutors.com - New Agreement Available for Review');
+    //     $message->subject('Smart Cookie Tutors.com - Cron Job Email');
     //     $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
     //     $message->to($toemail);
     //   });
