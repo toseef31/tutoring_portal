@@ -182,7 +182,7 @@
 											<label>Duration</label>
                       <select class="form-control border-input" name="duration" id="duration">
 												<option value="0:30">0:30</option>
-												<option value="1:00">1:00</option>
+												<option value="1:00" selected>1:00</option>
 												<option value="1:30">1:30</option>
 												<option value="2:00">2:00</option>
 											</select>
@@ -240,6 +240,7 @@
 $('#initial_session').click(function () {
   var initial_session =  $('#initial_session').val();
 if (this.checked == true) {
+  $('#duration option[value="1:00"]').prop('selected', true)
   $('#recurs_weekly').prop('disabled',true);
 }else {
   $('#recurs_weekly').prop('disabled',false);

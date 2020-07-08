@@ -114,7 +114,23 @@
                       <td>{{$session->status}}</td>
                       <td style="text-align: center;">
                         @if($session->status == 'Confirm')
+                        <?php
+                        date_default_timezone_set("Asia/Karachi");
+                        $show='';
+                        $date1 =date("Y-m-d");
+                        $date2 = date("Y-m-d", strtotime($session->date));
+                        if ($date1 == $date2) {
+                          $time1 = date("h:i");
+                          $time2 = date("h:i", strtotime($session->time));
+                          if ($time1 >=$time2) {
+                            $show = 'show';
+                          }
+                        }
+                         ?>
+                        @if($show !='')
                         <a href="javascript:;" onclick="EndSession('{{ $session->session_id }}')" class="btn btn-green" data-toggle="tooltip" data-original-title="Update">End Session</a>&nbsp;&nbsp;&nbsp;
+                        @endif
+                        <a href="{{ url('user-portal/student/edit/'.$session->session_id) }}" class="btn btn-green" data-toggle="tooltip" data-original-title="Update" style="margin-top: 4px;">Edit Session</a>&nbsp;&nbsp;&nbsp;
                         <a href="javascript:;" onclick="CancelSession('{{ $session->session_id }}')" class="btn btn-danger" data-toggle="tooltip" data-original-title="Delete" style="margin-top: 4px;">Cancel Session</i></a>
                         @endif
                       </td>

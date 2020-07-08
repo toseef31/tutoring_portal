@@ -318,6 +318,27 @@ class DashboardController extends Controller
          $session_id = 0;
            $rPath = $request->segment(3);
            if($request->isMethod('post')){
+             $date= $request->input('date');
+             $time= $request->input('time');
+             $prev_session = DB::table('sessions')->where('date',$date)->where('time',$time)->where('tutor_id',auth()->user()->id)->where('status','confirm')->first();
+             if ($prev_session !=null) {
+               $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+               $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+               return redirect(url()->previous());
+             }
+             $prev_session2 = DB::table('sessions')->where('recurs_weekly','Yes')->where('tutor_id',auth()->user()->id)->get();
+             foreach ($prev_session2 as $prev) {
+               $prev_date = $prev->date;
+               $day1 = date('l', strtotime($prev_date));
+               $day2 = date('l', strtotime($date));
+               if ($day1 == $day2) {
+                 if ($prev->time == $time) {
+                   $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+                   $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                   return redirect(url()->previous());
+                 }
+               }
+             }
               $session_id = $request->input('session_id');
               $data = $request->input('student_id');
                $data = explode(',',$data);
@@ -414,7 +435,7 @@ class DashboardController extends Controller
          }elseif ($duration == '1:30') {
            $credit_balance = $credit_balance-1.5;
          }elseif ($duration == '2:00') {
-           $credit_balance = $credit_balance-0;
+           $credit_balance = $credit_balance-2;
          }
          // dd($credit_balance);
          $input['credit_balance'] = $credit_balance;
