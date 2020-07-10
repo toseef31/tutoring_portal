@@ -95,7 +95,7 @@
         <br>
         <center>
           @if($credit->credit_balance == 0)
-          <a href="{{$url.'/user-portal/credits')}}" class='btn pt-2'>
+          <a href="{{'/user-portal/credits')}}" class='btn pt-2'>
             Please purchase more credits here
           </a>
           @endif
