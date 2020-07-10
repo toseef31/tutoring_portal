@@ -51,6 +51,11 @@ Route::group(['prefix' => 'user-portal'], function () {
   Route::get('/tutor-sessions-details/{id}', 'frontend\DashboardController@tutorSessionsDetails');
   Route::post('end-session','frontend\DashboardController@EndSession');
   Route::delete('cancel-session','frontend\DashboardController@CancelSession');
+  Route::get('/client-sessions', 'frontend\DashboardController@clientSessions');
+  Route::get('/getclientCallenderData', 'frontend\DashboardController@get_clientSession_data');
+  Route::get('/client-sessions-details/{id}', 'frontend\DashboardController@ClientSessionsDetails');
+  Route::post('/client-cancel-session', 'frontend\DashboardController@ClientCancelSession');
+  Route::get('/checkCredit/{id}', 'frontend\DashboardController@checkCredit');
 
   });
 });

@@ -60,8 +60,8 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
         </center>
         <hr>
-        <p style="color:#74787e;">Hello {{$user->first_name}} {{$user->last_name}} ,</p>
-        <p style="color:#74787e;">Session has been canceled by the tutor</p>
+        <p style="color:#74787e;">Hello {{$tutor->first_name}} {{$tutor->last_name}} ,</p>
+        <p style="color:#74787e;">Session has been canceled by the Client</p>
         <p class='lead'> Session Details: </p>
         <table class='table'>
         <thead>
@@ -90,6 +90,8 @@
         </tbody>
         </table>
         <br>
+        <h4>Cancellation Reason</h4>
+        <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">{{$reason}}</p>
          <hr>
         <br>
         <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
@@ -100,9 +102,6 @@
         </center>
         <table class="m_1888394735623576276footer" align="center" width="620" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:0 auto;padding:0;text-align:center;width:620px"><tbody><tr>
           <td class="m_1888394735623576276content-cell" align="center" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;padding:35px 0">
-            @if($user->role == 'customer')
-            <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
-            @endif
             <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
             <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
           </td>

@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\CustomCommand',
-        'App\Console\Commands\RecursWeeklyCommand'
+        'App\Console\Commands\RecursWeeklyCommand',
+        'App\Console\Commands\SessionReminderCommand'
     ];
 
     /**
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('command:endsession')->everyMinute();
         $schedule->command('command:recursweekly')->daily();
+        $schedule->command('command:clientreminder')->everyMinute();
     }
 
     /**

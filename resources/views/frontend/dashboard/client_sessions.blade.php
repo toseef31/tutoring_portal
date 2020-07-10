@@ -83,7 +83,7 @@ a.low-credit .fc-content {
         <div class="col-lg-12 col-md-12 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <a href="{{url('user-portal/session/add')}}" class="btn btn-green pull-right">Schedule New Session</a>
+              <!-- <a href="{{url('user-portal/session/add')}}" class="btn btn-green pull-right">Schedule New Session</a> -->
               <h3 class="title">Sessions</h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
@@ -108,12 +108,13 @@ a.low-credit .fc-content {
                   <?php
                   $time = date('h:i a', strtotime($session->time))
                    ?>
+
                    @if(SCT::checkCredit($session->user_id)->credit_balance == 0.5)
                    <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$session->date}} {{$session->subject}} Session</strike> @else {{$time}} {{$session->date}} {{$session->subject}} Session (half hour credit) @endif</span> </a></li>
                    @else
                    <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$session->date}} {{$session->subject}} Session</strike> @else {{$time}} {{$session->date}} {{$session->subject}} Session @endif</span> </a></li>
                    @endif
-                   @endforeach
+                  @endforeach
                 </ul>
                 @else
                 <h4>No sessions scheduled</h4>
@@ -166,10 +167,10 @@ a.low-credit .fc-content {
 <script>
 $(document).ready(function() {
 
-
   $('#calendar').on('click', '.fc-day-grid-event', function(){
     $('.file_menu').css('display','block');
   });
+
 
   $('#calendar').fullCalendar({
     editable: true,
@@ -178,13 +179,14 @@ $(document).ready(function() {
 
       events: function(start, end, timezone, callback) {
         $.ajax({
-          url: "{{url('/user-portal/gettutorCallenderData')}}",
+          url: "{{url('/user-portal/getclientCallenderData')}}",
           datatype : 'json',
           success: function(doc) {
           // console.log(doc);
             var events = [];
 
             $.each(JSON.parse(doc), function(k, v) {
+              // console.log(v.credit);
               if (v.status == 'Cancel' || v.status == 'Insufficient Credit') {
                 events.push({
                  id : v.session_id,
@@ -193,7 +195,7 @@ $(document).ready(function() {
                      // start: v.date, // will be parsed
                      start: v.date+'T'+v.time,
                      // start: '2020-07-08T16:00:00',
-                     url: "{{url('/user-portal/tutor-sessions-details')}}/"+v.session_id,
+                     url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
                    });
               }
               else if (v.credit == 0.5) {
@@ -204,7 +206,7 @@ $(document).ready(function() {
                      // start: v.date, // will be parsed
                      start: v.date+'T'+v.time,
                      // start: '2020-07-08T16:00:00',
-                     url: "{{url('/user-portal/tutor-sessions-details')}}/"+v.session_id,
+                     url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
                    });
               }
               else {
@@ -214,9 +216,11 @@ $(document).ready(function() {
                        // start: v.date, // will be parsed
                        start: v.date+'T'+v.time,
                        // start: '2020-07-08T16:00:00',
-                       url: "{{url('/user-portal/tutor-sessions-details')}}/"+v.session_id,
+                       url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
                      });
               }
+
+
 
         });
 
@@ -271,6 +275,8 @@ $(document).ready(function() {
 
 });
 });
+
+
 
 // $(document).ready(function() {
 //

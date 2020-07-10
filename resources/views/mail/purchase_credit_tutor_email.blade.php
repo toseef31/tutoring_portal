@@ -60,37 +60,10 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
         </center>
         <hr>
-        <p style="color:#74787e;">Hello {{$user->first_name}} {{$user->last_name}} ,</p>
-        <p style="color:#74787e;">Session has been canceled by the tutor</p>
-        <p class='lead'> Session Details: </p>
-        <table class='table'>
-        <thead>
-        <tr>
-        <th>Tutor Name</th>
-	 			<th>Student Name</th>
-	 			<th>Subject</th>
-	 			<th>Duration</th>
-	 			<th>Date/Time</th>
-	 			<th>Location</th>
-        </tr>
-        </thead>
-        <tbody align='center'>
-        <tr>
-        <td>{{$tutor->first_name}} {{$tutor->last_name}}</td>
-        <td>{{$student->student_name}}</td>
-        <td>{{$session->subject}}</td>
-        <td>{{$session->duration}}</td>
-        <td>
-          <?php
-          $time = date('h:i a', strtotime($session->time));
-           ?>
-          {{$session->date}} {{$time}}</td>
-        <td>{{$session->location}}</td>
-        </tr>
-        </tbody>
-        </table>
+        <p class='lead'> Dear {{$tutor->first_name}} , </p>
+        <p style="color:#74787e;">You have a new student! Please reach out to the parent/guardian of “{{$student->student_name}}” to schedule the first session. See the student profile for details and contact information.</p>
         <br>
-         <hr>
+        <p style="color:#74787e;">Thank you!</p>
         <br>
         <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
         <center>
@@ -98,11 +71,9 @@
         Click To View All Proposals
         </a> -->
         </center>
+        <hr>
         <table class="m_1888394735623576276footer" align="center" width="620" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:0 auto;padding:0;text-align:center;width:620px"><tbody><tr>
           <td class="m_1888394735623576276content-cell" align="center" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;padding:35px 0">
-            @if($user->role == 'customer')
-            <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
-            @endif
             <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
             <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
           </td>

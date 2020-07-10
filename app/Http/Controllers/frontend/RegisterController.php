@@ -155,7 +155,7 @@ class RegisterController extends Controller
              if (Auth::user()->role == 'tutor') {
                return redirect('user-portal/tutor-sessions');
              }else {
-               return redirect('user-portal/manage-profile');
+               return redirect('user-portal/client-sessions');
              }
            }
          }

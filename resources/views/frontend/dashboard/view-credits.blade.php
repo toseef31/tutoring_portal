@@ -93,14 +93,16 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-											<p>Text for Credit</p>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<p>Description</p>
+											<p><strong>What are credits?</strong></p>
+											<p>Credits simply are prepaid sessions. Each credit counts for one 60-min session and half credits count for one 30-min session. Your account must have credits in order for your tutor to hold a session with you.</p>
+											<p><strong>How are credits used?</strong></p>
+											<p>After your tutoring session, credits will be deducted from your account in accordance with the duration of your session.</p>
+											<p><strong>How to purchase credits?</strong></p>
+											<p>Purchase credits using the links here. If this is your initial session, purchase an “initial session credit.” Otherwise, please select from the packages available.</p>
+											<p><strong>Do credits expire?</strong></p>
+											<p>Yes, credits expire one year from the purchase date.</p>
+											<p><strong>What if I don’t/can’t use all of my credits?</strong></p>
+											<p>No problem! Simply send an email to sofi@smartcookietutors.com indicating that you would like your unused credits refunded, and they will be, so long as they are not expired.</p>
 										</div>
 									</div>
 								</div>

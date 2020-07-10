@@ -237,12 +237,26 @@ class DashboardController extends Controller
              Mail::send('mail.new_user_credit_email',['user' =>$user,'credit'=>$new_credit],
              function ($message) use ($toemail)
              {
-
                $message->subject('Smart Cookie Tutors.com - New Credit Purchased');
                $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                $message->to($toemail);
              });
            }
+
+           $tutor_assign = DB::table('tutor_assign')->where('user_id',$user->id)->first();
+           $tutor_id = $tutor_assign->tutor_id;
+           $student_id = $tutor_assign->student_id;
+           $tutor_data = DB::table('users')->where('id',$tutor_id)->first();
+           $student_data = DB::table('students')->where('student_id',$student_id)->first();
+             $toemail =  $tutor_data->email;
+             // dd($send);
+             Mail::send('mail.purchase_credit_tutor_email',['user' =>$user,'credit'=>$new_credit, 'tutor'=>$tutor_data, 'student'=>$student_data],
+             function ($message) use ($toemail)
+             {
+               $message->subject('Smart Cookie Tutors.com - New Credit Purchased');
+               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+               $message->to($toemail);
+             });
          }
 
            // dd($stripeCharge);
@@ -300,17 +314,18 @@ class DashboardController extends Controller
 
        public function get_session_data(Request $request) {
 
-         $session = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(5)->get();
-         // dd($session);
-         echo json_encode($session);
+         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(5)->get();
+         foreach ($sessions as &$key) {
+           $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+         }// dd($session);
+         echo json_encode($sessions);
 
        }
 
        public function tutorSessionsDetails(Request $request,$id)
        {
          $session = DB::table('sessions')->where('session_id',$id)->where('tutor_id',auth()->user()->id)->first();
-         // dd($session);
-         return view('frontend.dashboard.session-details',compact('session'));
+         return view('frontend.dashboard.tutor-session-details',compact('session'));
        }
 
        public function addEditSession(Request $request){
@@ -484,6 +499,61 @@ class DashboardController extends Controller
            $request->session()->flash('message' , 'Session Cancelled Successfully');
          }
          return redirect('user-portal/tutor-sessions');
+       }
+
+       public function clientSessions(Request $request)
+       {
+         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(2)->get();
+
+         return view('frontend.dashboard.client_sessions',compact('sessions'));
+       }
+
+       public function get_clientSession_data(Request $request) {
+         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(2)->get();
+         foreach ($sessions as &$key) {
+           $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+         }
+         echo json_encode($sessions);
+       }
+       public function ClientSessionsDetails(Request $request,$id)
+       {
+         $session = DB::table('sessions')->where('session_id',$id)->where('user_id',auth()->user()->id)->first();
+         return view('frontend.dashboard.client-session-details',compact('session'));
+       }
+
+       public function ClientCancelSession(Request $request){
+         // dd($request->all());
+         if($request->isMethod('post')){
+           $session_id = trim($request->input('session_id'));
+           $input['status'] = 'Cancel';
+           $reason = $request->input('reason');
+           $input['reason'] = $reason;
+
+             $session_details = DB::table('sessions')->where('session_id',$session_id)->first();
+             $user = DB::table('users')->where('id',$session_details->user_id)->first();
+             $tutor = DB::table('users')->where('id',$session_details->tutor_id)->first();
+             $student = DB::table('students')->where('student_id',$session_details->student_id)->first();
+             // dd($student);
+               $toemail =  $tutor->email;
+               Mail::send('mail.client_cancel_session_email',['user' =>$user,'tutor' =>$tutor,'student' =>$student,'session'=>$session_details, 'reason'=> $reason],
+               function ($message) use ($toemail)
+               {
+                 $message->subject('Smart Cookie Tutors.com - Session Cancelled');
+                 $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                 $message->to($toemail);
+               });
+
+           $session = DB::table('sessions')->where('session_id',$session_id)->update($input);
+           $request->session()->flash('message' , 'Session Cancelled Successfully');
+         }
+         return redirect('user-portal/client-sessions');
+       }
+
+       public function checkCredit($user_id)
+       {
+         $user = DB::table('credits')->where('user_id',$user_id)->first();
+         // echo $user;
+         echo json_encode($user);
        }
 
 }

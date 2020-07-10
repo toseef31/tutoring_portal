@@ -638,6 +638,9 @@ header.active .top-line {
   background-color: gray !important;
   color: white;
 }
+.app-view-mainCol {
+  min-height: 500px;
+}
 @media(max-width: 490px){
 	.brand{
     padding-left: 50%;
