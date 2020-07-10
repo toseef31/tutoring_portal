@@ -53,8 +53,6 @@ class SessionReminderCommand extends Command
     //     $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
     //     $message->to($toemail);
     //   });
-      $url =URL::to('/');
-      dd($url.'/user-portal/credits');
       $sessions = DB::table('sessions')->where('status','Confirm')->get();
       foreach ($sessions as $session) {
         // $session_date = $session->date;
@@ -73,7 +71,7 @@ class SessionReminderCommand extends Command
           // date_default_timezone_set("America/New_York");
 
           $toemail=$user->email;
-            Mail::send('mail.client_session_reminder_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'session'=>$session_data ,'url'=>$url],
+            Mail::send('mail.client_session_reminder_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'session'=>$session_data],
             function ($message) use ($toemail)
             {
 
