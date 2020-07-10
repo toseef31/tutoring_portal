@@ -214,6 +214,7 @@ class DashboardController extends Controller
            $input['status'] = 'Purchased Before';
            $input['receipt_url'] = $receipt;
            DB::table('credits')->where('credit_id',$credit_id)->update($input);
+
            $new_credit = DB::table('credits')->where('credit_id',$credit_id)->first();
            if ($user->automated_email == 'Subscribe') {
              $toemail =  $user->email;
@@ -259,9 +260,30 @@ class DashboardController extends Controller
              });
          }
 
+         $user_session = DB::table('sessions')->where('user_id',$user->id)->where('status','Insufficient Credit')->get();
+         if (count($user_session) > 0) {
+           foreach ($user_session as $session) {
+             $tutor_id = $session->tutor_id;
+             $date = $session->date;
+             $time = $session->time;
+             $check_session = DB::table('sessions')->where('tutor_id',$tutor_id)->where('date',$date)->where('time',$time)->where('status','Confirm')->first();
+             if ($check_session !='') {
+               $input2['status'] = 'Cancel';
+               DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
+               $request->session()->flash('message', 'Thank you for your credit purchase but your previously assigned session can not reinstated due to tutor confilicting session');
+             }else {
+               $input2['status'] = 'Confirm';
+               DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
+               $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
+             }
+           }
+         }else {
+           $request->session()->flash('message', 'Thank you for your credit purchase!');
+         }
+
            // dd($stripeCharge);
 
-           $request->session()->flash('message', 'Thank you for your credit purchase!');
+           // $request->session()->flash('message', 'Thank you for your credit purchase!');
            return redirect('/user-portal/credits');
          } catch (\Exception $ex) {
            return $ex->getMessage();
@@ -403,6 +425,30 @@ class DashboardController extends Controller
                        $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
                        return redirect(url()->previous());
                      }
+                     $get_session = DB::table('sessions')->where('session_id',$session_id)->first();
+                     $date = $get_session->date;
+                     $time = $get_session->time;
+
+                     $combinedDT = date('Y-m-d H:i:s', strtotime("$get_session->date $get_session->time"));
+                     $date1 =date("Y-m-d H:i");
+                     $date2 = date("Y-m-d H:i", strtotime('-30 hours',strtotime($combinedDT)));
+                     if ($date1 >= $date2) {
+                       $user_data = DB::table('users')->where('id',$get_session->user_id)->first();
+                       $tutor = DB::table('users')->where('id',$get_session->tutor_id)->first();
+                       $student = DB::table('students')->where('student_id',$get_session->student_id)->first();
+                       if ($user_data->automated_email == 'Subscribe') {
+                       $toemail=$user_data->email;
+                         Mail::send('mail.last_minute_session_email',['user' =>$user_data,'tutor'=>$tutor,'student'=>$student,'session'=>$get_session],
+                         function ($message) use ($toemail)
+                         {
+
+                           $message->subject('Smart Cookie Tutors.com - Last Minute Session Email');
+                           $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                           $message->to($toemail);
+                         });
+                     }
+                   }
+
                      $sMsg = 'New Session Added';
 
                }else{

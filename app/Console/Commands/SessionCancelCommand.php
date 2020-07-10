@@ -60,7 +60,7 @@ class SessionCancelCommand extends Command
         $combinedDT = date('Y-m-d H:i:s', strtotime("$session->date $session->time"));
         $date1 =date("Y-m-d H:i");
         $date2 = date("Y-m-d H:i", strtotime('-24 hours',strtotime($combinedDT)));
-        // dd($date1,$date2);
+        // dd($date1,$date2,$session->date);
         if ($date1 == $date2) {
           // dd($date1,$date2);
           $user = DB::table('users')->where('id',$session->user_id)->first();

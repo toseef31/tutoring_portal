@@ -69,7 +69,7 @@ class SessionReminderCommand extends Command
           $user_credit = DB::table('credits')->where('user_id',$session->user_id)->first();
           $session_data = DB::table('sessions')->where('session_id',$session->session_id)->first();
           // date_default_timezone_set("America/New_York");
-
+          if ($user->automated_email == 'Subscribe') {
           $toemail=$user->email;
             Mail::send('mail.client_session_reminder_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'session'=>$session_data],
             function ($message) use ($toemail)
@@ -80,6 +80,7 @@ class SessionReminderCommand extends Command
               $message->to($toemail);
             });
         }
+      }
       }
 
     }
