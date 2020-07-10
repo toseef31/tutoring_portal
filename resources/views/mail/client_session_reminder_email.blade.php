@@ -90,18 +90,19 @@
           </tbody>
         </table>
         <br>
+        <center>
+          @if($credit->credit_balance == 0)
+          <a href="{{url('/user-portal/credits')}}" class='btn pt-2'>
+            Please purchase more credits here
+          </a>
+          @endif
+        </center>
         <p style="color:#74787e;">Your Remaining Credit Balance is {{$credit->credit_balance}}</p>
         @if($credit->credit_balance == 0)
         <p style="color:#74787e;">Your session will be cancelled in 6 hours because you have no credits left</p>
         @endif
         <br>
-        <center>
-          @if($credit->credit_balance == 0)
-          <a href="{{url('/user-portal/credits')}}" class='btn pt-2'>
-         Click To Review Agreement
-       </a>
-          @endif
-        </center>
+
         <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
         <hr>
         <table class="m_1888394735623576276footer" align="center" width="620" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:0 auto;padding:0;text-align:center;width:620px"><tbody><tr>
