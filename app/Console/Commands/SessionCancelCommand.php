@@ -7,14 +7,14 @@ use DB;
 use DateTime;
 use Mail;
 use URL;
-class SessionReminderCommand extends Command
+class SessionCancelCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'clientreminder';
+    protected $signature = 'sessioncancel';
 
     /**
      * The console command description.
@@ -59,8 +59,8 @@ class SessionReminderCommand extends Command
         date_default_timezone_set("Asia/Karachi");
         $combinedDT = date('Y-m-d H:i:s', strtotime("$session->date $session->time"));
         $date1 =date("Y-m-d H:i");
-        $date2 = date("Y-m-d H:i", strtotime('-30 hours',strtotime($combinedDT)));
-        dd($date1,$date2);
+        $date2 = date("Y-m-d H:i", strtotime('-24 hours',strtotime($combinedDT)));
+        // dd($date1,$date2);
         if ($date1 == $date2) {
           // dd($date1,$date2);
           $user = DB::table('users')->where('id',$session->user_id)->first();
@@ -69,18 +69,21 @@ class SessionReminderCommand extends Command
           $user_credit = DB::table('credits')->where('user_id',$session->user_id)->first();
           $session_data = DB::table('sessions')->where('session_id',$session->session_id)->first();
           // date_default_timezone_set("America/New_York");
-
-          $toemail=$user->email;
-            Mail::send('mail.client_session_reminder_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'session'=>$session_data],
+          if ($user_credit->credit_balance == 0) {
+            // dd("no credit");
+            $input['status'] = 'Insufficient Credit';
+            DB::table('sessions')->where('session_id',$session->session_id)->update($input);
+          $toemail=$tutor->email;
+            Mail::send('mail.insufficient_credit_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'session'=>$session_data],
             function ($message) use ($toemail)
             {
 
-              $message->subject('Smart Cookie Tutors.com - Session Reminder Email');
+              $message->subject('Smart Cookie Tutors.com - Session Cancel Email');
               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
               $message->to($toemail);
             });
         }
       }
-
+     }
     }
 }
