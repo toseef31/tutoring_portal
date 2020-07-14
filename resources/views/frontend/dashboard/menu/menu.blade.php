@@ -21,14 +21,7 @@
           <p>Client Profile</p>
         </a>
       </li>
-      @elseif(auth()->user()->role == 'tutor')
-      <li class="{{ request()->is('user-portal/manage-profile-tutor') ? 'active' : '' }}">
-        <a href="{{url('user-portal/manage-profile-tutor')}}">
-          <i class="ti-user"></i>
-          <p>Tutor Profile</p>
-        </a>
-      </li>
-      @else
+      @elseif(auth()->user()->role == 'tutor' || auth()->user()->role == 'admin')
       <li class="{{ request()->is('user-portal/manage-profile-tutor') ? 'active' : '' }}">
         <a href="{{url('user-portal/manage-profile-tutor')}}">
           <i class="ti-user"></i>
@@ -56,7 +49,7 @@
         </a>
       </li>
       @endif
-      @if(auth()->user()->role == 'tutor')
+      @if(auth()->user()->role == 'tutor' || auth()->user()->role == 'admin')
       <li class="{{ request()->is('user-portal/tutor-students') ? 'active' : '' }}">
         <a href="{{url('/user-portal/tutor-students')}}">
           <i class="ti-user"></i>
@@ -69,6 +62,12 @@
           <p>Sessions</p>
         </a>
       </li>
+      <li class="{{ request()->is('user-portal/tutor-timesheets') ? 'active' : '' }}">
+        <a href="{{url('/user-portal/tutor-timesheets')}}">
+          <i class="ti-calendar"></i>
+          <p>Timesheets</p>
+        </a>
+      </li>
       @endif
       <li class="{{ request()->is('user-portal/agreements') ? 'active' : '' }}">
         <a href="{{url('/user-portal/agreements')}}">
@@ -77,6 +76,7 @@
           <p>Agreements</p>
         </a>
       </li>
+      @if(auth()->user()->role == 'customer')
       <li class="{{ request()->is('user-portal/faqs') ? 'active' : '' }}">
         <a href="{{url('/user-portal/faqs')}}">
           <!-- <i class="ti-pencil-alt2"></i> -->
@@ -84,7 +84,6 @@
           <p>FAQs</p>
         </a>
       </li>
-      @if(auth()->user()->role == 'customer')
       <li class="{{ request()->is('user-portal/credits') ? 'active' : '' }}">
         <a href="{{url('/user-portal/credits')}}">
           <i class="ti-credit-card"></i>

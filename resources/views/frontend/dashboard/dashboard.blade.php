@@ -144,8 +144,30 @@
             </div>
           </div>
         </div>
+        <div class="col-lg-4 col-sm-6">
+          <div class="cards" style="background-color: #00ff28;">
+            <div class="content">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="icon-big text-white text-center">
+                    <i class="ti-calendar"></i>
+                  </div>
+                </div>
+                <div class="col-xs-12">
+                  <a href="{{url('user-portal/client-sessions')}}" class="text-white">
+                    <div class="numbers">
+                      Sessions
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="footer">
+              </div>
+            </div>
+          </div>
+        </div>
         @endif
-        @if(auth()->user()->role == 'tutor')
+        @if(auth()->user()->role == 'tutor' || auth()->user()->role == 'admin')
         <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: #ad29b9e6;">
             <div class="content">
@@ -159,6 +181,28 @@
                   <a href="{{url('user-portal/tutor-students')}}" class="text-white">
                     <div class="numbers">
                       Students
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="footer">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+          <div class="cards" style="background-color: #00ff28;">
+            <div class="content">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="icon-big text-white text-center">
+                    <i class="ti-calendar"></i>
+                  </div>
+                </div>
+                <div class="col-xs-12">
+                  <a href="{{url('user-portal/tutor-sessions')}}" class="text-white">
+                    <div class="numbers">
+                      Sessions
                     </div>
                   </a>
                 </div>
@@ -191,6 +235,7 @@
             </div>
           </div>
         </div>
+        @if(auth()->user()->role == 'customer')
         <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: brown;">
             <div class="content">
@@ -235,6 +280,7 @@
             </div>
           </div>
         </div>
+        @endif
        <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: #0085c6;">
             <div class="content">

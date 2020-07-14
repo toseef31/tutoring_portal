@@ -602,4 +602,74 @@ class DashboardController extends Controller
          echo json_encode($user);
        }
 
+       public function tutorTimesheets(Request $request)
+       {
+         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
+         // $timesheets = DB::table('timesheets')->where('tutor_id',auth()->user()->id)->where('created_at','like',date('Y-m').'%')->get();
+         $timesheets = DB::table('timesheets')->where('tutor_id',auth()->user()->id)->orderBy('created_at','desc')->get();
+         // dd($timesheet);
+         return view('frontend.dashboard.tutor_timesheets',compact('sessions','timesheets'));
+       }
+       public function getTimesheetData(Request $request) {
+         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('status','End')->get();
+         foreach ($sessions as &$key) {
+           // dd($key->session_id);
+           $key->timesheet =DB::table('timesheets')->orwhere('session_id',$key->session_id)->first();
+           // $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+         }
+         echo json_encode($sessions);
+       }
+
+       public function addEditTimeSheet(Request $request, $id){
+         $timesheet_id = 0;
+           $rPath = $request->segment(3);
+           // dd($rPath);
+           if($request->isMethod('post')){
+             // dd($request->all());
+              $timesheet_id = $request->input('timesheet_id');
+              $data = $request->input('student_id');
+               $data = explode(',',$data);
+               $student_id = $data[0];
+               $user_id = $data[1];
+               // dd($student_id,$user_id);
+
+               $input['tutor_id'] =auth()->user()->id;
+               $input['student_id'] = $student_id;
+               $input['user_id'] = $user_id;
+               $input['session_id']= $request->input('session_id');
+               $input['duration']= $request->input('duration');
+               $input['description']= $request->input('description');
+
+               if($timesheet_id == ''){
+                     $timesheet_id = DB::table('timesheets')->insertGetId($input);
+                     $sMsg = 'New Timesheet Added';
+
+               }else{
+                     $timesheet_id = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->update($input);
+                       $sMsg = 'Session Updated';
+               }
+               $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
+               return redirect('user-portal/tutor-timesheets');
+           }else{
+               $timesheet = array();
+               $timesheet_id = '0';
+               if($rPath == 'edit'){
+                   $timesheet_id = $request->segment(5);
+                   $timesheet = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->first();
+                   // dd($timesheet);
+                   if($timesheet_id == null){
+                       $request->session()->flash('alert',['message' => 'No Record Found', 'type' => 'danger']);
+                       return redirect('user-portal/tutor-timesheets');
+                   }
+                   // dd($student);
+               }
+               $assign_students = DB::table('tutor_assign')
+                        ->join('students','students.student_id','=','tutor_assign.student_id')
+                        ->where('tutor_assign.tutor_id','=',auth()->user()->id)->orderBy('student_name','asc')->get();
+                $session_details = DB::table('sessions')->where('session_id',$id)->first();
+                // dd($session_details);
+               return view('frontend.dashboard.add-edit-timesheets',compact('timesheet','rPath','timesheet_id','assign_students','session_details'));
+           }
+       }
+
 }

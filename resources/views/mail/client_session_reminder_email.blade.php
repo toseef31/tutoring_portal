@@ -95,12 +95,12 @@
         <br>
 
         <p style="color:#74787e;">Your Remaining Credit Balance is {{$credit->credit_balance}}</p>
-        @if($credit->credit_balance == 0)
+        @if($credit->credit_balance <= 0)
         <p style="color:#74787e;">Your session will be cancelled in 6 hours because you have no credits left</p>
         @endif
         <br>
         <center>
-          @if($credit->credit_balance == 0)
+          @if($credit->credit_balance <= 0)
           <a href="{{url('/user-portal/credits')}}" class='btn pt-2'>
             Please purchase more credits here
           </a>

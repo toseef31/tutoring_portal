@@ -152,10 +152,10 @@ class RegisterController extends Controller
              session()->forget('previous_url');
              return redirect($url);
            } else {
-             if (Auth::user()->role == 'tutor') {
-               return redirect('user-portal/tutor-sessions');
-             }else {
+             if (Auth::user()->role == 'customer') {
                return redirect('user-portal/client-sessions');
+             }else {
+               return redirect('user-portal/tutor-sessions');
              }
            }
          }

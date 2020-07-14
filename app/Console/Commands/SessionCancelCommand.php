@@ -69,7 +69,7 @@ class SessionCancelCommand extends Command
           $user_credit = DB::table('credits')->where('user_id',$session->user_id)->first();
           $session_data = DB::table('sessions')->where('session_id',$session->session_id)->first();
           // date_default_timezone_set("America/New_York");
-          if ($user_credit->credit_balance == 0) {
+          if ($user_credit->credit_balance <= 0) {
             // dd("no credit");
             $input['status'] = 'Insufficient Credit';
             DB::table('sessions')->where('session_id',$session->session_id)->update($input);

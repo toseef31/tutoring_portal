@@ -48,7 +48,7 @@ if($user->image != ''){
 				<div class="col-lg-4 col-md-5 app-view-mainCol">
 					<div class="cards cards-user">
 						<div class="image">
-							<img src="{{asset('frontend-assets/images/background.jpg')}}" alt="...">
+							<!-- <img src="{{asset('frontend-assets/images/background.jpg')}}" alt="..."> -->
 						</div>
 						<div class="content">
 							<div class="author">

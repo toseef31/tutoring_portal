@@ -1202,7 +1202,8 @@ fieldset[disabled] .btn-neutral.active {
 
 .cards-user .image {
     border-radius: 8px 8px 0 0;
-    height: 150px;
+    /* height: 150px; */
+    height: 70px;
     position: relative;
     overflow: hidden;
 }
@@ -1231,8 +1232,8 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 .cards-user .avatar {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     position: relative;
     margin-bottom: 15px;

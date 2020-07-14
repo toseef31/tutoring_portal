@@ -5,6 +5,12 @@
 
 
 @section('styling')
+<style>
+.bg-gray{
+	background-color: gray !important;
+	color: white;
+}
+</style>
 @endsection
 @section('content')
 
@@ -102,23 +108,23 @@
 											<p><strong>Do credits expire?</strong></p>
 											<p>Yes, credits expire one year from the purchase date.</p>
 											<p><strong>What if I don’t/can’t use all of my credits?</strong></p>
-											<p>No problem! Simply send an email to sofi@smartcookietutors.com indicating that you would like your unused credits refunded, and they will be, so long as they are not expired.</p>
+											<p>No problem! Simply send an email to <a href="mailto:sofi@smartcookietutors.com"> sofi@smartcookietutors.com </a> indicating that you would like your unused credits refunded, and they will be, so long as they are not expired.</p>
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-											<select class="form-control" name="credit_balance">
-												<option value="">Number of Credits</option>
+											<select class="form-control" name="credit_balance" id="credit_balance">
+												<option value="" selected>Number of Credits</option>
 												@if($credit !='')
 												@if(SCT::checkCredit(auth()->user()->id)->status =='Purchased Before')
-												<option value="4" selected>4</option>
+												<option value="4">4</option>
 												<option value="6">6</option>
 												<option value="8">8</option>
 												<option value="10">10</option>
 												@else
-												<option value="1" selected>1</option>
+												<option value="1">1</option>
 												@endif
 												@endif
 											</select>
@@ -127,9 +133,9 @@
 								</div>
 								<div class="text-center">
 									@if($credit !='')
-									<button type="submit" class="btn btn-info btn-green btn-wd">Buy</button>
+									<button type="submit" class="btn btn-info btn-wd bg-gray" id="buy_btn"  disabled>Buy</button>
 									@else
-									<button type="submit" class="btn bg-gray" disabled style="background: gray;color: white;">Buy</button>
+									<button type="submit" class="btn bg-gray" disabled>Buy</button>
 									@endif
 								</div>
 								<div class="clearfix"></div>
@@ -149,6 +155,21 @@
 @endsection
 
 @section('script')
+<script>
+	$('#credit_balance').on('change',function () {
+		var credit = $(this).val();
+		// alert(credit)
+		if (credit !='') {
+			$('#buy_btn').prop('disabled',false);
+			$('#buy_btn').removeClass('bg-gray');
+			$('#buy_btn').addClass('btn-green');
 
+		}else {
+			$('#buy_btn').prop('disabled',true);
+			$('#buy_btn').removeClass('btn-green');
+			$('#buy_btn').addClass('bg-gray');
+		}
+	});
+</script>
 
 @endsection

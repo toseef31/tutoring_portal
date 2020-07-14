@@ -40,6 +40,11 @@ class SCT {
     $user = DB::table('credits')->where('user_id',$user_id)->first();
     return $user;
   }
+  public function getSessionDetails($session_id)
+  {
+    $session = DB::table('sessions')->where('session_id',$session_id)->first();
+    return $session;
+  }
 }
 
 ?>
