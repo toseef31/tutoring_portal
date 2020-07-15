@@ -66,7 +66,7 @@ class AdminController extends Controller
     public function admin_login(Request $request)
    {
         if ($request->session()->exists('sct_admin')) {
-           return redirect('/dashboard/view_customers');
+           return redirect('/dashboard/view_sessions');
        }
 
 
@@ -89,7 +89,7 @@ class AdminController extends Controller
 
 
 
-         return redirect('dashboard/view_customers');
+         return redirect('dashboard/view_sessions');
 
      }
 
