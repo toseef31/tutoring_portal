@@ -13,7 +13,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Agreements List</a>
+            <a class="navbar-brand" href="#pablo">Session List</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -65,33 +65,51 @@
                   @endif
                   <table class="table">
                     <thead class=" text-primary">
-                      <th>Agrement Name</th>
-                      <th>User Name</th>
-                      <th>Role</th>
-                      <th>Status</th>
-                      <th>Signed By</th>
-                      <th>Signed Date</th>
+                      <th>Tutor Name</th>
+                      <th>Student Name</th>
+                      <th>Credit Balance</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Duration</th>
+                      <th>Tutoring Subject</th>
+                      <th>Initial Session</th>
+                      <th>Recurs Weekly</th>
                       <!-- <th class="text-right">Action</th> -->
                     </thead>
                     <tbody>
-                    @foreach($signed_agreement as $agreement)
+                    @foreach($sessions as $session)
                       <tr>
-                        <td> {{$agreement->aggreement_name}}</td>
-                        <td> {{SCT::GetUser($agreement->user_id)->first_name}} {{SCT::GetUser($agreement->user_id)->last_name}}</td>
-                        <td> {{SCT::GetUser($agreement->user_id)->role}}</td>
-                        <td> {{$agreement->status}}</td>
-                        <td> {{$agreement->user_name}}</td>
-                        <td> {{$agreement->date}}</td>
-                        <!-- <td class="text-right">
-                          <a href="{{url('/dashboard/customer/edit/'.$agreement->signed_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
-                          <a href="javascript:0;" onclick="deleteEmployer('{{ $agreement->signed_id }}')"> <i class="fa fa-trash text-danger"></i> </a>
-                        </td> -->
+                        <td>
+                          @if(SCT::getClientName($session->tutor_id) !='')
+                          {{SCT::getClientName($session->tutor_id)->first_name}} {{SCT::getClientName($session->tutor_id)->last_name}}
+                         @endif
+                        </td>
+                        <td> {{SCT::getStudentName($session->student_id)->student_name}}</td>
+                        <td>
+                          @if(SCT::getClientCredit($session->user_id) !='')
+                           {{SCT::getClientCredit($session->user_id)->credit_balance}}
+                          @endif
+                         </td>
+                        <td> {{$session->date}}</td>
+                        <?php
+                        $time = date('h:i a', strtotime($session->time))
+                         ?>
+                        <td>{{$time}}</td>
+                        <td> {{$session->duration}}</td>
+                        <td> {{$session->subject}}</td>
+                        <td>
+                          @if($session->session_type =='First Session')
+                          YES
+                          @else
+                          NO
+                          @endif
+                        </td>
+                        <td> {{$session->recurs_weekly}}</td>
                       </tr>
                       @endforeach
-
                     </tbody>
                   </table>
-                  {{$signed_agreement->render()}}
+                  {{$sessions->render()}}
                 </div>
               </div>
             </div>

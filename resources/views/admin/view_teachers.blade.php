@@ -86,6 +86,7 @@
 
                     </tbody>
                   </table>
+                  {{$all_tutor->render()}}
                 </div>
               </div>
             </div>

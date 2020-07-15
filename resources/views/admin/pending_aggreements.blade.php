@@ -93,6 +93,7 @@
 
                     </tbody>
                   </table>
+                  {{$pending_agreement->render()}}
                 </div>
               </div>
             </div>

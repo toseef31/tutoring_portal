@@ -222,6 +222,7 @@ overflow-y: auto;
 
                     </tbody>
                   </table>
+                  {{$all_agreement->render()}}
                 </div>
               </div>
             </div>

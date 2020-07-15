@@ -357,13 +357,14 @@ class DashboardController extends Controller
              // dd($request->all());
              $date= $request->input('date');
              $time= $request->input('time');
-             $prev_session = DB::table('sessions')->where('date',$date)->where('time',$time)->where('tutor_id',auth()->user()->id)->where('status','confirm')->first();
+             $session_id = $request->input('session_id');
+             $prev_session = DB::table('sessions')->where('date',$date)->where('time',$time)->where('tutor_id',auth()->user()->id)->where('session_id','<>',$session_id)->where('status','confirm')->first();
              if ($prev_session !=null) {
                $sMsg = 'You can not scheduled this session because you already have session on this date and time';
                $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
                return redirect(url()->previous());
              }
-             $prev_session2 = DB::table('sessions')->where('recurs_weekly','Yes')->where('tutor_id',auth()->user()->id)->get();
+             $prev_session2 = DB::table('sessions')->where('recurs_weekly','Yes')->where('tutor_id',auth()->user()->id)->where('session_id','<>',$session_id)->get();
              foreach ($prev_session2 as $prev) {
                $prev_date = $prev->date;
                $day1 = date('l', strtotime($prev_date));
@@ -376,7 +377,6 @@ class DashboardController extends Controller
                  }
                }
              }
-              $session_id = $request->input('session_id');
               $data = $request->input('student_id');
                $data = explode(',',$data);
                $student_id = $data[0];

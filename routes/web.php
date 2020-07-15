@@ -105,6 +105,14 @@ Route::match(['get','post'],'/FAQ','Admin\AdminController@addEditFAQ');
 Route::get('/get_all_tutors/{id}','Admin\AdminController@getTutorList');
 Route::post('AssignTutor','Admin\AdminController@AssignTutor');
 Route::get('/DeleteAssignTutor/{id}/{tutor_id}','Admin\AdminController@DeleteAssignTutor');
+/////////////////////// Sessions ////////////////////
+Route::match(['get','post'],'/view_sessions', 'Admin\AdminController@AdminSessions');
+Route::match(['get','post'],'session/add','Admin\AdminController@addEditSession');
+Route::match(['get','post'],'session/edit/{id}','Admin\AdminController@addEditSession');
+Route::get('/getAdminCallenderData', 'Admin\AdminController@get_session_data');
+Route::get('/get-assignStudent/{id}', 'Admin\AdminController@getAssingStudent');
+Route::delete('cancel-session','Admin\AdminController@CancelSession');
+Route::get('/occured_session', 'Admin\AdminController@getOccuredSession');
 
  });
 });

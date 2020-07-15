@@ -45,6 +45,18 @@ class SCT {
     $session = DB::table('sessions')->where('session_id',$session_id)->first();
     return $session;
   }
+  public function getAllTutors()
+  {
+    $tutor = DB::table('users')->where('role','<>','customer')->orderBy('first_name','asc')->get();
+    return $tutor;
+  }
+  public function getAssingStudent($id)
+  {
+    $students = DB::table('tutor_assign')
+    ->join('students','students.student_id','=','tutor_assign.student_id')
+    ->where('tutor_assign.tutor_id','=',$id)->orderBy('students.student_name','asc')->get();
+    return $students;
+  }
 }
 
 ?>

@@ -126,7 +126,7 @@ class AdminController extends Controller
 
     public function all_admin(Request $request)
     {
-      $all_admin = User::where('role','admin')->orderBy('id','desc')->get();
+      $all_admin = User::where('role','admin')->orderBy('id','desc')->paginate(15);
        return view('admin.view_admin',compact('all_admin'));
     }
 
@@ -421,7 +421,6 @@ class AdminController extends Controller
         }
 
           // dd($type);
-      // $all_student = Student::orderBy('student_id','desc')->get();
        return view('admin.view_students',compact('all_client','all_student','type'));
     }
 
@@ -500,7 +499,7 @@ class AdminController extends Controller
 
     public function all_tutors(Request $request)
     {
-      $all_tutor = User::where('role','<>','customer')->orderBy('id','desc')->get();
+      $all_tutor = User::where('role','<>','customer')->orderBy('id','desc')->paginate(15);
        return view('admin.view_teachers',compact('all_tutor'));
     }
 
@@ -597,18 +596,18 @@ class AdminController extends Controller
 
     public function all_agreement(Request $request)
     {
-      $all_agreement = DB::table('aggreements')->orderBy('aggreement_id','desc')->get();
+      $all_agreement = DB::table('aggreements')->orderBy('aggreement_id','desc')->paginate(15);
        return view('admin.view_aggreements',compact('all_agreement'));
     }
 
     public function awaiting_signature_agreements(Request $request)
     {
-      $pending_agreement = DB::table('signed_aggreements')->where('status','Awaiting Signature')->orderBy('signed_id','desc')->get();
+      $pending_agreement = DB::table('signed_aggreements')->where('status','Awaiting Signature')->orderBy('signed_id','desc')->paginate(15);
        return view('admin.pending_aggreements',compact('pending_agreement'));
     }
     public function signed_agreements(Request $request)
     {
-      $signed_agreement = DB::table('signed_aggreements')->where('status','Signed')->orderBy('signed_id','desc')->get();
+      $signed_agreement = DB::table('signed_aggreements')->where('status','Signed')->orderBy('signed_id','desc')->paginate(15);
        return view('admin.signed_aggreements',compact('signed_agreement'));
     }
 
@@ -789,80 +788,277 @@ class AdminController extends Controller
     public function DeleteAssignTutor(Request $request, $id, $tutor_id)
     {
       $unassign = DB::table('tutor_assign')->where('student_id',$id)->where('tutor_id',$tutor_id)->delete();
-      dd($unassign);
+      echo $unassign;
     }
 
-
-
-
-    public function index()
+    public function AdminSessions(Request $request)
     {
-        //
+      $app = session()->get('sct_admin');
+      if ($app =="") {
+        return redirect('/admin');
+      }
+      if($request->isMethod('post')){
+        $request->session()->put('sessionsSearch',$request->all());
+      }
+
+      if($request->input('reset') && $request->input('reset') == 'true'){
+        $request->session()->forget('sessionsSearch');
+        return redirect('dashboard/view_sessions');
+      }
+      $s_app = $request->session()->get('sessionsSearch');
+      if ($s_app ==null) {
+        $s_app=[];
+      }
+      // dd($s_app);
+      $type ='';
+      $all_tutors='';
+      $all_sessions='';
+    if ($s_app ==[] ) {
+      $type ='tutor_search';
+      $all_tutors = DB::table('users')->where('role','<>','customer')
+                    ->where(function ($query) use ($s_app) {
+                        if(count($s_app) > 0){
+                            if($s_app['search'] != ''){
+                                $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                            }
+                        }
+                    })->orderBy('first_name','asc')->paginate(15);
+
+                    foreach ($all_tutors as &$session) {
+                      $session->session=DB::table('sessions')->where('tutor_id','=',$session->id)->where('date','>=',date("Y-m-d"))
+                      ->where(function ($query) use ($s_app) {
+                          if(count($s_app) > 0){
+                              if($s_app['search'] != ''){
+                                  $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                              }
+                          }
+                      })->orderBy('date','asc')->get();
+                    }
+
+    }elseif($s_app['searchBy']!='date' && $s_app['searchBy']!='subject') {
+      $type ='tutor_search';
+      $all_tutors = DB::table('users')->where('role','<>','customer')
+                  ->where(function ($query) use ($s_app) {
+                      if(count($s_app) > 0){
+                          if($s_app['search'] != ''){
+                              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                          }
+                      }
+                  })->orderBy('first_name','asc')->paginate(15);
+
+              foreach ($all_tutors as &$session) {
+                $session->session=DB::table('sessions')->where('tutor_id','=',$session->id)->where('date','>=',date("Y-m-d"))
+                ->orderBy('date','asc')->get();
+          }
+    }else {
+      // dd('session');
+      $type='session_search';
+      $all_sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))
+                    ->where(function ($query) use ($s_app) {
+                        if(count($s_app) > 0){
+                            if($s_app['search'] != ''){
+                                $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                            }
+                        }
+                    })->orderBy('date','asc')->paginate(15);
+    }
+      return view('admin.view_sessions',compact('all_tutors','all_sessions','type'));
+  }
+
+    public function get_session_data(Request $request) {
+
+      $sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->get();
+      foreach ($sessions as &$key) {
+        $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+      }
+      echo json_encode($sessions);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function addEditSession(Request $request){
+      $session_id = 0;
+        $rPath = $request->segment(3);
+        if($request->isMethod('post')){
+          // dd($request->all());
+          $tutor_id= $request->input('tutor_id');
+          $date= $request->input('date');
+          $time= $request->input('time');
+          $session_id = $request->input('session_id');
+          $prev_session = DB::table('sessions')->where('date',$date)->where('time',$time)->where('tutor_id',$tutor_id)->where('session_id','<>',$session_id)->where('status','confirm')->first();
+          if ($prev_session !=null) {
+            $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+            $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+            // $request->session()->flash('message' , 'Agreement Deleted Successfully');
+            return redirect(url()->previous());
+          }
+          $prev_session2 = DB::table('sessions')->where('recurs_weekly','Yes')->where('tutor_id',$tutor_id)->where('session_id','<>',$session_id)->get();
+          foreach ($prev_session2 as $prev) {
+            $prev_date = $prev->date;
+            $day1 = date('l', strtotime($prev_date));
+            $day2 = date('l', strtotime($date));
+            if ($day1 == $day2) {
+              if ($prev->time == $time) {
+                $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+                $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                return redirect(url()->previous());
+              }
+            }
+          }
+           $data = $request->input('student_id');
+            $data = explode(',',$data);
+            $student_id = $data[0];
+            $user_id = $data[1];
+            // dd($student_id,$user_id);
+
+            $input['tutor_id'] =$tutor_id;
+            $input['student_id'] = $student_id;
+            $input['user_id'] = $user_id;
+            $input['subject']= $request->input('subject');
+            $input['date']= $request->input('date');
+            $input['time']= $request->input('time');
+            $input['duration']= $request->input('duration');
+            $input['location']= $request->input('location');
+            $session_type = $request->input('initial_session');
+            if ($session_type !='') {
+              $input['session_type']  = 'First Session';
+            }else {
+              $input['session_type']  = 'Session Before';
+            }
+            $recurs_weekly = $request->input('recurs_weekly');
+            if ($recurs_weekly !='') {
+              $input['recurs_weekly']  = 'Yes';
+            }else {
+              $input['recurs_weekly']  = 'No';
+            }
+            $input['status']  = 'Confirm';
+
+            $credit_agreement = DB::table('signed_aggreements')->where('user_id',$user_id)->where('status','Awaiting Signature')->first();
+            if ($credit_agreement !='') {
+              $sMsg = 'You can not scheduled this session because the client has pending agreement to sign';
+              $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+              return redirect(url()->previous());
+            }
+
+            if($session_id == ''){
+                  $credit_balance='';
+                  $check_credit = DB::table('credits')->where('user_id',$user_id)->first();
+                  if ($check_credit !=null) {
+                    $credit_balance = $check_credit->credit_balance;
+                  }
+                  if ($credit_balance !='' && $credit_balance > 0) {
+                    $session_id = DB::table('sessions')->insertGetId($input);
+                  }else {
+                    $sMsg = 'You can not scheduled this session because the client has 0 credit';
+                    $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                    return redirect(url()->previous());
+                  }
+                  $get_session = DB::table('sessions')->where('session_id',$session_id)->first();
+                  $date = $get_session->date;
+                  $time = $get_session->time;
+
+                  $combinedDT = date('Y-m-d H:i:s', strtotime("$get_session->date $get_session->time"));
+                  $date1 =date("Y-m-d H:i");
+                  $date2 = date("Y-m-d H:i", strtotime('-30 hours',strtotime($combinedDT)));
+                  if ($date1 >= $date2) {
+                    $user_data = DB::table('users')->where('id',$get_session->user_id)->first();
+                    $tutor = DB::table('users')->where('id',$get_session->tutor_id)->first();
+                    $student = DB::table('students')->where('student_id',$get_session->student_id)->first();
+                    if ($user_data->automated_email == 'Subscribe') {
+                    $toemail=$user_data->email;
+                      Mail::send('mail.last_minute_session_email',['user' =>$user_data,'tutor'=>$tutor,'student'=>$student,'session'=>$get_session],
+                      function ($message) use ($toemail)
+                      {
+
+                        $message->subject('Smart Cookie Tutors.com - Last Minute Session Email');
+                        $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                        $message->to($toemail);
+                      });
+                  }
+                }
+
+                  $sMsg = 'New Session Added';
+
+            }else{
+                  $credit_balance='';
+                  $check_credit = DB::table('credits')->where('user_id',$user_id)->first();
+                  if ($check_credit !=null) {
+                    $credit_balance = $check_credit->credit_balance;
+                  }
+                  if ($credit_balance !='' && $credit_balance > 0) {
+                    $session_id = DB::table('sessions')->where('session_id',$session_id)->update($input);
+                  }else {
+                    $sMsg = 'You can not scheduled this session because the client has 0 credit';
+                    $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                    return redirect(url()->previous());
+                  }
+                    $sMsg = 'Session Updated';
+            }
+            $request->session()->flash('message' , $sMsg);
+            $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
+            return redirect('dashboard/view_sessions');
+        }else{
+            $session = array();
+            $session_id = '0';
+            if($rPath == 'edit'){
+                $session_id = $request->segment(4);
+                $session = DB::table('sessions')->where('session_id',$session_id)->first();
+                // dd($session);
+                if($session == null){
+                    $request->session()->flash('alert',['message' => 'No Record Found', 'type' => 'danger']);
+                    return redirect('user-portal/tutor-sessions');
+                }
+                // dd($student);
+            }
+
+            return view('admin.add-edit-sessions',compact('session','rPath','session_id'));
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function getAssingStudent(Request $request){
+      if(!$request->ajax()){
+        exit('Directory access is forbidden');
+      }
+      $tutorId = $request->segment(3);
+      $students = SCT::getAssingStudent($tutorId);
+      return view('admin.ajax-students',compact('students'));
+      // echo @json_encode($students);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function CancelSession(Request $request){
+      // dd($request->all());
+      if($request->isMethod('delete')){
+        $session_id = trim($request->input('session_id'));
+        $notify_client ='';
+        $notify_client = $request->input('notify_client');
+        if ($notify_client !='') {
+          $session_details = DB::table('sessions')->where('session_id',$session_id)->first();
+          $user = DB::table('users')->where('id',$session_details->user_id)->first();
+          $tutor = DB::table('users')->where('id',$session_details->tutor_id)->first();
+          $student = DB::table('students')->where('student_id',$session_details->student_id)->first();
+          // dd($student);
+          if ($user->automated_email == 'Subscribe') {
+            $toemail =  $user->email;
+            Mail::send('mail.tutor_cancel_session_email',['user' =>$user,'tutor' =>$tutor,'student' =>$student,'session'=>$session_details],
+            function ($message) use ($toemail)
+            {
+              $message->subject('Smart Cookie Tutors.com - Session Cancelled');
+              $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+              $message->to($toemail);
+            });
+          }
+        }
+
+        $session = DB::table('sessions')->where('session_id',$session_id)->delete();
+        $request->session()->flash('message' , 'Session Deleted Successfully');
+      }
+      return redirect('dashboard/view_sessions');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function getOccuredSession(Request $request)
     {
-        //
+      $sessions = DB::table('sessions')->where('status','End')->orderBy('date','desc')->paginate(15);
+      return view('admin.occured_session',compact('sessions'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
 }

@@ -54,7 +54,7 @@ class TimesheetCommand extends Command
     //   });
 
       $timesheets = DB::table('timesheets')->where('created_at','Like',date('Y-m').'%')->groupby('tutor_id')->get();
-      dd($timesheets);
+      // dd($timesheets);
       foreach ($timesheets as $timesheet) {
         $tutor = DB::table('users')->where('id',$timesheet->tutor_id)->first();
         $tutor_timesheets = DB::table('timesheets')

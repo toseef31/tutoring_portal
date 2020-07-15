@@ -88,6 +88,7 @@
 
                     </tbody>
                   </table>
+                  {{$all_admin->render()}}
                 </div>
               </div>
             </div>
