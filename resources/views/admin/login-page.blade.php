@@ -16,7 +16,7 @@
     <div class="login">
         <div class="login-body">
             <a class="login-brand" href="{{ url('admin/login') }}">
-                <img class="img-responsive" src="{{asset('frontend-assets/static-images/header/search1.png')}}" alt="">
+                <img class="img-responsive" src="{{asset('/frontend-assets/images/logo.png')}}" alt="" style="width: 50%;margin-left: 24%;">
             </a>
             <div class="login-form">
                 @if(session()->has('loginAlert'))
