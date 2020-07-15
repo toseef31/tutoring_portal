@@ -136,6 +136,7 @@ td {
                     @endforeach
                   </tbody>
                 </table>
+                {{$timesheets->render()}}
               </div>
             </div>
             <hr>

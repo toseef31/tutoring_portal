@@ -97,6 +97,7 @@
                     @endforeach
                   </tbody>
                 </table>
+                {{$tutors->render()}}
               </div>
               @else
               <h4>Tutor assignment pending <img src="{{asset('/frontend-assets/images/user.jpg')}}" alt=""></h4>

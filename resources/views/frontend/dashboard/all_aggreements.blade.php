@@ -94,6 +94,7 @@
                     @endforeach
                   </tbody>
                 </table>
+                {{$agreements->render()}}
               </div>
             </div>
             <hr>

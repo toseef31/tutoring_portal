@@ -122,7 +122,7 @@ class DashboardController extends Controller
      public function getAgreements(Request $request)
      {
        $user_id = auth()->user()->id;
-       $agreements = DB::table('signed_aggreements')->where('user_id',$user_id)->get();
+       $agreements = DB::table('signed_aggreements')->where('user_id',$user_id)->paginate(15);
        return view('frontend.dashboard.all_aggreements',compact('agreements'));
      }
 
@@ -295,7 +295,7 @@ class DashboardController extends Controller
        {
          $tutors = DB::table('tutor_assign')
                   ->join('users','users.id','=','tutor_assign.tutor_id')
-                  ->where('tutor_assign.user_id','=',auth()->user()->id)->get();
+                  ->where('tutor_assign.user_id','=',auth()->user()->id)->paginate(10);
                   // dd($tutor);
         return view('frontend.dashboard.tutors',compact('tutors'));
        }
@@ -304,7 +304,7 @@ class DashboardController extends Controller
        {
          $students = DB::table('tutor_assign')
                   ->join('students','students.student_id','=','tutor_assign.student_id')
-                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->get();
+                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->paginate(15);
                   // dd($students);
         return view('frontend.dashboard.tutor-students',compact('students'));
        }
@@ -606,16 +606,14 @@ class DashboardController extends Controller
        {
          $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
          // $timesheets = DB::table('timesheets')->where('tutor_id',auth()->user()->id)->where('created_at','like',date('Y-m').'%')->get();
-         $timesheets = DB::table('timesheets')->where('tutor_id',auth()->user()->id)->orderBy('created_at','desc')->get();
+         $timesheets = DB::table('timesheets')->where('tutor_id',auth()->user()->id)->orderBy('created_at','desc')->paginate(15);
          // dd($timesheet);
          return view('frontend.dashboard.tutor_timesheets',compact('sessions','timesheets'));
        }
        public function getTimesheetData(Request $request) {
          $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('status','End')->get();
          foreach ($sessions as &$key) {
-           // dd($key->session_id);
            $key->timesheet =DB::table('timesheets')->orwhere('session_id',$key->session_id)->first();
-           // $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
          }
          echo json_encode($sessions);
        }
