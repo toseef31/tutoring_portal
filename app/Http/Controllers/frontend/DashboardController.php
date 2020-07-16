@@ -604,21 +604,40 @@ class DashboardController extends Controller
 
        public function tutorTimesheets(Request $request)
        {
-         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
-         // $timesheets = DB::table('timesheets')->where('tutor_id',auth()->user()->id)->where('created_at','like',date('Y-m').'%')->get();
          $timesheets = DB::table('timesheets')->where('tutor_id',auth()->user()->id)->orderBy('created_at','desc')->paginate(15);
-         // dd($timesheet);
-         return view('frontend.dashboard.tutor_timesheets',compact('sessions','timesheets'));
+         return view('frontend.dashboard.tutor_timesheets',compact('timesheets'));
        }
        public function getTimesheetData(Request $request) {
-         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('status','End')->get();
-         foreach ($sessions as &$key) {
-           $key->timesheet =DB::table('timesheets')->orwhere('session_id',$key->session_id)->first();
+         $timesheets = DB::table('timesheets')->where('tutor_id',auth()->user()->id)->get();
+         foreach ($timesheets as $timesheet ) {
+           $endtime='';
+           if ($timesheet->duration == '0:30') {
+             $endtime = date('H:i:s', strtotime('+30 minutes',strtotime($timesheet->time)));
+           }elseif ($timesheet->duration == '1:00') {
+             $endtime = date('H:i:s', strtotime('+1 hour',strtotime($timesheet->time)));
+           }elseif ($timesheet->duration == '1:30') {
+             $endtime = date('H:i:s', strtotime('+1 hour +30 minutes',strtotime($timesheet->time)));
+           }elseif ($timesheet->duration == '2:00') {
+             $endtime = date('H:i:s', strtotime('+2 hour',strtotime($timesheet->time)));
+           }
+           $timesheet->endtime =$endtime;
+           // dd($endtime);
+
          }
-         echo json_encode($sessions);
+         echo json_encode($timesheets);
        }
 
-       public function addEditTimeSheet(Request $request, $id){
+       public function addEditTimeSheet(Request $request){
+         $get_date =$request->input('date');
+         $date2 = explode('T',$get_date);
+         $date = $date2[0];
+         $time='';
+         if(count($date2)>1){
+           $time = $date2[1];
+         }
+         // dd($date,$time);
+
+
          $timesheet_id = 0;
            $rPath = $request->segment(3);
            // dd($rPath);
@@ -634,12 +653,28 @@ class DashboardController extends Controller
                $input['tutor_id'] =auth()->user()->id;
                $input['student_id'] = $student_id;
                $input['user_id'] = $user_id;
-               $input['session_id']= $request->input('session_id');
+               $input['date']= $request->input('date');
+               $input['time']= $request->input('time');
                $input['duration']= $request->input('duration');
                $input['description']= $request->input('description');
 
                if($timesheet_id == ''){
+                     $duration = $request->input('duration');
+                     $credit = DB::table('credits')->where('user_id',$user_id)->first();
+                     $credit_balance = $credit->credit_balance;
+                     if ($duration == '0:30') {
+                       $credit_balance = $credit_balance-0.5;
+                     }elseif ($duration == '1:00') {
+                       $credit_balance = $credit_balance-1;
+                     }elseif ($duration == '1:30') {
+                       $credit_balance = $credit_balance-1.5;
+                     }elseif ($duration == '2:00') {
+                       $credit_balance = $credit_balance-2;
+                     }
                      $timesheet_id = DB::table('timesheets')->insertGetId($input);
+                     $input2['credit_balance'] = $credit_balance;
+                     $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
+                     // dd($credit);
                      $sMsg = 'New Timesheet Added';
 
                }else{
@@ -652,7 +687,7 @@ class DashboardController extends Controller
                $timesheet = array();
                $timesheet_id = '0';
                if($rPath == 'edit'){
-                   $timesheet_id = $request->segment(5);
+                   $timesheet_id = $request->segment(4);
                    $timesheet = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->first();
                    // dd($timesheet);
                    if($timesheet_id == null){
@@ -664,10 +699,44 @@ class DashboardController extends Controller
                $assign_students = DB::table('tutor_assign')
                         ->join('students','students.student_id','=','tutor_assign.student_id')
                         ->where('tutor_assign.tutor_id','=',auth()->user()->id)->orderBy('student_name','asc')->get();
-                $session_details = DB::table('sessions')->where('session_id',$id)->first();
+                $session_details = DB::table('sessions')->where('session_id',1)->first();
                 // dd($session_details);
-               return view('frontend.dashboard.add-edit-timesheets',compact('timesheet','rPath','timesheet_id','assign_students','session_details'));
+               return view('frontend.dashboard.add-edit-timesheets',compact('timesheet','rPath','timesheet_id','assign_students','session_details','date','time'));
            }
+       }
+
+       public function tutorTimesheetDetails(Request $request,$id)
+       {
+         $timesheet = DB::table('timesheets')->where('timesheet_id',$id)->where('tutor_id',auth()->user()->id)->first();
+         return view('frontend.dashboard.tutor-timesheet-details',compact('timesheet'));
+       }
+
+       public function deleteTimesheet(Request $request)
+       {
+         if($request->isMethod('delete')){
+          $timesheet_id = trim($request->input('timesheet_id'));
+          $timesheet_data = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->first();
+          // dd($timesheet_data);
+          $user_id = $timesheet_data->user_id;
+          $duration = $timesheet_data->duration;
+          $credit = DB::table('credits')->where('user_id',$user_id)->first();
+          $credit_balance = $credit->credit_balance;
+          if ($duration == '0:30') {
+            $credit_balance = $credit_balance+0.5;
+          }elseif ($duration == '1:00') {
+            $credit_balance = $credit_balance+1;
+          }elseif ($duration == '1:30') {
+            $credit_balance = $credit_balance+1.5;
+          }elseif ($duration == '2:00') {
+            $credit_balance = $credit_balance+2;
+          }
+          $input2['credit_balance'] = $credit_balance;
+          // dd($input2);
+          $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
+           $timesheet = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->delete();
+          $request->session()->flash('message' , 'Timesheet Deleted Successfully');
+        }
+        return redirect('/user-portal/tutor-timesheets');
        }
 
 }

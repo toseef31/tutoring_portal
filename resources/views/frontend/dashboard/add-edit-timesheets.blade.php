@@ -78,7 +78,8 @@
 							<form class="form-horizontals profile-form" action="" method="post">
 								{{ csrf_field() }}
 								<input type="hidden" name="timesheet_id" value="{{$timesheet->timesheet_id}}">
-								<input type="hidden" name="session_id" value="{{$timesheet->session_id}}">
+								<input type="hidden" name="date" value="{{$timesheet->date}}">
+                <input type="hidden" name="time" value="{{$timesheet->time}}">
                 <div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
@@ -86,7 +87,7 @@
 											<select class="form-control border-input" name="student_id" id="student_id" required>
                         <option value="">Select Student</option>
                         @foreach($assign_students as $students)
-												<option value="{{$students->student_id}},{{$students->user_id}}" {{$timesheet->student_id == $students->student_id ? 'selected=="selected"':''}}>{{$students->student_name}}</option>
+												<option value="{{$students->student_id}},{{$students->user_id}}" {{$timesheet->student_id == $students->student_id ? 'selected="selected"' : ''}}>{{$students->student_name}}</option>
                         @endforeach
 											</select>
 										</div>
@@ -124,7 +125,8 @@
 							@else
 							<form class="form-horizontals profile-form" action="" method="post">
 								{{ csrf_field() }}
-                <input type="hidden" name="session_id" value="{{$session_details->session_id}}">
+                <input type="hidden" name="date" value="{{$date}}">
+                <input type="hidden" name="time" value="{{$time}}">
                 <div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
@@ -132,7 +134,7 @@
 											<select class="form-control border-input" name="student_id" id="student_id" required>
                         <option value="">Select Student</option>
                         @foreach($assign_students as $students)
-												<option value="{{$students->student_id}},{{$students->user_id}}" {{$session_details->student_id ==$students->student_id ? 'selected="selected"' : ''}}>{{$students->student_name}}</option>
+												<option value="{{$students->student_id}},{{$students->user_id}}">{{$students->student_name}}</option>
                         @endforeach
 											</select>
 										</div>
@@ -143,10 +145,10 @@
 										<div class="form-group">
 											<label>Duration</label>
                       <select class="form-control border-input" name="duration" id="duration">
-												<option value="0:30" {{$session_details->duration == '0:30' ? 'selected="selected"' : ''}}>0:30</option>
-												<option value="1:00" {{$session_details->duration == '1:00' ? 'selected="selected"' : ''}}>1:00</option>
-												<option value="1:30" {{$session_details->duration == '1:30' ? 'selected="selected"' : ''}}>1:30</option>
-												<option value="2:00" {{$session_details->duration == '2:00' ? 'selected="selected"' : ''}}>2:00</option>
+												<option value="0:30">0:30</option>
+												<option value="1:00">1:00</option>
+												<option value="1:30">1:30</option>
+												<option value="2:00">2:00</option>
 											</select>
                     </div>
 									</div>

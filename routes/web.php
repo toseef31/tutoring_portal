@@ -58,8 +58,10 @@ Route::group(['prefix' => 'user-portal'], function () {
   Route::get('/checkCredit/{id}', 'frontend\DashboardController@checkCredit');
   Route::get('/tutor-timesheets', 'frontend\DashboardController@tutorTimesheets');
   Route::get('/gettutorTimesheetsCallenderData', 'frontend\DashboardController@getTimesheetData');
-  Route::match(['get','post'],'timesheet/add/{id}','frontend\DashboardController@addEditTimeSheet');
-  Route::match(['get','post'],'timesheet/edit/{id}/{id2}','frontend\DashboardController@addEditTimeSheet');
+  Route::match(['get','post'],'timesheet/add','frontend\DashboardController@addEditTimeSheet');
+  Route::match(['get','post'],'timesheet/edit/{id}','frontend\DashboardController@addEditTimeSheet');
+  Route::get('/tutor-timesheet-details/{id}', 'frontend\DashboardController@tutorTimesheetDetails');
+  Route::delete('delete-timesheet','frontend\DashboardController@deleteTimesheet');
 
   });
 });

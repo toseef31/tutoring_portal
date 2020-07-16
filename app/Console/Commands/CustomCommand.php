@@ -71,21 +71,20 @@ class CustomCommand extends Command
             $input['status'] = 'End';
             DB::table('sessions')->where('session_id',$session->session_id)->update($input);
 
-            $duration = $session->duration;
-            $credit_data = DB::table('credits')->where('user_id',$session->user_id)->first();
-            $credit_balance = $credit_data->credit_balance;
-            // dd($credit_balance);
-            if ($duration == '0:30') {
-              $credit_balance = $credit_balance-0.5;
-            }elseif ($duration == '1:00') {
-              $credit_balance = $credit_balance-1;
-            }elseif ($duration == '1:30') {
-              $credit_balance = $credit_balance-1.5;
-            }elseif ($duration == '2:00') {
-              $credit_balance = $credit_balance-2;
-            }
-            $input2['credit_balance'] = $credit_balance;
-            DB::table('credits')->where('user_id',$session->user_id)->update($input2);
+            // $duration = $session->duration;
+            // $credit_data = DB::table('credits')->where('user_id',$session->user_id)->first();
+            // $credit_balance = $credit_data->credit_balance;
+            // if ($duration == '0:30') {
+            //   $credit_balance = $credit_balance-0.5;
+            // }elseif ($duration == '1:00') {
+            //   $credit_balance = $credit_balance-1;
+            // }elseif ($duration == '1:30') {
+            //   $credit_balance = $credit_balance-1.5;
+            // }elseif ($duration == '2:00') {
+            //   $credit_balance = $credit_balance-2;
+            // }
+            // $input2['credit_balance'] = $credit_balance;
+            // DB::table('credits')->where('user_id',$session->user_id)->update($input2);
           }
         }
       }

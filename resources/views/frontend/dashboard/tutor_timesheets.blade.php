@@ -104,40 +104,9 @@ td {
         			@endif
             </div>
             <div class="content">
-
               <!-- Calendar Start -->
               <div id='calendar'></div>
               <!-- Calendar Ends -->
-              <h3>Timesheets Record</h3>
-              <div class="table-responsive">
-                <table class="table  table-bordered">
-                  <thead>
-                    <tr>
-                      <th>Student Name</th>
-                      <th>Date</th>
-                      <th>Time</th>
-                      <th>Duration</th>
-                      <th>Session Description</th>
-                      <!-- <th>Action</th> -->
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach($timesheets as $timesheet)
-                    <tr>
-                      <td>{{SCT::getStudentName($timesheet->student_id)->student_name}}</td>
-                      <td>{{SCT::getSessionDetails($timesheet->session_id)->date}}</td>
-                      <td>{{SCT::getSessionDetails($timesheet->session_id)->time}}</td>
-                      <td>{{$timesheet->duration}}</td>
-                      <td>{{$timesheet->description}}</td>
-                      <!-- <td>
-                        <a href="{{ url('user-portal/view_agreement/'.$timesheet->timesheet_id) }}" class="btn btn-green" data-toggle="tooltip" data-original-title="Update">View</a>&nbsp;&nbsp;&nbsp;
-                      </td> -->
-                    </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-                {{$timesheets->render()}}
-              </div>
             </div>
             <hr>
           </div>
@@ -183,29 +152,32 @@ td {
 <script src="{{asset('/frontend-assets/js/fullcalendar.min.js')}}"></script>
 <script src="{{asset('/frontend-assets/js/jquery-ui.min.js')}}"></script>
 <script>
-var days = moment().daysInMonth();
-var halfmonth = Math.round(days/2);
-// var date = moment("halfmonth", "MM-DD-YYYY");
-console.log(days,halfmonth);
+
 $(document).ready(function() {
 
   $('#calendar').on('click', '.fc-day-grid-event', function(){
     $('.file_menu').css('display','block');
   });
 
-
-  var intervalStart, intervalEnd;
   $('#calendar').fullCalendar({
     editable: true,
     eventLimit: true,
+    selectable: true,
     showNonCurrentDates:false,
     views: {
-      week: {
-        type: 'basic', /* 'basicWeek' ?? */
-        duration: { weeks: 2, }
-        // duration: { days: 15, }
-      }
-    },
+       timelineFifteenDay: {
+         type: 'agenda',
+         duration: { days: 15 },
+       }
+       },
+    // views: {
+    //   week: {
+    //     type: 'basic', /* 'basicWeek' ?? */
+    //     duration: { weeks: 2, }
+    //     // duration: { days: 15, }
+    //   }
+    // },
+
     events: function(start, end, timezone, callback,) {
       $.ajax({
         url: "{{url('/user-portal/gettutorTimesheetsCallenderData')}}",
@@ -214,25 +186,25 @@ $(document).ready(function() {
           // console.log(doc);
           var events = [];
           $.each(JSON.parse(doc), function(k, v) {
-
-            if (v.timesheet !=null) {
+            if (v.time !=null) {
+              console.log(v.time,v.endtime);
               events.push({
-                id : v.session_id,
-                title: v.subject+' session',
-                // start: v.date, // will be parsed
+                id : v.timesheet_id,
+                title: v.date+' session',
                 start: v.date+'T'+v.time,
+                end: v.date+'T'+v.endtime,
                 // start: '2020-07-08T16:00:00',
-                url: "{{url('/user-portal/timesheet/edit')}}/"+v.session_id+'/'+v.timesheet.timesheet_id,
+                url: "{{url('/user-portal/tutor-timesheet-details')}}/"+v.timesheet_id,
               });
-            }else{
-            events.push({
-              id : v.session_id,
-              title: v.subject+' session',
-              // start: v.date, // will be parsed
-              start: v.date+'T'+v.time,
-              url: "{{url('/user-portal/timesheet/add')}}/"+v.session_id,
-            });
-          }
+            }else {
+              events.push({
+                id : v.timesheet_id,
+                title: v.date+' session',
+                start: v.date,
+                // start: '2020-07-08T16:00:00',
+                url: "{{url('/user-portal/tutor-timesheet-details')}}/"+v.timesheet_id,
+              });
+            }
 
 
           });
@@ -240,17 +212,24 @@ $(document).ready(function() {
         }
       });
     },
+    dayClick: function(date) {
+      // console.log(date,date.format());
+        var event_date = date.format();
+          window.location.href = "{{url('/user-portal/timesheet/add?date=')}}"+event_date;
+      },
+    // select: function(startDate, endDate) {
+    //   alert('selected ' + startDate.format() + ' to ' + endDate.format());
+    // },
     header: {
       left: '',
       center: 'prev title next',
       right: ''
     },
     contentHeight: 'auto',
-    defaultView: 'week',
+    // defaultView: 'week',
+    defaultView: "timelineFifteenDay",
     eventColor: '#10C5A7',
     timeFormat: 'h:mma',
-    // defaultDate: moment().startOf("month").startOf("isoweek"),
-    // defaultDate:  moment().startOf("month").startOf(halfmonth),
 
   });
 });
