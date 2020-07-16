@@ -498,22 +498,7 @@ class DashboardController extends Controller
          $student_id = $session_data->student_id;
          $data['status'] = 'End';
          $data['duration'] = $duration;
-         $credit_data = DB::table('credits')->where('user_id',$user_id)->first();
-         $credit_balance = $credit_data->credit_balance;
-         // dd($credit_balance);
-         if ($duration == '0:30') {
-           $credit_balance = $credit_balance-0.5;
-         }elseif ($duration == '1:00') {
-           $credit_balance = $credit_balance-1;
-         }elseif ($duration == '1:30') {
-           $credit_balance = $credit_balance-1.5;
-         }elseif ($duration == '2:00') {
-           $credit_balance = $credit_balance-2;
-         }
-         // dd($credit_balance);
-         $input['credit_balance'] = $credit_balance;
          $session = DB::table('sessions')->where('session_id',$session_id)->update($data);
-         $credit = DB::table('credits')->where('user_id',$user_id)->update($input);
          echo $session;
        }
 
@@ -678,7 +663,65 @@ class DashboardController extends Controller
                      $sMsg = 'New Timesheet Added';
 
                }else{
+                 $duration = $request->input('duration');
+                 $timesheet_data = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->first();
+                 $duration2 = $timesheet_data->duration;
+                 $credit = DB::table('credits')->where('user_id',$user_id)->first();
+                 $credit_balance = $credit->credit_balance;
+
+                 if ($duration != $duration2) {
+                   if ($duration == '0:30') {
+                     $duration = 0.5;
+                   }elseif ($duration == '1:00') {
+                     $duration = 1;
+                   }elseif ($duration == '1:30') {
+                     $duration = 1.5;
+                   }elseif ($duration == '2:00') {
+                     $duration = 2;
+                   }
+
+                   if ($duration2 == '0:30') {
+                     $duration2 = 0.5;
+                   }elseif ($duration2 == '1:00') {
+                     $duration2 = 1;
+                   }elseif ($duration2 == '1:30') {
+                     $duration2 = 1.5;
+                   }elseif ($duration2 == '2:00') {
+                     $duration2 = 2;
+                   }
+                 }
+
+                 if ($duration > $duration2) {
+                   // $duration3 = $duration-$duration2;
+                   $duration = $duration-$duration2;
+                   // dd($duration.' new duration',$duration2.' old duration',$duration3);
+                   if ($duration == 0.5) {
+                     $credit_balance = $credit_balance-0.5;
+                   }elseif ($duration == 1) {
+                     $credit_balance = $credit_balance-1;
+                   }elseif ($duration == 1.5) {
+                     $credit_balance = $credit_balance-1.5;
+                   }elseif ($duration == 2) {
+                     $credit_balance = $credit_balance-2;
+                   }
+                 }elseif ($duration < $duration2) {
+                   // $duration3 = $duration2-$duration;
+                   $duration = $duration2-$duration;
+                   // dd($duration.' new duration',$duration2.' old duration',$duration3);
+                   if ($duration == 0.5) {
+                     $credit_balance = $credit_balance+0.5;
+                   }elseif ($duration == 1) {
+                     $credit_balance = $credit_balance+1;
+                   }elseif ($duration == 1.5) {
+                     $credit_balance = $credit_balance+1.5;
+                   }elseif ($duration == 2) {
+                     $credit_balance = $credit_balance+2;
+                   }
+                 }
+
                      $timesheet_id = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->update($input);
+                     $input2['credit_balance'] = $credit_balance;
+                     $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
                        $sMsg = 'Session Updated';
                }
                $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
