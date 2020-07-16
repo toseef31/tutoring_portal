@@ -58,8 +58,7 @@ class TimesheetCommand extends Command
       foreach ($timesheets as $timesheet) {
         $tutor = DB::table('users')->where('id',$timesheet->tutor_id)->first();
         $tutor_timesheets = DB::table('timesheets')
-        ->join('sessions','sessions.session_id','=','timesheets.session_id')
-        ->where('timesheets.tutor_id',$timesheet->tutor_id)->where('timesheets.created_at','Like',date('Y-m').'%')->get();
+        ->where('tutor_id',$timesheet->tutor_id)->where('created_at','Like',date('Y-m').'%')->get();
         foreach ($tutor_timesheets as &$student) {
           $student->student_name = DB::table('students')->where('student_id',$student->student_id)->first()->student_name;
         }

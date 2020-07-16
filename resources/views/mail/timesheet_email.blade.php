@@ -70,7 +70,6 @@
       <th>Date</th>
       <th>Time</th>
       <th>Duration</th>
-      <th>Location</th>
       <th>Session Description</th>
       </tr>
       </thead>
@@ -79,9 +78,18 @@
       <tr>
       <td>{{$timesheet->student_name}}</td>
       <td>{{$timesheet->date}}</td>
-      <td>{{$timesheet->time}}</td>
+      <?php
+      $time='';
+      if ($timesheet->time) {
+        $time = date("h:i a", strtotime($timesheet->time));
+      }
+      ?>
+      @if($time =='')
+      <td>N/A</td>
+      @else
+      <td>{{$time}}</td>
+      @endif
       <td>{{$timesheet->duration}}</td>
-      <td>{{$timesheet->location}}</td>
       <td>{{$timesheet->description}}</td>
       </tr>
       @endforeach
