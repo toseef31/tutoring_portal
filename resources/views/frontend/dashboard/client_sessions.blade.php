@@ -106,13 +106,51 @@ a.low-credit .fc-content {
                 <ul style="list-style-type: none;">
                   @foreach($sessions as $session)
                   <?php
-                  $time = date('h:i a', strtotime($session->time))
+                  // Eastern ........... America/New_York
+                  // Central ........... America/Chicago
+                  // Mountain .......... America/Denver
+                  // Pacific ........... America/Los_Angeles
+                  $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
+                  if ($tutor_timezone == 'Pacific Time') {
+                    date_default_timezone_set("America/Los_Angeles");
+                  }elseif ($tutor_timezone == 'Mountain Time') {
+                    date_default_timezone_set("America/Denver");
+                  }elseif ($tutor_timezone == 'Central Time') {
+                    date_default_timezone_set("America/Chicago");
+                  }elseif ($tutor_timezone == 'Eastern Time') {
+                    date_default_timezone_set("America/New_York");
+                  }
+                  $time1 = date('h:i a', strtotime($session->time));
+                  $date = date('M d, Y', strtotime($session->date));
+                  $time_zone =SCT::getClientName($session->user_id)->time_zone;
+                  $db_time = $session->date." ".$time1;
+                  $datetime = new DateTime($db_time);
+                  if ($time_zone == 'Pacific Time') {
+                    $la_time = new DateTimeZone('America/Los_Angeles');
+                    $datetime->setTimezone($la_time);
+                  }elseif ($time_zone == 'Mountain Time') {
+                    $la_time = new DateTimeZone('America/Denver');
+                    $datetime->setTimezone($la_time);
+                  }elseif ($time_zone == 'Central Time') {
+                    $la_time = new DateTimeZone('America/Chicago');
+                    $datetime->setTimezone($la_time);
+                  }elseif ($time_zone == 'Eastern Time') {
+                    $la_time = new DateTimeZone('America/New_York');
+                    $datetime->setTimezone($la_time);
+                  }
+                  $newdatetime = $datetime->format('Y-m-d h:i a');
+                  $get_datetime = explode(' ',$newdatetime);
+                  $time2 = $get_datetime[1];
+                  $time3 = $get_datetime[2];
+                  $time = $time2." ".$time3;
+                  // dd(date('Y-m-d H:i a'));
+                  // dd($time1,$time);
                    ?>
 
                    @if(SCT::checkCredit($session->user_id)->credit_balance == 0.5)
-                   <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$session->date}} {{$session->subject}} Session</strike> @else {{$time}} {{$session->date}} {{$session->subject}} Session (half hour credit) @endif</span> </a></li>
+                   <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$date}} {{$session->subject}} Session</strike> @else {{$time}} {{$date}} {{$session->subject}} Session (half hour credit) @endif</span> </a></li>
                    @else
-                   <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$session->date}} {{$session->subject}} Session</strike> @else {{$time}} {{$session->date}} {{$session->subject}} Session @endif</span> </a></li>
+                   <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$date}} {{$session->subject}} Session</strike> @else {{$time}} {{$date}} {{$session->subject}} Session @endif</span> </a></li>
                    @endif
                   @endforeach
                 </ul>
@@ -182,7 +220,7 @@ $(document).ready(function() {
           url: "{{url('/user-portal/getclientCallenderData')}}",
           datatype : 'json',
           success: function(doc) {
-          // console.log(doc);
+          console.log(doc);
             var events = [];
 
             $.each(JSON.parse(doc), function(k, v) {

@@ -7,6 +7,8 @@ use DB;
 use DateTime;
 use Mail;
 use URL;
+use App\Facade\SCT;
+
 class SessionReminderCommand extends Command
 {
     /**
@@ -56,11 +58,22 @@ class SessionReminderCommand extends Command
       $sessions = DB::table('sessions')->where('status','Confirm')->get();
       foreach ($sessions as $session) {
         // $session_date = $session->date;
-        date_default_timezone_set("Asia/Karachi");
+        $client_timezone = SCT::getClientName($session->user_id)->time_zone;
+        // dd($tutor_timezone);
+        if ($client_timezone == 'Pacific Time') {
+          date_default_timezone_set("America/Los_Angeles");
+        }elseif ($client_timezone == 'Mountain Time') {
+          date_default_timezone_set("America/Denver");
+        }elseif ($client_timezone == 'Central Time') {
+          date_default_timezone_set("America/Chicago");
+        }elseif ($client_timezone == 'Eastern Time') {
+          date_default_timezone_set("America/New_York");
+        }
+        // date_default_timezone_set("Asia/Karachi");
         $combinedDT = date('Y-m-d H:i:s', strtotime("$session->date $session->time"));
         $date1 =date("Y-m-d H:i");
         $date2 = date("Y-m-d H:i", strtotime('-30 hours',strtotime($combinedDT)));
-        // dd($date1,$date2);
+        // dd($session->session_id,$date1,$date2);
         if ($date1 == $date2) {
           // dd($date1,$date2);
           $user = DB::table('users')->where('id',$session->user_id)->first();
@@ -81,7 +94,6 @@ class SessionReminderCommand extends Command
             });
         }
       }
-      }
-
     }
+  }
 }

@@ -13,6 +13,8 @@ use Hash;
 use Mail;
 use Storage;
 use Response;
+use DateTime;
+
 class DashboardController extends Controller
 {
     /**
@@ -543,7 +545,42 @@ class DashboardController extends Controller
          $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(2)->get();
          foreach ($sessions as &$key) {
            $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+           // Change Time Zone
+           $tutor_timezone = SCT::getClientName($key->tutor_id)->time_zone;
+           if ($tutor_timezone == 'Pacific Time') {
+             date_default_timezone_set("America/Los_Angeles");
+           }elseif ($tutor_timezone == 'Mountain Time') {
+             date_default_timezone_set("America/Denver");
+           }elseif ($tutor_timezone == 'Central Time') {
+             date_default_timezone_set("America/Chicago");
+           }elseif ($tutor_timezone == 'Eastern Time') {
+             date_default_timezone_set("America/New_York");
+           }
+           $db_time = $key->date." ".$key->time;
+           $datetime = new DateTime($db_time);
+           $time_zone =SCT::getClientName($key->user_id)->time_zone;
+           if ($time_zone == 'Pacific Time') {
+             $la_time = new \DateTimeZone('America/Los_Angeles');
+             $datetime->setTimezone($la_time);
+           }elseif ($time_zone == 'Mountain Time') {
+             $la_time = new \DateTimeZone('America/Denver');
+             $datetime->setTimezone($la_time);
+           }elseif ($time_zone == 'Central Time') {
+             $la_time = new \DateTimeZone('America/Chicago');
+             $datetime->setTimezone($la_time);
+           }elseif ($time_zone == 'Eastern Time') {
+             $la_time = new \DateTimeZone('America/New_York');
+             $datetime->setTimezone($la_time);
+           }
+           $newdatetime = $datetime->format('Y-m-d H:i');
+           // dd($newdatetime);
+           $get_datetime = explode(' ',$newdatetime);
+           $time2 = $get_datetime[1];
+           // $time3 = $get_datetime[2];
+           $time = $time2;
+           $key->time = $time;
          }
+         // dd($sessions);
          echo json_encode($sessions);
        }
        public function ClientSessionsDetails(Request $request,$id)

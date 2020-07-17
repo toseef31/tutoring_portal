@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use DB;
 use DateTime;
 use Mail;
+use App\Facade\SCT;
+
 class CustomCommand extends Command
 {
     /**
@@ -52,39 +54,32 @@ class CustomCommand extends Command
     //     $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
     //     $message->to($toemail);
     //   });
-
       $sessions = DB::table('sessions')->where('status','Confirm')->get();
       foreach ($sessions as $session) {
         $session_date = $session->date;
         $date1 =date("Y-m-d");
         $date2 =$session->date;
         if ($date1 == $date2) {
-          // date_default_timezone_set("America/New_York");
-          date_default_timezone_set("Asia/Karachi");
-          $time1 = date("h:i");
-          $time2 = date("h:i", strtotime('+2 hour +30 minutes',strtotime($session->time)));
-          // $time2 = date('h:i', strtotime($session->time));
-          // $new_time = date("h:i", strtotime('+2 hour +30 minutes'));
-          // $new_time2 = date("h:i", strtotime('+2 hour +30 minutes',strtotime($session->time)));
-
+          $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
+          // dd($tutor_timezone);
+          if ($tutor_timezone == 'Pacific Time') {
+            date_default_timezone_set("America/Los_Angeles");
+          }elseif ($tutor_timezone == 'Mountain Time') {
+            date_default_timezone_set("America/Denver");
+          }elseif ($tutor_timezone == 'Central Time') {
+            date_default_timezone_set("America/Chicago");
+          }elseif ($tutor_timezone == 'Eastern Time') {
+            date_default_timezone_set("America/New_York");
+          }
+          // dd(date("h:i a"));
+          // date_default_timezone_set("Asia/Karachi");
+          $time1 = date("h:i a");
+          $time2 = date("h:i a", strtotime('+2 hour +30 minutes',strtotime($session->time)));
+          // dd($session->session_id,$time1,$time2);
           if ($time1 >= $time2) {
             $input['status'] = 'End';
             DB::table('sessions')->where('session_id',$session->session_id)->update($input);
 
-            // $duration = $session->duration;
-            // $credit_data = DB::table('credits')->where('user_id',$session->user_id)->first();
-            // $credit_balance = $credit_data->credit_balance;
-            // if ($duration == '0:30') {
-            //   $credit_balance = $credit_balance-0.5;
-            // }elseif ($duration == '1:00') {
-            //   $credit_balance = $credit_balance-1;
-            // }elseif ($duration == '1:30') {
-            //   $credit_balance = $credit_balance-1.5;
-            // }elseif ($duration == '2:00') {
-            //   $credit_balance = $credit_balance-2;
-            // }
-            // $input2['credit_balance'] = $credit_balance;
-            // DB::table('credits')->where('user_id',$session->user_id)->update($input2);
           }
         }
       }

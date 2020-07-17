@@ -75,7 +75,7 @@
               <img src="{{asset('frontend-assets/images/master-card.png')}}" width="10%" class="mt-5">
               <img src="{{asset('frontend-assets/images/discover-card.png')}}" width="11%" class="mt-5">
 
-              <p class="mb-4 font-weight-bold">You will be charged  ${{ number_format($total, 2) }} for buy {{$credit_balance}} @if($credit_balance ==1) Credit @else Credits @endif </p>
+              <p class="mb-4 font-weight-bold">You will be charged  ${{ number_format($total, 2) }} to buy {{$credit_balance}} @if($credit_balance ==1) credit @else credits @endif </p>
               <form action="{{ url('user-portal/subscribe_process') }}" method="post" id="payment-form">
                    {{ csrf_field() }}
                    <input type="hidden" name="credit_id" value="{{$credit_id}}">
