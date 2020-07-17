@@ -43,7 +43,7 @@ $s_app = Session()->get('sessionsSearch');
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Sessions List</a>
+            <a class="navbar-brand" href="#pablo">Sessions</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -81,7 +81,7 @@ $s_app = Session()->get('sessionsSearch');
             <div class="card">
               @include('admin.includes.alerts')
               <div class="card-header">
-                <h4 class="card-title"> Sessions List <a href="{{url('dashboard/session/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Schedule New Session</a></h4>
+                <h4 class="card-title"> Sessions <a href="{{url('dashboard/session/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Schedule New Session</a></h4>
               </div>
 
               <div class="card-body">
@@ -152,60 +152,6 @@ $s_app = Session()->get('sessionsSearch');
                     <a href="{{url('dashboard/tutor-sessions/'.$tutor->id)}}"  role="button" aria-expanded="false" aria-controls="customer">
                       <p>{{$tutor->first_name}} {{$tutor->last_name}}</p>
                     </a>
-
-                    <ul class="collapse" id="tutor-{{$tutor->id}}">
-                      <li style="list-style: none">
-
-                        <table class="table" style="border: 1px solid #ccc;">
-                          <thead class=" text-primary">
-                            <!-- <th>Student Id</th> -->
-                            <th>Student Name</th>
-                            <th>Credit Balance</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Duration</th>
-                            <th>Tutoring Subject</th>
-                            <th>Initial Session</th>
-                            <th>Recurs Weekly</th>
-                            <th>Status</th>
-                            <th class="text-right">Action</th>
-                          </thead>
-                          <tbody>
-                            @foreach($tutor->session as $session)
-                            <tr>
-                              <td> {{SCT::getStudentName($session->student_id)->student_name}}</td>
-                              <td>
-                                @if(SCT::getClientCredit($session->user_id) !='')
-                                 {{SCT::getClientCredit($session->user_id)->credit_balance}}
-                                @endif
-                               </td>
-                              <td> {{$session->date}}</td>
-                              <?php
-                              $time = date('h:i a', strtotime($session->time))
-                               ?>
-                              <td>{{$time}}</td>
-                              <td> {{$session->duration}}</td>
-                              <td> {{$session->subject}}</td>
-                              <td>
-                                @if($session->session_type =='First Session')
-                                YES
-                                @else
-                                NO
-                                @endif
-                              </td>
-                              <td> {{$session->recurs_weekly}}</td>
-                              <td> {{$session->status}}</td>
-                              <td class="text-right">
-                                <a href="{{url('/dashboard/session-details/'.$session->session_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
-                                <!-- <i class="fa fa-eye text-success"></i> -->
-                                <a href="javascript:0;" onclick="deleteEmployer('{{ $session->session_id }}')"> <i class="fa fa-trash text-danger"></i> </a>
-                              </td>
-                            </tr>
-                            @endforeach
-                          </tbody>
-                        </table>
-                      </li>
-                    </ul>
                   </li>
                   @endforeach
                 </ol>
