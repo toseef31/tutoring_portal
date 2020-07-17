@@ -13,7 +13,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Session List</a>
+            <a class="navbar-brand" href="#pablo">Session Details</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -74,10 +74,9 @@
                       <th>Tutoring Subject</th>
                       <th>Initial Session</th>
                       <th>Recurs Weekly</th>
-                      <!-- <th class="text-right">Action</th> -->
+                      <th class="text-right">Action</th>
                     </thead>
                     <tbody>
-                    @foreach($sessions as $session)
                       <tr>
                         <td>
                           @if(SCT::getClientName($session->tutor_id) !='')
@@ -105,11 +104,14 @@
                           @endif
                         </td>
                         <td> {{$session->recurs_weekly}}</td>
+                        <td class="text-right">
+                          <a href="{{url('/dashboard/session/edit/'.$session->session_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
+                          <!-- <i class="fa fa-eye text-success"></i> -->
+                          <a href="javascript:0;" onclick="deleteEmployer('{{ $session->session_id }}')"> <i class="fa fa-trash text-danger"></i> </a>
+                        </td>
                       </tr>
-                      @endforeach
                     </tbody>
                   </table>
-                  {{$sessions->render()}}
                 </div>
               </div>
             </div>
@@ -133,10 +135,10 @@
                       <h3>Are you sure?</h3>
                       <p>You will not be able to undo this action.</p>
                       <div class="m-t-lg">
-                          <form method="post" action="{{ url('dashboard/customer/delete') }}">
+                          <form method="post" action="{{ url('dashboard/cancel-session') }}">
                               <input type="hidden" name="_method" value="delete">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                              <input type="hidden" name="customer_id" class="actionId">
+                              <input type="hidden" name="session_id" class="actionId">
                               <button class="btn btn-danger" type="submit">Continue</button>
                               <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
                           </form>

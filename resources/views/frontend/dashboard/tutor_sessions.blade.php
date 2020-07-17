@@ -83,7 +83,7 @@ a.low-credit .fc-content {
         <div class="col-lg-12 col-md-12 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <a href="{{url('user-portal/session/add')}}" class="btn btn-green pull-right">Schedule New Session</a>
+              <!-- <a href="{{url('user-portal/session/add')}}" class="btn btn-green pull-right">Schedule New Session</a> -->
               <h3 class="title">Sessions</h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
@@ -106,12 +106,13 @@ a.low-credit .fc-content {
                 <ul style="list-style-type: none;">
                   @foreach($sessions as $session)
                   <?php
-                  $time = date('h:i a', strtotime($session->time))
+                  $time = date('h:i a', strtotime($session->time));
+                   $date = date('M d, Y', strtotime($session->date));
                    ?>
                    @if(SCT::checkCredit($session->user_id)->credit_balance == 0.5)
-                   <li><a href="{{url('user-portal/tutor-sessions-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$session->date}} {{$session->subject}} Session</strike> @else {{$time}} {{$session->date}} {{$session->subject}} Session (half hour credit) @endif</span> </a></li>
+                   <li><a href="{{url('user-portal/tutor-sessions-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$date}} {{$session->subject}} Session</strike> @else {{$time}} {{$date}} {{$session->subject}} Session (half hour credit) @endif</span> </a></li>
                    @else
-                   <li><a href="{{url('user-portal/tutor-sessions-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$session->date}} {{$session->subject}} Session</strike> @else {{$time}} {{$session->date}} {{$session->subject}} Session @endif</span> </a></li>
+                   <li><a href="{{url('user-portal/tutor-sessions-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$date}} {{$session->subject}} Session</strike> @else {{$time}} {{$date}} {{$session->subject}} Session @endif</span> </a></li>
                    @endif
                    @endforeach
                 </ul>

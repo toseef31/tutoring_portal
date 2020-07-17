@@ -88,18 +88,11 @@
            </ul>
          </li>
           <li class="{{ request()->is('dashboard/view_sessions') || request()->is('dashboard/occured_session') ? 'active' : '' }}">
-            <a href="#session"  data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="admin">
+            <a href="{{url('dashboard/view_sessions')}}"   role="button" aria-expanded="false" aria-controls="admin">
               <i class="nc-icon nc-bell-55"></i>
               <p>Sessions</p>
             </a>
-            @if(request()->is('dashboard/view_sessions') || request()->is('dashboard/occured_session'))
-            <ul class="collapse show" id="session">
-            @else
-            <ul class="collapse" id="session">
-            @endif
-              <li class="{{ request()->is('dashboard/view_sessions') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/view_sessions')}}">Upcoming Sessions</a></li>
-              <li class="{{ request()->is('dashboard/occured_session') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/occured_session')}}">Occured Sessions</a></li>
-            </ul>
+
 
           </li>
 

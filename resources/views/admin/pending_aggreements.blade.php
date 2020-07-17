@@ -65,7 +65,7 @@
                   @endif
                   <table class="table">
                     <thead class=" text-primary">
-                      <th>Agrement Name</th>
+                      <th>Agreement Name</th>
                       <th>User Name</th>
                       <th>Role</th>
                       <th>Status</th>

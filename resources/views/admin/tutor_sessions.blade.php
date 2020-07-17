@@ -43,7 +43,7 @@ $s_app = Session()->get('sessionsSearch');
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Sessions List</a>
+            <a class="navbar-brand" href="#pablo">Sessions</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -81,7 +81,9 @@ $s_app = Session()->get('sessionsSearch');
             <div class="card">
               @include('admin.includes.alerts')
               <div class="card-header">
-                <h4 class="card-title"> Sessions List <a href="{{url('dashboard/session/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Schedule New Session</a></h4>
+                <h4 class="card-title"> Sessions
+                  <!-- <a href="{{url('dashboard/session/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Schedule New Session</a> -->
+                </h4>
               </div>
 
               <div class="card-body">
@@ -97,9 +99,9 @@ $s_app = Session()->get('sessionsSearch');
                   <div id='calendar'></div>
                   <!-- Calendar Ends -->
                   <div class="" style="margin-top:20px;">
-                    @if(count($tutor_sessions) > 0)
+                    @if(count($sessions) > 0)
                     <ul style="list-style-type: none;">
-                      @foreach($tutor_sessions as $session)
+                      @foreach($sessions as $session)
                       <?php
                       $time = date('h:i a', strtotime($session->time));
                        $date = date('M d, Y', strtotime($session->date));
@@ -115,157 +117,6 @@ $s_app = Session()->get('sessionsSearch');
                     <h4>No sessions scheduled</h4>
                     @endif
                   </div>
-                  <div class="" style="margin-top:30px;">
-                  <form method="post" action="{{ url('dashboard/view_sessions') }}">
-                    <div class="row">
-                      {{ csrf_field() }}
-                      <div class="col-md-4">
-                        <label>Search By</label>
-                        <select class="form-control select2" name="searchBy">
-                          @foreach($searchBy as $x => $y)
-                          <option value="{{ $x }}" {{ $x == $s_app['searchBy'] ? 'selected="selected"' : '' }}>{{ $y }}</option>
-                          @endforeach
-                        </select>
-                      </div>
-                      <div class="col-md-4">
-                        <label>Search String</label>
-                        <input type="text" class="form-control" name="search" placeholder="Type here ..." value="{{ $s_app['search'] }}" style="line-height: 2;">
-                      </div>
-                      <div class="col-md-4" style="margin-top: -8px;">
-                        <label style="display: block;">&nbsp;</label>
-                        <button class="btn btn-primary" type="submit" name="filter">Search</button>
-                        @if($s_app !=null)
-                        <a class="btn btn-default" href="{{ url('dashboard/view_sessions?reset=true') }}">Reset</a>
-                        @endif
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div class="table-responsive">
-                  @if($type != 'session_search')
-                  <h3>Tutor List</h3>
-                  <ol>
-
-                  @foreach($all_tutors as $tutor)
-                  <li>
-                    <!-- <a href="#tutor-{{$tutor->id}}" data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="customer"> -->
-                    <a href="{{url('dashboard/tutor-sessions/'.$tutor->id)}}"  role="button" aria-expanded="false" aria-controls="customer">
-                      <p>{{$tutor->first_name}} {{$tutor->last_name}}</p>
-                    </a>
-
-                    <ul class="collapse" id="tutor-{{$tutor->id}}">
-                      <li style="list-style: none">
-
-                        <table class="table" style="border: 1px solid #ccc;">
-                          <thead class=" text-primary">
-                            <!-- <th>Student Id</th> -->
-                            <th>Student Name</th>
-                            <th>Credit Balance</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Duration</th>
-                            <th>Tutoring Subject</th>
-                            <th>Initial Session</th>
-                            <th>Recurs Weekly</th>
-                            <th>Status</th>
-                            <th class="text-right">Action</th>
-                          </thead>
-                          <tbody>
-                            @foreach($tutor->session as $session)
-                            <tr>
-                              <td> {{SCT::getStudentName($session->student_id)->student_name}}</td>
-                              <td>
-                                @if(SCT::getClientCredit($session->user_id) !='')
-                                 {{SCT::getClientCredit($session->user_id)->credit_balance}}
-                                @endif
-                               </td>
-                              <td> {{$session->date}}</td>
-                              <?php
-                              $time = date('h:i a', strtotime($session->time))
-                               ?>
-                              <td>{{$time}}</td>
-                              <td> {{$session->duration}}</td>
-                              <td> {{$session->subject}}</td>
-                              <td>
-                                @if($session->session_type =='First Session')
-                                YES
-                                @else
-                                NO
-                                @endif
-                              </td>
-                              <td> {{$session->recurs_weekly}}</td>
-                              <td> {{$session->status}}</td>
-                              <td class="text-right">
-                                <a href="{{url('/dashboard/session-details/'.$session->session_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
-                                <!-- <i class="fa fa-eye text-success"></i> -->
-                                <a href="javascript:0;" onclick="deleteEmployer('{{ $session->session_id }}')"> <i class="fa fa-trash text-danger"></i> </a>
-                              </td>
-                            </tr>
-                            @endforeach
-                          </tbody>
-                        </table>
-                      </li>
-                    </ul>
-                  </li>
-                  @endforeach
-                </ol>
-                {{$all_tutors->render()}}
-                @else
-                <table class="table" style="border: 1px solid #ccc;">
-                  <thead class=" text-primary">
-                    <th>Tutor Name</th>
-                    <th>Student Name</th>
-                    <th>Credit Balance</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Duration</th>
-                    <th>Tutoring Subject</th>
-                    <th>Initial Session</th>
-                    <th>Recurs Weekly</th>
-                    <th>Status</th>
-                    <th class="text-right">Action</th>
-                  </thead>
-                  <tbody>
-                    @foreach($all_sessions as $session)
-                    <tr>
-                      <td>
-                        @if(SCT::getClientName($session->tutor_id) !='')
-                        {{SCT::getClientName($session->tutor_id)->first_name}} {{SCT::getClientName($session->tutor_id)->last_name}}
-                       @endif
-                      </td>
-                      <td> {{SCT::getStudentName($session->student_id)->student_name}}</td>
-                      <td>
-                        @if(SCT::getClientCredit($session->user_id) !='')
-                         {{SCT::getClientCredit($session->user_id)->credit_balance}}
-                        @endif
-                       </td>
-                      <td> {{$session->date}}</td>
-                      <?php
-                      $time = date('h:i a', strtotime($session->time))
-                       ?>
-                      <td>{{$time}}</td>
-                      <td> {{$session->duration}}</td>
-                      <td> {{$session->subject}}</td>
-                      <td>
-                        @if($session->session_type =='First Session')
-                        YES
-                        @else
-                        NO
-                        @endif
-                      </td>
-                      <td> {{$session->recurs_weekly}}</td>
-                      <td> {{$session->status}}</td>
-                      <td class="text-right">
-                        <a href="{{url('/dashboard/student/edit/'.$session->session_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
-                        <!-- <i class="fa fa-eye text-success"></i> -->
-                        <a href="javascript:0;" onclick="deleteEmployer('{{ $session->session_id }}')"> <i class="fa fa-trash text-danger"></i> </a>
-                      </td>
-                    </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-                @endif
-                </div>
               </div>
             </div>
           </div>
@@ -328,7 +179,7 @@ function doAction(){
 </script>
 <script>
 $(document).ready(function() {
-
+  var tutor_id = "{{Request::segment(3)}}";
 
   $('#calendar').on('click', '.fc-day-grid-event', function(){
     $('.file_menu').css('display','block');
@@ -341,7 +192,7 @@ $(document).ready(function() {
 
       events: function(start, end, timezone, callback) {
         $.ajax({
-          url: "{{url('/dashboard/getAdminCallenderData')}}",
+          url: "{{url('/dashboard/getAdminTutorCallenderData')}}/"+tutor_id,
           datatype : 'json',
           success: function(doc) {
           // console.log(doc);

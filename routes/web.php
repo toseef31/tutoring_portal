@@ -114,7 +114,9 @@ Route::match(['get','post'],'session/edit/{id}','Admin\AdminController@addEditSe
 Route::get('/getAdminCallenderData', 'Admin\AdminController@get_session_data');
 Route::get('/get-assignStudent/{id}', 'Admin\AdminController@getAssingStudent');
 Route::delete('cancel-session','Admin\AdminController@CancelSession');
-Route::get('/occured_session', 'Admin\AdminController@getOccuredSession');
+Route::get('/session-details/{id}', 'Admin\AdminController@getSessionDetails');
+Route::get('/tutor-sessions/{id}', 'Admin\AdminController@tutorSessions');
+Route::get('/getAdminTutorCallenderData/{id}', 'Admin\AdminController@get_tutor_session_data');
 
  });
 });

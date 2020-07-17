@@ -103,10 +103,11 @@
                         NO
                         @endif
                       </td>
-                      <td>{{$session->date}}</td>
                       <?php
-                      $time = date('h:i a', strtotime($session->time))
-                       ?>
+                      $time = date('h:i a', strtotime($session->time));
+                      $date = date('M d, Y', strtotime($session->date));
+                      ?>
+                      <td>{{$date}}</td>
                       <td>{{$time}}</td>
                       <td>{{$session->duration}}</td>
                       <td>{{$session->location}}</td>

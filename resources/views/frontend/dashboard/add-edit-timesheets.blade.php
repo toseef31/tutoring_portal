@@ -110,7 +110,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label>Session Description</label>
-                      <textarea name="description" rows="3" cols="30" class="form-control" placeholder="Session Description">{{$timesheet->description}}</textarea>
+                      <textarea name="description" rows="3" cols="30" class="form-control" placeholder="Session Description" required>{{$timesheet->description}}</textarea>
                     </div>
                   </div>
                 </div>
@@ -158,7 +158,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label>Session Description</label>
-                      <textarea name="description" rows="3" cols="30" class="form-control" placeholder="Session Description"></textarea>
+                      <textarea name="description" rows="3" cols="30" class="form-control" placeholder="Session Description" required></textarea>
                     </div>
                   </div>
                 </div>

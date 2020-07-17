@@ -409,7 +409,7 @@ class DashboardController extends Controller
 
                $credit_agreement = DB::table('signed_aggreements')->where('user_id',$user_id)->where('status','Awaiting Signature')->first();
                if ($credit_agreement !='') {
-                 $sMsg = 'You can not scheduled this session because the client has pending agreement to sign';
+                 $sMsg = 'You cannot schedule this session because the client has pending agreements to sign';
                  $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
                  return redirect(url()->previous());
                }
@@ -423,7 +423,7 @@ class DashboardController extends Controller
                      if ($credit_balance !='' && $credit_balance > 0) {
                        $session_id = DB::table('sessions')->insertGetId($input);
                      }else {
-                       $sMsg = 'You can not scheduled this session because the client has 0 credit';
+                       $sMsg = 'You cannot schedule this session because the client has 0 credits remaining';
                        $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
                        return redirect(url()->previous());
                      }
@@ -462,7 +462,7 @@ class DashboardController extends Controller
                      if ($credit_balance !='' && $credit_balance > 0) {
                        $session_id = DB::table('sessions')->where('session_id',$session_id)->update($input);
                      }else {
-                       $sMsg = 'You can not scheduled this session because the client has 0 credit';
+                       $sMsg = 'You cannot schedule this session because the client has 0 credits remaining';
                        $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
                        return redirect(url()->previous());
                      }

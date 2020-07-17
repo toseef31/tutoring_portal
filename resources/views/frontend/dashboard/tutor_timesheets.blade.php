@@ -168,6 +168,7 @@ $(document).ready(function() {
        timelineFifteenDay: {
          type: 'agenda',
          duration: { days: 15 },
+         // duration: { weeks: 2 },
        }
        },
     // views: {

@@ -813,6 +813,7 @@ class AdminController extends Controller
       $type ='';
       $all_tutors='';
       $all_sessions='';
+      $tutor_sessions=[];
     if ($s_app ==[] ) {
       $type ='tutor_search';
       $all_tutors = DB::table('users')->where('role','<>','customer')
@@ -834,6 +835,7 @@ class AdminController extends Controller
                           }
                       })->orderBy('date','asc')->get();
                     }
+                    $tutor_sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
 
     }elseif($s_app['searchBy']!='date' && $s_app['searchBy']!='subject') {
       $type ='tutor_search';
@@ -862,12 +864,22 @@ class AdminController extends Controller
                         }
                     })->orderBy('date','asc')->paginate(15);
     }
-      return view('admin.view_sessions',compact('all_tutors','all_sessions','type'));
+    // dd($tutor_sessions);
+      return view('admin.view_sessions',compact('all_tutors','all_sessions','type','tutor_sessions'));
   }
 
     public function get_session_data(Request $request) {
 
-      $sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->get();
+      $sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->limit(5)->get();
+      foreach ($sessions as &$key) {
+        $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+      }
+      echo json_encode($sessions);
+    }
+
+    public function get_tutor_session_data(Request $request,$id) {
+
+      $sessions = DB::table('sessions')->where('tutor_id',$id)->where('date','>=',date("Y-m-d"))->limit(5)->get();
       foreach ($sessions as &$key) {
         $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
       }
@@ -1004,7 +1016,7 @@ class AdminController extends Controller
                 // dd($session);
                 if($session == null){
                     $request->session()->flash('alert',['message' => 'No Record Found', 'type' => 'danger']);
-                    return redirect('user-portal/tutor-sessions');
+                    return redirect('dashboard/view_sessions');
                 }
                 // dd($student);
             }
@@ -1053,11 +1065,19 @@ class AdminController extends Controller
       return redirect('dashboard/view_sessions');
     }
 
-    public function getOccuredSession(Request $request)
+    public function getSessionDetails(Request $request, $id)
     {
-      $sessions = DB::table('sessions')->where('status','End')->orderBy('date','desc')->paginate(15);
-      return view('admin.occured_session',compact('sessions'));
+      $session = DB::table('sessions')->where('session_id',$id)->first();
+      return view('admin.view_session_details',compact('session'));
     }
+
+    public function tutorSessions(Request $request, $id)
+    {
+      $sessions = DB::table('sessions')->where('tutor_id',$id)->where('date','>=',date("Y-m-d"))->get();
+      return view('admin.tutor_sessions',compact('sessions'));
+    }
+
+
 
 
 
