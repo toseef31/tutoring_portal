@@ -212,6 +212,28 @@
             </div>
           </div>
         </div>
+        <div class="col-lg-4 col-sm-6">
+          <div class="cards" style="background-color: #c7e427;">
+            <div class="content">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="icon-big text-white text-center">
+                    <i class="ti-calendar"></i>
+                  </div>
+                </div>
+                <div class="col-xs-12">
+                  <a href="{{url('user-portal/tutor-timesheets')}}" class="text-white">
+                    <div class="numbers">
+                      Timesheets
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="footer">
+              </div>
+            </div>
+          </div>
+        </div>
         @endif
         <div class="col-lg-4 col-sm-6">
           <div class="cards" style="background-color: #55c39e;">

@@ -70,13 +70,13 @@
                     <tbody>
                       <tr>
                         <td>Tutor Name</td>
-                        <td>
+                        <td  style="border-left: 1px solid #ccc;">
                           {{$tutor->first_name}} {{$tutor->last_name}}
                         </td>
                       </tr>
                         <tr>
                         <td>Pay Period</td>
-                        <td>{{$period}}</td>
+                        <td style="border-left: 1px solid #ccc;">{{$period}}</td>
                         </tr>
                         <?php
                         $sum='';
@@ -90,19 +90,19 @@
                           Earnings
                           @endif
                          </td>
-                        <td>{{$earning->earning}} $</td>
+                        <td style="border-left: 1px solid #ccc;">{{$earning->earning}} $</td>
                       </tr>
                       <?php
                       $sum = (float)$sum+(float)$earning->earning;
                       // dd($sum);
                        ?>
                       @endforeach
-                      <tr>
+                      <tr  style="border-bottom: 1px solid #ccc;">
                         <td><strong>Total Earnings</strong></td>
                         @if($sum != '')
-                        <td><strong>{{$sum}} $</strong></td>
+                        <td  style="border-left: 1px solid #ccc;"><strong>{{$sum}} $</strong></td>
                         @else
-                        <td><strong>0 $</strong></td>
+                        <td style="border-left: 1px solid #ccc;"><strong>0 $</strong></td>
                         @endif
                       </tr>
                     </tbody>
