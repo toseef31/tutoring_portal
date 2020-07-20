@@ -672,7 +672,7 @@ class DashboardController extends Controller
                $student_id = $data[0];
                $user_id = $data[1];
                $duration= $request->input('duration');
-               $duration2='';
+               $duration3='';
                // dd($student_id,$user_id);
 
                $input['tutor_id'] =auth()->user()->id;
@@ -682,15 +682,15 @@ class DashboardController extends Controller
                $input['time']= $request->input('time');
                $input['duration']= $request->input('duration');
                if ($duration == '0:30') {
-                 $duration2 = 0.5;
+                 $duration3 = 0.5;
                }elseif ($duration == '1:00') {
-                 $duration2 = 1;
-               }elseif ($duration2 == '1:30') {
-                 $duration2 = 1.5;
+                 $duration3 = 1;
+               }elseif ($duration3 == '1:30') {
+                 $duration3 = 1.5;
                }elseif ($duration == '2:00') {
-                 $duration2 = 2;
+                 $duration3 = 2;
                }
-               $input['duration2']= $duration2;
+               $input['duration2']= $duration3;
                $input['description']= $request->input('description');
                $pay_rate = SCT::getAssignCost(auth()->user()->id,$student_id)->hourly_pay_rate;
                $input['hourly_pay_rate']= $pay_rate;
