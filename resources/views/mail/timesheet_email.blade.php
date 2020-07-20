@@ -68,7 +68,6 @@
       <tr>
       <th>Student Name</th>
       <th>Date</th>
-      <th>Time</th>
       <th>Duration</th>
       <th>Session Description</th>
       </tr>
@@ -78,17 +77,7 @@
       <tr>
       <td>{{$timesheet->student_name}}</td>
       <td>{{$timesheet->date}}</td>
-      <?php
-      $time='';
-      if ($timesheet->time) {
-        $time = date("h:i a", strtotime($timesheet->time));
-      }
-      ?>
-      @if($time =='')
-      <td>N/A</td>
-      @else
-      <td>{{$time}}</td>
-      @endif
+      
       <td>{{$timesheet->duration}}</td>
       <td>{{$timesheet->description}}</td>
       </tr>

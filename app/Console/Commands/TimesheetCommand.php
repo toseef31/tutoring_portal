@@ -56,7 +56,7 @@ class TimesheetCommand extends Command
     $date2 = date('Y-m-15');
     // dd(date("Y-m-t"));
     if ($date1 <= $date2) {
-      $timesheets = DB::table('timesheets')->where('created_at',,'<=',date('Y-m-15'))->groupby('tutor_id')->get();
+      $timesheets = DB::table('timesheets')->where('created_at','<=',date('Y-m-15'))->groupby('tutor_id')->get();
     }else {
       $timesheets = DB::table('timesheets')->where('created_at','>',date('Y-m-15'))->groupby('tutor_id')->get();
     }
