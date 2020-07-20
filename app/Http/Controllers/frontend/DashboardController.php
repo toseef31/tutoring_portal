@@ -692,7 +692,7 @@ class DashboardController extends Controller
                }
                $input['duration2']= $duration2;
                $input['description']= $request->input('description');
-               $pay_rate = SCT::getAssignCost($tutor_id,$student_id)->hourly_pay_rate;
+               $pay_rate = SCT::getAssignCost(auth()->user()->id,$student_id)->hourly_pay_rate;
                $input['hourly_pay_rate']= $pay_rate;
                if($timesheet_id == ''){
                      $duration = $request->input('duration');
