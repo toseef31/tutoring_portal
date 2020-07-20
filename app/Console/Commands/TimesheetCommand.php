@@ -52,8 +52,14 @@ class TimesheetCommand extends Command
     //     $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
     //     $message->to($toemail);
     //   });
-
-      $timesheets = DB::table('timesheets')->where('created_at','Like',date('Y-m').'%')->groupby('tutor_id')->get();
+    $date1 = date('Y-m-d');
+    $date2 = date('Y-m-15');
+    // dd(date("Y-m-t"));
+    if ($date1 <= $date2) {
+      $timesheets = DB::table('timesheets')->where('created_at',,'<=',date('Y-m-15'))->groupby('tutor_id')->get();
+    }else {
+      $timesheets = DB::table('timesheets')->where('created_at','>',date('Y-m-15'))->groupby('tutor_id')->get();
+    }
       // dd("check");
       foreach ($timesheets as $timesheet) {
         $tutor = DB::table('users')->where('id',$timesheet->tutor_id)->first();
