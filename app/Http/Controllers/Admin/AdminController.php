@@ -812,61 +812,33 @@ class AdminController extends Controller
       // dd($s_app);
       $type ='';
       $all_tutors='';
-      $all_sessions='';
       $tutor_sessions=[];
-    if ($s_app ==[] ) {
-      $type ='tutor_search';
-      $all_tutors = DB::table('users')->where('role','<>','customer')
-                    ->where(function ($query) use ($s_app) {
-                        if(count($s_app) > 0){
-                            if($s_app['search'] != ''){
-                                $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
-                            }
-                        }
-                    })->orderBy('first_name','asc')->paginate(15);
-
-                    foreach ($all_tutors as &$session) {
-                      $session->session=DB::table('sessions')->where('tutor_id','=',$session->id)->where('date','>=',date("Y-m-d"))
-                      ->where(function ($query) use ($s_app) {
-                          if(count($s_app) > 0){
-                              if($s_app['search'] != ''){
-                                  $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
-                              }
-                          }
-                      })->orderBy('date','asc')->get();
-                    }
-                    $tutor_sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
-
-    }elseif($s_app['searchBy']!='date' && $s_app['searchBy']!='subject') {
-      $type ='tutor_search';
-      $all_tutors = DB::table('users')->where('role','<>','customer')
-                  ->where(function ($query) use ($s_app) {
-                      if(count($s_app) > 0){
-                          if($s_app['search'] != ''){
-                              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
-                          }
-                      }
-                  })->orderBy('first_name','asc')->paginate(15);
-
-              foreach ($all_tutors as &$session) {
-                $session->session=DB::table('sessions')->where('tutor_id','=',$session->id)->where('date','>=',date("Y-m-d"))
-                ->orderBy('date','asc')->get();
+      if ($s_app ==[] ) {
+        $type ='tutor_search';
+        $all_tutors = DB::table('users')->where('role','<>','customer')
+        ->where(function ($query) use ($s_app) {
+          if(count($s_app) > 0){
+            if($s_app['search'] != ''){
+              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+            }
           }
-    }else {
-      // dd('session');
-      $type='session_search';
-      $all_sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))
-                    ->where(function ($query) use ($s_app) {
-                        if(count($s_app) > 0){
-                            if($s_app['search'] != ''){
-                                $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
-                            }
-                        }
-                    })->orderBy('date','asc')->paginate(15);
+        })->orderBy('first_name','asc')->paginate(15);
+        $tutor_sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
+
+      }else {
+        $type ='tutor_search';
+        $all_tutors = DB::table('users')->where('role','<>','customer')
+        ->where(function ($query) use ($s_app) {
+          if(count($s_app) > 0){
+            if($s_app['search'] != ''){
+              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+            }
+          }
+        })->orderBy('first_name','asc')->paginate(15);
+        $tutor_sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
+      }
+      return view('admin.view_sessions',compact('all_tutors','type','tutor_sessions'));
     }
-    // dd($tutor_sessions);
-      return view('admin.view_sessions',compact('all_tutors','all_sessions','type','tutor_sessions'));
-  }
 
     public function get_session_data(Request $request) {
 
@@ -1075,6 +1047,329 @@ class AdminController extends Controller
     {
       $sessions = DB::table('sessions')->where('tutor_id',$id)->where('date','>=',date("Y-m-d"))->get();
       return view('admin.tutor_sessions',compact('sessions'));
+    }
+
+    /////////////////////////// Timesheets ////////////////////////////
+
+    public function AdminTimesheets(Request $request)
+    {
+      $app = session()->get('sct_admin');
+      if ($app =="") {
+        return redirect('/admin');
+      }
+      if($request->isMethod('post')){
+        $request->session()->put('timesheetsSearch',$request->all());
+      }
+
+      if($request->input('reset') && $request->input('reset') == 'true'){
+        $request->session()->forget('timesheetsSearch');
+        return redirect('dashboard/view_timesheets');
+      }
+      $s_app = $request->session()->get('timesheetsSearch');
+      if ($s_app ==null) {
+        $s_app=[];
+      }
+      // dd($s_app);
+      $type ='';
+      $all_tutors='';
+      $tutor_sessions=[];
+      if ($s_app ==[] ) {
+        $type ='tutor_search';
+        $all_tutors = DB::table('users')->where('role','<>','customer')
+        ->where(function ($query) use ($s_app) {
+          if(count($s_app) > 0){
+            if($s_app['search'] != ''){
+              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+            }
+          }
+        })->orderBy('first_name','asc')->paginate(15);
+
+      }else {
+        $type ='tutor_search';
+        $all_tutors = DB::table('users')->where('role','<>','customer')
+        ->where(function ($query) use ($s_app) {
+          if(count($s_app) > 0){
+            if($s_app['search'] != ''){
+              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+            }
+          }
+        })->orderBy('first_name','asc')->paginate(15);
+      }
+      return view('admin.view_timesheets',compact('all_tutors','type'));
+    }
+
+    public function getTimesheetData(Request $request) {
+      $timesheets = DB::table('timesheets')->get();
+      foreach ($timesheets as $timesheet ) {
+        $timesheet->date2 = date('M d, Y', strtotime($timesheet->date));
+      }
+      echo json_encode($timesheets);
+    }
+
+    public function getTimesheetDetails(Request $request, $id)
+    {
+      $timesheet = DB::table('timesheets')->where('timesheet_id',$id)->first();
+      return view('admin.view_timesheet_details',compact('timesheet'));
+    }
+
+    public function addEditTimeSheet(Request $request){
+      $get_date =$request->input('date');
+      $date2 = explode('T',$get_date);
+      $date = $date2[0];
+      $time='';
+      if(count($date2)>1){
+        $time = $date2[1];
+      }
+      // dd($date,$time);
+      $timesheet_id = 0;
+        $rPath = $request->segment(3);
+        // dd($rPath);
+        if($request->isMethod('post')){
+          // dd($request->all());
+           $timesheet_id = $request->input('timesheet_id');
+           $data = $request->input('student_id');
+            $data = explode(',',$data);
+            $student_id = $data[0];
+            $user_id = $data[1];
+            $tutor_id = $request->input('tutor_id');
+            $duration= $request->input('duration');
+            $duration2='';
+            // dd($student_id,$user_id);
+
+            $input['tutor_id'] =$tutor_id;
+            $input['student_id'] = $student_id;
+            $input['user_id'] = $user_id;
+            $input['date']= $request->input('date');
+            $input['time']= $request->input('time');
+            $input['duration']= $request->input('duration');
+            if ($duration == '0:30') {
+              $duration2 = 0.5;
+            }elseif ($duration == '1:00') {
+              $duration2 = 1;
+            }elseif ($duration == '1:30') {
+              $duration2 = 1.5;
+            }elseif ($duration == '2:00') {
+              $duration2 = 2;
+            }
+            $input['duration2']= $duration2;
+            $input['description']= $request->input('description');
+            $pay_rate = SCT::getAssignCost($tutor_id,$student_id)->hourly_pay_rate;
+            $input['hourly_pay_rate']= $pay_rate;
+            if($timesheet_id == ''){
+                  $duration = $request->input('duration');
+                  $credit = DB::table('credits')->where('user_id',$user_id)->first();
+                  $credit_balance = $credit->credit_balance;
+                  if ($duration == '0:30') {
+                    $credit_balance = $credit_balance-0.5;
+                  }elseif ($duration == '1:00') {
+                    $credit_balance = $credit_balance-1;
+                  }elseif ($duration == '1:30') {
+                    $credit_balance = $credit_balance-1.5;
+                  }elseif ($duration == '2:00') {
+                    $credit_balance = $credit_balance-2;
+                  }
+                  $timesheet_id = DB::table('timesheets')->insertGetId($input);
+                  $input2['credit_balance'] = $credit_balance;
+                  $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
+                  // dd($credit);
+                  $sMsg = 'New Timesheet Added';
+
+            }else{
+              $duration = $request->input('duration');
+              $timesheet_data = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->first();
+              $duration2 = $timesheet_data->duration;
+              $credit = DB::table('credits')->where('user_id',$user_id)->first();
+              $credit_balance = $credit->credit_balance;
+
+              if ($duration != $duration2) {
+                if ($duration == '0:30') {
+                  $duration = 0.5;
+                }elseif ($duration == '1:00') {
+                  $duration = 1;
+                }elseif ($duration == '1:30') {
+                  $duration = 1.5;
+                }elseif ($duration == '2:00') {
+                  $duration = 2;
+                }
+
+                if ($duration2 == '0:30') {
+                  $duration2 = 0.5;
+                }elseif ($duration2 == '1:00') {
+                  $duration2 = 1;
+                }elseif ($duration2 == '1:30') {
+                  $duration2 = 1.5;
+                }elseif ($duration2 == '2:00') {
+                  $duration2 = 2;
+                }
+              }
+
+              if ($duration > $duration2) {
+                // $duration3 = $duration-$duration2;
+                $duration = $duration-$duration2;
+                // dd($duration.' new duration',$duration2.' old duration',$duration3);
+                if ($duration == 0.5) {
+                  $credit_balance = $credit_balance-0.5;
+                }elseif ($duration == 1) {
+                  $credit_balance = $credit_balance-1;
+                }elseif ($duration == 1.5) {
+                  $credit_balance = $credit_balance-1.5;
+                }elseif ($duration == 2) {
+                  $credit_balance = $credit_balance-2;
+                }
+              }elseif ($duration < $duration2) {
+                // $duration3 = $duration2-$duration;
+                $duration = $duration2-$duration;
+                // dd($duration.' new duration',$duration2.' old duration',$duration3);
+                if ($duration == 0.5) {
+                  $credit_balance = $credit_balance+0.5;
+                }elseif ($duration == 1) {
+                  $credit_balance = $credit_balance+1;
+                }elseif ($duration == 1.5) {
+                  $credit_balance = $credit_balance+1.5;
+                }elseif ($duration == 2) {
+                  $credit_balance = $credit_balance+2;
+                }
+              }
+
+                  $timesheet_id = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->update($input);
+                  $input2['credit_balance'] = $credit_balance;
+                  $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
+                    $sMsg = 'Timesheet Updated';
+            }
+            $request->session()->flash('message' , $sMsg);
+            $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);
+            return redirect('dashboard/view_timesheets');
+        }else{
+            $timesheet = array();
+            $timesheet_id = '0';
+            if($rPath == 'edit'){
+                $timesheet_id = $request->segment(4);
+                $timesheet = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->first();
+                // dd($timesheet);
+                if($timesheet_id == null){
+                    $request->session()->flash('alert',['message' => 'No Record Found', 'type' => 'danger']);
+                    return redirect('dashboard/view_timesheets');
+                }
+                // dd($student);
+            }
+            return view('admin.add-edit-timesheets',compact('timesheet','rPath','timesheet_id','date','time'));
+        }
+    }
+
+    public function deleteTimesheet(Request $request)
+    {
+      if($request->isMethod('delete')){
+       $timesheet_id = trim($request->input('timesheet_id'));
+       $timesheet_data = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->first();
+       // dd($timesheet_data);
+       $user_id = $timesheet_data->user_id;
+       $duration = $timesheet_data->duration;
+       $credit = DB::table('credits')->where('user_id',$user_id)->first();
+       $credit_balance = $credit->credit_balance;
+       if ($duration == '0:30') {
+         $credit_balance = $credit_balance+0.5;
+       }elseif ($duration == '1:00') {
+         $credit_balance = $credit_balance+1;
+       }elseif ($duration == '1:30') {
+         $credit_balance = $credit_balance+1.5;
+       }elseif ($duration == '2:00') {
+         $credit_balance = $credit_balance+2;
+       }
+       $input2['credit_balance'] = $credit_balance;
+       // dd($input2);
+       $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
+        $timesheet = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->delete();
+       $request->session()->flash('message' , 'Timesheet Deleted Successfully');
+     }
+     return redirect('/dashboard/view_timesheets');
+    }
+
+    public function tutorTimesheets(Request $request, $id)
+    {
+      $timesheet = DB::table('timesheets')->where('tutor_id',$id)->get();
+      return view('admin.tutor_timesheets',compact('timesheet'));
+    }
+
+    public function get_tutor_timesheet_data(Request $request, $id) {
+      $timesheets = DB::table('timesheets')->where('tutor_id',$id)->get();
+      foreach ($timesheets as $timesheet ) {
+        $timesheet->date2 = date('M d, Y', strtotime($timesheet->date));
+      }
+      echo json_encode($timesheets);
+    }
+
+    public function AdminReports(Request $request)
+    {
+      $app = session()->get('sct_admin');
+      if ($app =="") {
+        return redirect('/admin');
+      }
+      if($request->isMethod('post')){
+        $request->session()->put('reportsSearch',$request->all());
+      }
+
+      if($request->input('reset') && $request->input('reset') == 'true'){
+        $request->session()->forget('reportsSearch');
+        return redirect('dashboard/view_reports');
+      }
+      $s_app = $request->session()->get('reportsSearch');
+      if ($s_app ==null) {
+        $s_app=[];
+      }
+      // dd($s_app);
+      $type ='';
+      $all_tutors='';
+      $tutor_sessions=[];
+      if ($s_app ==[] ) {
+        $type ='tutor_search';
+        $all_tutors = DB::table('users')->where('role','<>','customer')
+        ->where(function ($query) use ($s_app) {
+          if(count($s_app) > 0){
+            if($s_app['search'] != ''){
+              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+            }
+          }
+        })->orderBy('first_name','asc')->paginate(15);
+
+      }else {
+        $type ='tutor_search';
+        $all_tutors = DB::table('users')->where('role','<>','customer')
+        ->where(function ($query) use ($s_app) {
+          if(count($s_app) > 0){
+            if($s_app['search'] != ''){
+              $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+            }
+          }
+        })->orderBy('first_name','asc')->paginate(15);
+      }
+      return view('admin.view_reports',compact('all_tutors','type'));
+    }
+
+    public function tutorReports(Request $request, $id)
+    {
+      $date1 = date('Y-m-d');
+      $date2 = date('Y-m-15');
+      // dd(date("Y-m-t"));
+      if ($date1 <= $date2) {
+        $earnings = DB::table('timesheets')
+        ->where('date','<=',date('Y-m-15'))->where('tutor_id',$id)->groupby('user_id')->get();
+        $start_date = date('M 1, Y');
+        $end_date = date('M 15, Y');
+        $period = $start_date.' - '.$end_date;
+      }else {
+        $earnings = DB::table('timesheets')
+        ->where('date','>',date('Y-m-15'))->where('tutor_id',$id)->groupby('user_id')->get();
+        // $get_date = date("Y-m-t");
+        $start_date = date('M 16, Y');
+        $end_date = date('M t, Y');
+        $period = $start_date.' - '.$end_date;
+      }
+      foreach ($earnings as &$key) {
+        $key->earning = DB::table('timesheets')->where('tutor_id',$key->tutor_id)->where('user_id',$key->user_id)->sum(DB::raw('duration2 * hourly_pay_rate'));
+      }
+      // dd($earnings);
+      $tutor = DB::table('users')->where('id',$id)->first();
+      return view('admin.tutor_reports',compact('earnings','tutor','period'));
     }
 
 

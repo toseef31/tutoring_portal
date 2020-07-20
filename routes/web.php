@@ -77,22 +77,22 @@ Route::match(['get','post'],'/view_admins','Admin\AdminController@all_admin');
 Route::match(['get','post'],'admin/add','Admin\AdminController@addEditAdmin');
 Route::match(['get','post'],'admin/edit/{id}','Admin\AdminController@addEditAdmin');
 Route::delete('admin/delete','Admin\AdminController@deleteAdmin');
-
+///////////////////// Clients ////////////////////////
 Route::match(['get','post'],'/view_customers','Admin\AdminController@all_customers');
 Route::match(['get','post'],'customer/add','Admin\AdminController@addEditCustomer');
 Route::match(['get','post'],'customer/edit/{id}','Admin\AdminController@addEditCustomer');
 Route::delete('customer/delete','Admin\AdminController@deleteCustomer');
-
+///////////////////// Students ////////////////////////
 Route::match(['get','post'],'/view_students','Admin\AdminController@all_students');
 Route::match(['get','post'],'student/add','Admin\AdminController@addEditStudent');
 Route::match(['get','post'],'student/edit/{id}','Admin\AdminController@addEditStudent');
 Route::delete('student/delete','Admin\AdminController@deleteStudent');
-
+///////////////////// Tutors ////////////////////////
 Route::match(['get','post'],'/view_tutors','Admin\AdminController@all_tutors');
 Route::match(['get','post'],'tutor/add','Admin\AdminController@addEditTutor');
 Route::match(['get','post'],'tutor/edit/{id}','Admin\AdminController@addEditTutor');
 Route::delete('tutor/delete','Admin\AdminController@deleteTutor');
-
+///////////////////// Agreements ////////////////////////
 Route::match(['get','post'],'/view_agreements','Admin\AdminController@all_agreement');
 Route::match(['get','post'],'agreement/add','Admin\AdminController@addEditAgreement');
 Route::match(['get','post'],'agreement/edit/{id}','Admin\AdminController@addEditAgreement');
@@ -103,6 +103,7 @@ Route::get('/sendAgreement/{id}/{userID}','Admin\AdminController@sendAgreement')
 Route::match(['get','post'],'/awaiting_signature','Admin\AdminController@awaiting_signature_agreements');
 Route::match(['get','post'],'/signed_agreements','Admin\AdminController@signed_agreements');
 Route::delete('pending-agreement/delete','Admin\AdminController@deletePendingAgreement');
+
 Route::match(['get','post'],'/FAQ','Admin\AdminController@addEditFAQ');
 Route::get('/get_all_tutors/{id}','Admin\AdminController@getTutorList');
 Route::post('AssignTutor','Admin\AdminController@AssignTutor');
@@ -117,6 +118,17 @@ Route::delete('cancel-session','Admin\AdminController@CancelSession');
 Route::get('/session-details/{id}', 'Admin\AdminController@getSessionDetails');
 Route::get('/tutor-sessions/{id}', 'Admin\AdminController@tutorSessions');
 Route::get('/getAdminTutorCallenderData/{id}', 'Admin\AdminController@get_tutor_session_data');
+///////////////////////////// Timesheets///////////////////////////
+Route::match(['get','post'],'/view_timesheets', 'Admin\AdminController@AdminTimesheets');
+Route::get('/getAdminTimesheetsCallenderData', 'Admin\AdminController@getTimesheetData');
+Route::get('/timesheet-details/{id}', 'Admin\AdminController@getTimesheetDetails');
+Route::match(['get','post'],'timesheet/add','Admin\AdminController@addEditTimeSheet');
+Route::match(['get','post'],'timesheet/edit/{id}','Admin\AdminController@addEditTimeSheet');
+Route::delete('delete-timesheet','Admin\AdminController@deleteTimesheet');
+Route::get('/tutor-timesheets/{id}', 'Admin\AdminController@tutorTimesheets');
+Route::get('/getTutorTimesheetCallenderData/{id}', 'Admin\AdminController@get_tutor_timesheet_data');
+Route::match(['get','post'],'/view_reports', 'Admin\AdminController@AdminReports');
+Route::get('/tutor_reports/{id}', 'Admin\AdminController@tutorReports');
 
  });
 });

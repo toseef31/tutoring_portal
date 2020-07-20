@@ -200,7 +200,7 @@ $(document).ready(function() {
             }else {
               events.push({
                 id : v.timesheet_id,
-                title: v.date+' session',
+                title: v.date2+' session',
                 start: v.date,
                 // start: '2020-07-08T16:00:00',
                 url: "{{url('/user-portal/tutor-timesheet-details')}}/"+v.timesheet_id,
@@ -214,13 +214,9 @@ $(document).ready(function() {
       });
     },
     dayClick: function(date) {
-      // console.log(date,date.format());
         var event_date = date.format();
           window.location.href = "{{url('/user-portal/timesheet/add?date=')}}"+event_date;
       },
-    // select: function(startDate, endDate) {
-    //   alert('selected ' + startDate.format() + ' to ' + endDate.format());
-    // },
     header: {
       left: '',
       center: 'prev title next',
@@ -228,7 +224,7 @@ $(document).ready(function() {
     },
     contentHeight: 'auto',
     // defaultView: 'week',
-    defaultView: "timelineFifteenDay",
+    // defaultView: "timelineFifteenDay",
     eventColor: '#10C5A7',
     timeFormat: 'h:mma',
 

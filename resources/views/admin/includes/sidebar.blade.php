@@ -96,18 +96,20 @@
 
           </li>
 
-          <li>
-          @if(Session::get('sct_admin')->role =='admin')
-            <a  data-toggle="collapse" href="#manageQuote"  role="button" aria-expanded="false" aria-controls="manageQuote">
-              <i class="nc-icon nc-pin-3"></i>
-              <p>Time Sheets</p>
+          <li class="{{ request()->is('dashboard/view_timesheets') || request()->is('dashboard/view_reports') ? 'active' : '' }}">
+            <a href="#timesheet" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="manageQuote">
+              <i class="nc-icon nc-notes"></i>
+              <p>Timesheets</p>
             </a>
-            <ul class="collapse" id="manageQuote">
-              <li><a href="{{url('dashboard/quotes')}}">Time Sheets</a></li>
-              <!-- <li><a href="{{url('dashboard/pending-quotes')}}">Pending Quotes</a></li> -->
+            @if(request()->is('dashboard/view_timesheets') || request()->is('dashboard/view_reports'))
+            <ul class="collapse show" id="timesheet">
+            @else
+            <ul class="collapse" id="timesheet">
+            @endif
+              <li class="{{ request()->is('dashboard/view_timesheets') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/view_timesheets')}}">View Timesheets</a></li>
+              <li class="{{ request()->is('dashboard/view_reports') ? 'active' : '' }}" style="display:block;"><a href="{{url('dashboard/view_reports')}}">View Reports</a></li>
             </ul>
           </li>
-           @endif
 
           <!-- <li>
             <a class="" data-toggle="collapse" href="#blog" role="button" aria-expanded="false" aria-controls="customer">

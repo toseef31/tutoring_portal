@@ -28,7 +28,7 @@ a.low-credit .fc-content {
 </style>
 <?php
 $searchBy = array('first_name' => 'Tutor First Name', 'last_name' => 'Tutor Last Name');
-$s_app = Session()->get('sessionsSearch');
+$s_app = Session()->get('timesheetsSearch');
 ?>
   <div class="wrapper">
     <div class="main-panel">
@@ -43,7 +43,7 @@ $s_app = Session()->get('sessionsSearch');
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Sessions</a>
+            <a class="navbar-brand" href="#pablo">Timesheets</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -81,7 +81,7 @@ $s_app = Session()->get('sessionsSearch');
             <div class="card">
               @include('admin.includes.alerts')
               <div class="card-header">
-                <h4 class="card-title"> Sessions <a href="{{url('dashboard/session/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Schedule New Session</a></h4>
+                <h4 class="card-title"> Timesheets <!-- <a href="{{url('dashboard/session/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Schedule New Session</a>  --> </h4>
               </div>
 
               <div class="card-body">
@@ -96,27 +96,8 @@ $s_app = Session()->get('sessionsSearch');
                   <!-- Calendar Start -->
                   <div id='calendar'></div>
                   <!-- Calendar Ends -->
-                  <div class="" style="margin-top:20px;">
-                    @if(count($tutor_sessions) > 0)
-                    <ul style="list-style-type: none;">
-                      @foreach($tutor_sessions as $session)
-                      <?php
-                      $time = date('h:i a', strtotime($session->time));
-                       $date = date('M d, Y', strtotime($session->date));
-                       ?>
-                       @if(SCT::checkCredit($session->user_id)->credit_balance == 0.5)
-                       <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$date}} {{$session->subject}} Session</strike> @else {{$time}} {{$date}} {{$session->subject}} Session (half hour credit) @endif</span> </a></li>
-                       @else
-                       <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$date}} {{$session->subject}} Session</strike> @else {{$time}} {{$date}} {{$session->subject}} Session @endif</span> </a></li>
-                       @endif
-                       @endforeach
-                    </ul>
-                    @else
-                    <h4>No sessions scheduled</h4>
-                    @endif
-                  </div>
                   <div class="" style="margin-top:30px;">
-                  <form method="post" action="{{ url('dashboard/view_sessions') }}">
+                  <form method="post" action="{{ url('dashboard/view_timesheets') }}">
                     <div class="row">
                       {{ csrf_field() }}
                       <div class="col-md-4">
@@ -135,21 +116,19 @@ $s_app = Session()->get('sessionsSearch');
                         <label style="display: block;">&nbsp;</label>
                         <button class="btn btn-primary" type="submit" name="filter">Search</button>
                         @if($s_app !=null)
-                        <a class="btn btn-default" href="{{ url('dashboard/view_sessions?reset=true') }}">Reset</a>
+                        <a class="btn btn-default" href="{{ url('dashboard/view_timesheets?reset=true') }}">Reset</a>
                         @endif
                       </div>
                     </div>
                   </form>
                 </div>
-                <div class="table-responsive">
                   @if($type != 'session_search')
                   <h3>Tutor List</h3>
                   <ol>
-
                   @foreach($all_tutors as $tutor)
                   <li>
                     <!-- <a href="#tutor-{{$tutor->id}}" data-toggle="collapse"  role="button" aria-expanded="false" aria-controls="customer"> -->
-                    <a href="{{url('dashboard/tutor-sessions/'.$tutor->id)}}"  role="button" aria-expanded="false" aria-controls="customer">
+                    <a href="{{url('dashboard/tutor-timesheets/'.$tutor->id)}}"  role="button" aria-expanded="false" aria-controls="customer">
                       <p>{{$tutor->first_name}} {{$tutor->last_name}}</p>
                     </a>
                   </li>
@@ -157,7 +136,6 @@ $s_app = Session()->get('sessionsSearch');
                 </ol>
                 {{$all_tutors->render()}}
                 @endif
-                </div>
               </div>
             </div>
           </div>
@@ -228,50 +206,27 @@ $(document).ready(function() {
 
   $('#calendar').fullCalendar({
     editable: true,
-    defaultView: 'agendaWeek',
+    showNonCurrentDates:false,
+    selectable: true,
+    // defaultView: 'agendaWeek',
       eventLimit: true,
 
       events: function(start, end, timezone, callback) {
         $.ajax({
-          url: "{{url('/dashboard/getAdminCallenderData')}}",
+          url: "{{url('/dashboard/getAdminTimesheetsCallenderData')}}",
           datatype : 'json',
           success: function(doc) {
           // console.log(doc);
             var events = [];
 
             $.each(JSON.parse(doc), function(k, v) {
-              if (v.status == 'Cancel' || v.status == 'Insufficient Credit') {
-                events.push({
-                 id : v.session_id,
-                     className : 'cancel',
-                     title: v.subject+' session',
-                     // start: v.date, // will be parsed
-                     start: v.date+'T'+v.time,
-                     // start: '2020-07-08T16:00:00',
-                     url: "{{url('/dashboard/session-details')}}/"+v.session_id,
-                   });
-              }
-              else if (v.credit == 0.5) {
-                events.push({
-                 id : v.session_id,
-                     className : 'low-credit',
-                     title: v.subject+' session',
-                     // start: v.date, // will be parsed
-                     start: v.date+'T'+v.time,
-                     // start: '2020-07-08T16:00:00',
-                     url: "{{url('/dashboard/session-details')}}/"+v.session_id,
-                   });
-              }
-              else {
-                  events.push({
-                   id : v.session_id,
-                       title: v.subject+' session',
-                       // start: v.date, // will be parsed
-                       start: v.date+'T'+v.time,
-                       // start: '2020-07-08T16:00:00',
-                       url: "{{url('/dashboard/session-details')}}/"+v.session_id,
-                     });
-              }
+              events.push({
+                id : v.timesheet_id,
+                title: v.date2+' session',
+                start: v.date,
+                // start: '2020-07-08T16:00:00',
+                url: "{{url('/dashboard/timesheet-details')}}/"+v.timesheet_id,
+              });
 
         });
 
@@ -280,13 +235,17 @@ $(document).ready(function() {
           }
         });
       },
+      dayClick: function(date) {
+          var event_date = date.format();
+            window.location.href = "{{url('/dashboard/timesheet/add?date=')}}"+event_date;
+        },
       header: {
             left: '',
             center: 'prev title next',
             right: ''
         },
         contentHeight: 'auto',
-        defaultView: 'basicWeek',
+        // defaultView: 'basicWeek',
         eventColor: '#10C5A7',
         timeFormat: 'h:mma',
         // timeFormat: 'h(:mm)a',

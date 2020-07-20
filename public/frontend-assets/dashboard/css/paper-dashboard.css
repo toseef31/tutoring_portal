@@ -4258,6 +4258,10 @@ License - nucleoapp.com/license/
   content: "\ea3f";
 }
 
+.nc-notes::before {
+    content: "\ea3e";
+}
+
 .nc-palette::before {
   content: "\ea40";
 }

@@ -57,6 +57,23 @@ class SCT {
     ->where('tutor_assign.tutor_id','=',$id)->orderBy('students.student_name','asc')->get();
     return $students;
   }
+  public function getAssignCost($tutor_id,$student_id)
+  {
+    $cost = DB::table('tutor_assign')
+    ->where('tutor_assign.tutor_id','=',$tutor_id)->where('student_id',$student_id)->first();
+    return $cost;
+  }
+  public function checkFirstEarning($user_id)
+  {
+    $earning = DB::table('timesheets')->where('user_id','=',$user_id)->get();
+    if (count($earning) > 1) {
+      return 1;
+    }else {
+      return 0;
+    }
+    // dd($earning);
+    // return $earning;
+  }
 }
 
 ?>

@@ -643,6 +643,7 @@ class DashboardController extends Controller
              $endtime = date('H:i:s', strtotime('+2 hour',strtotime($timesheet->time)));
            }
            $timesheet->endtime =$endtime;
+           $timesheet->date2 = date('M d, Y', strtotime($timesheet->date));
            // dd($endtime);
 
          }
@@ -670,6 +671,8 @@ class DashboardController extends Controller
                $data = explode(',',$data);
                $student_id = $data[0];
                $user_id = $data[1];
+               $duration= $request->input('duration');
+               $duration2='';
                // dd($student_id,$user_id);
 
                $input['tutor_id'] =auth()->user()->id;
@@ -679,7 +682,18 @@ class DashboardController extends Controller
                $input['time']= $request->input('time');
                $input['duration']= $request->input('duration');
                $input['description']= $request->input('description');
-
+               $pay_rate = SCT::getAssignCost($tutor_id,$student_id)->hourly_pay_rate;
+               $input['hourly_pay_rate']= $pay_rate;
+               if ($duration == '0:30') {
+                 $duration2 = 0.5;
+               }elseif ($duration == '1:00') {
+                 $duration2 = 1;
+               }elseif ($duration2 == '1:30') {
+                 $duration2 = 1.5;
+               }elseif ($duration == '2:00') {
+                 $duration2 = 2;
+               }
+               $input['duration2']= $duration2;
                if($timesheet_id == ''){
                      $duration = $request->input('duration');
                      $credit = DB::table('credits')->where('user_id',$user_id)->first();
