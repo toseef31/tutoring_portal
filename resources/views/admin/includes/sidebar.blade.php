@@ -98,7 +98,7 @@
 
           <li class="{{ request()->is('dashboard/view_timesheets') || request()->is('dashboard/view_reports') ? 'active' : '' }}">
             <a href="#timesheet" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="manageQuote">
-              <i class="nc-icon nc-notes"></i>
+              <i class="nc-icon nc-money-coins"></i>
               <p>Timesheets</p>
             </a>
             @if(request()->is('dashboard/view_timesheets') || request()->is('dashboard/view_reports'))

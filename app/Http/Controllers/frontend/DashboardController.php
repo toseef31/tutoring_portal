@@ -681,9 +681,6 @@ class DashboardController extends Controller
                $input['date']= $request->input('date');
                $input['time']= $request->input('time');
                $input['duration']= $request->input('duration');
-               $input['description']= $request->input('description');
-               $pay_rate = SCT::getAssignCost($tutor_id,$student_id)->hourly_pay_rate;
-               $input['hourly_pay_rate']= $pay_rate;
                if ($duration == '0:30') {
                  $duration2 = 0.5;
                }elseif ($duration == '1:00') {
@@ -694,6 +691,9 @@ class DashboardController extends Controller
                  $duration2 = 2;
                }
                $input['duration2']= $duration2;
+               $input['description']= $request->input('description');
+               $pay_rate = SCT::getAssignCost($tutor_id,$student_id)->hourly_pay_rate;
+               $input['hourly_pay_rate']= $pay_rate;
                if($timesheet_id == ''){
                      $duration = $request->input('duration');
                      $credit = DB::table('credits')->where('user_id',$user_id)->first();
