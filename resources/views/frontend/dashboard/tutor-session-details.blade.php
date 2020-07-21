@@ -112,7 +112,18 @@
                       <td>{{$session->duration}}</td>
                       <td>{{$session->location}}</td>
                       <td>{{$session->recurs_weekly}}</td>
-                      <td>{{$session->status}}</td>
+                      <td>
+                        <?php
+                          if ($session->status == 'Confirm') {
+                            $status = 'Confirmed';
+                          }elseif ($session->status == 'Cancel') {
+                            $status = 'Canceled';
+                          }else {
+                            $status = $session->status;
+                          }
+                         ?>
+                        {{$status}}
+                      </td>
                       <td style="text-align: center;">
                         @if($session->status == 'Confirm')
                         <?php

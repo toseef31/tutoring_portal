@@ -74,6 +74,7 @@
                       <th>Tutoring Subject</th>
                       <th>Initial Session</th>
                       <th>Recurs Weekly</th>
+                      <th>Status</th>
                       <th class="text-right">Action</th>
                     </thead>
                     <tbody>
@@ -104,6 +105,18 @@
                           @endif
                         </td>
                         <td> {{$session->recurs_weekly}}</td>
+                        <td>
+                          <?php
+                            if ($session->status == 'Confirm') {
+                              $status = 'Confirmed';
+                            }elseif ($session->status == 'Cancel') {
+                              $status = 'Canceled';
+                            }else {
+                              $status = $session->status;
+                            }
+                           ?>
+                          {{$status}}
+                        </td>
                         <td class="text-right">
                           <a href="{{url('/dashboard/session/edit/'.$session->session_id)}}" data-toggle="tooltip" data-original-title="Update"><i class="fa fa-edit text-primary"></i></a>
                           <!-- <i class="fa fa-eye text-success"></i> -->
