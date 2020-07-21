@@ -1,6 +1,6 @@
 @extends('frontend.dashboard.layout.master')
 
-@section('title', 'Timesheets Management')
+@section('title', 'Timesheets')
 
 @section('styling')
 <link rel="stylesheet" type="text/css" href="{{ asset('frontend-assets/css/fullcalendar.min.css') }}">

@@ -36,7 +36,7 @@
           <p>Students</p>
         </a>
       </li>
-      <li class="{{ request()->is('user-portal/tutor') ? 'active' : '' }}">
+      <li class="{{ request()->is('user-portal/tutors') ? 'active' : '' }}">
         <a href="{{url('/user-portal/tutors')}}">
           <i class="ti-user"></i>
           <p>Tutors</p>

@@ -1,6 +1,6 @@
 @extends('frontend.dashboard.layout.master')
 
-@section('title', 'Agreements Management')
+@section('title', 'Agreements')
 
 @section('styling')
 

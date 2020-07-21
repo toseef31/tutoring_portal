@@ -1,6 +1,6 @@
 @extends('frontend.dashboard.layout.master')
 
-@section('title', 'Sessions Management')
+@section('title', 'Sessions')
 
 @section('styling')
 <link rel="stylesheet" type="text/css" href="{{ asset('frontend-assets/css/fullcalendar.min.css') }}">
@@ -83,7 +83,7 @@ a.low-credit .fc-content {
         <div class="col-lg-12 col-md-12 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <!-- <a href="{{url('user-portal/session/add')}}" class="btn btn-green pull-right">Schedule New Session</a> -->
+              <a href="{{url('user-portal/session/add')}}" class="btn btn-green pull-right">Schedule New Session</a>
               <h3 class="title">Sessions</h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')

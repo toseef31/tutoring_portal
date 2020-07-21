@@ -1,7 +1,6 @@
 @extends('frontend.dashboard.layout.master')
 
-<!-- @section('title', 'My Profile') -->
-@section('title', 'View Agreement')
+@section('title', 'Credits')
 
 
 @section('styling')

@@ -1,6 +1,5 @@
 @extends('frontend.dashboard.layout.master')
 
-<!-- @section('title', 'My Profile') -->
 @if($rPath == 'edit')
     @section('title', 'Update Student')
 @else
