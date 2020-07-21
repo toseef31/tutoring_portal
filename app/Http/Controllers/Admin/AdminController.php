@@ -1366,6 +1366,9 @@ class AdminController extends Controller
         $start_date = date('M 1, Y');
         $end_date = date('M 15, Y');
         $period = $start_date.' - '.$end_date;
+        foreach ($earnings as &$key) {
+          $key->earning = DB::table('timesheets')->where('date','<=',date('Y-m-15'))->where('tutor_id',$key->tutor_id)->where('user_id',$key->user_id)->sum(DB::raw('duration2 * hourly_pay_rate'));
+        }
       }else {
         $earnings = DB::table('timesheets')
         ->where('date','>',date('Y-m-15'))->where('tutor_id',$id)->groupby('user_id')->get();
@@ -1373,9 +1376,9 @@ class AdminController extends Controller
         $start_date = date('M 16, Y');
         $end_date = date('M t, Y');
         $period = $start_date.' - '.$end_date;
-      }
-      foreach ($earnings as &$key) {
-        $key->earning = DB::table('timesheets')->where('tutor_id',$key->tutor_id)->where('user_id',$key->user_id)->sum(DB::raw('duration2 * hourly_pay_rate'));
+        foreach ($earnings as &$key) {
+          $key->earning = DB::table('timesheets')->where('date','>',date('Y-m-15'))->where('tutor_id',$key->tutor_id)->where('user_id',$key->user_id)->sum(DB::raw('duration2 * hourly_pay_rate'));
+        }
       }
       // dd($earnings);
       $tutor = DB::table('users')->where('id',$id)->first();
