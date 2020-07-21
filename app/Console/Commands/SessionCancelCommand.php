@@ -57,7 +57,8 @@ class SessionCancelCommand extends Command
     //   });
       $sessions = DB::table('sessions')->where('status','Confirm')->get();
       foreach ($sessions as $session) {
-        // $session_date = $session->date;
+        $session_date = $session->date;
+        // dd($session_date);
         $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
         if ($tutor_timezone == 'Pacific Time') {
           date_default_timezone_set("America/Los_Angeles");
