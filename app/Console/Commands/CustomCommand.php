@@ -70,6 +70,7 @@ class CustomCommand extends Command
         }
         $date1 =date("Y-m-d");
         $date2 =$session->date;
+        // dd($date1,$date2);
         if ($date1 == $date2) {
 
           // dd(date("h:i a"));
