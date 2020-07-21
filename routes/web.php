@@ -129,6 +129,7 @@ Route::get('/tutor-timesheets/{id}', 'Admin\AdminController@tutorTimesheets');
 Route::get('/getTutorTimesheetCallenderData/{id}', 'Admin\AdminController@get_tutor_timesheet_data');
 Route::match(['get','post'],'/view_reports', 'Admin\AdminController@AdminReports');
 Route::get('/tutor_reports/{id}', 'Admin\AdminController@tutorReports');
+Route::match(['get','post'],'/tutor_reports_ajax', 'Admin\AdminController@tutorReports_ajax');
 
  });
 });

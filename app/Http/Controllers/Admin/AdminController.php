@@ -1385,6 +1385,28 @@ class AdminController extends Controller
       return view('admin.tutor_reports',compact('earnings','tutor','period'));
     }
 
+    public function tutorReports_ajax(Request $request)
+    {
+      $period = $request->input('period');
+      $tutor_id = $request->input('tutor_id');
+      $data = explode('-',$period);
+      $start_date = $data[0];
+      $end_date = $data[1];
+      $start_date2 = date('Y-m-d', strtotime($start_date));
+      $end_date2 = date('Y-m-d', strtotime($end_date));
+      // dd($start_date,$start_date2);
+      $earnings = DB::table('timesheets')->where('tutor_id',$tutor_id);
+      $earnings=$earnings->whereBetween('date',[$start_date2, $end_date2]);
+      $earnings=$earnings->groupby('user_id')->get();
+      foreach ($earnings as &$key) {
+        $key->earning = DB::table('timesheets')->whereBetween('date',[$start_date2, $end_date2])->where('tutor_id',$key->tutor_id)->where('user_id',$key->user_id)->sum(DB::raw('duration2 * hourly_pay_rate'));
+      }
+        $period = $start_date.' - '.$end_date;
+      // dd($earnings);
+      $tutor = DB::table('users')->where('id',$tutor_id)->first();
+      return view('admin.ajax-tutor-reports',compact('earnings','tutor','period'));
+    }
+
 
 
 

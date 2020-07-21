@@ -63,9 +63,9 @@ class SCT {
     ->where('tutor_assign.tutor_id','=',$tutor_id)->where('student_id',$student_id)->first();
     return $cost;
   }
-  public function checkFirstEarning($user_id)
+  public function checkFirstEarning($user_id,$tutor_id)
   {
-    $earning = DB::table('timesheets')->where('user_id','=',$user_id)->get();
+    $earning = DB::table('timesheets')->where('user_id','=',$user_id)->where('tutor_id','=',$tutor_id)->get();
     if (count($earning) > 1) {
       return 1;
     }else {
