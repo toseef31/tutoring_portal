@@ -57,20 +57,21 @@ class CustomCommand extends Command
       $sessions = DB::table('sessions')->where('status','Confirm')->get();
       foreach ($sessions as $session) {
         $session_date = $session->date;
+        $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
+        // dd($tutor_timezone);
+        if ($tutor_timezone == 'Pacific Time') {
+          date_default_timezone_set("America/Los_Angeles");
+        }elseif ($tutor_timezone == 'Mountain Time') {
+          date_default_timezone_set("America/Denver");
+        }elseif ($tutor_timezone == 'Central Time') {
+          date_default_timezone_set("America/Chicago");
+        }elseif ($tutor_timezone == 'Eastern Time') {
+          date_default_timezone_set("America/New_York");
+        }
         $date1 =date("Y-m-d");
         $date2 =$session->date;
         if ($date1 == $date2) {
-          $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
-          // dd($tutor_timezone);
-          if ($tutor_timezone == 'Pacific Time') {
-            date_default_timezone_set("America/Los_Angeles");
-          }elseif ($tutor_timezone == 'Mountain Time') {
-            date_default_timezone_set("America/Denver");
-          }elseif ($tutor_timezone == 'Central Time') {
-            date_default_timezone_set("America/Chicago");
-          }elseif ($tutor_timezone == 'Eastern Time') {
-            date_default_timezone_set("America/New_York");
-          }
+
           // dd(date("h:i a"));
           // date_default_timezone_set("Asia/Karachi");
           $time1 = date("h:i a");
