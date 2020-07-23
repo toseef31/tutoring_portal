@@ -145,7 +145,7 @@
 											<label>Duration</label>
                       <select class="form-control border-input" name="duration" id="duration">
 												<option value="0:30">0:30</option>
-												<option value="1:00">1:00</option>
+												<option value="1:00" selected>1:00</option>
 												<option value="1:30">1:30</option>
 												<option value="2:00">2:00</option>
 											</select>

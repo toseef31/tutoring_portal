@@ -962,7 +962,7 @@ class AdminController extends Controller
                       function ($message) use ($toemail)
                       {
 
-                        $message->subject('Smart Cookie Tutors.com - Last Minute Session Email');
+                        $message->subject('Smart Cookie Tutors.com - Last Minute Session');
                         $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                         $message->to($toemail);
                       });
@@ -1184,7 +1184,22 @@ class AdminController extends Controller
                   $timesheet_id = DB::table('timesheets')->insertGetId($input);
                   $input2['credit_balance'] = $credit_balance;
                   $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
-                  // dd($credit);
+                  $user = DB::table('users')->where('id',$user_id)->first();
+                  if ($user->automated_email == 'Subscribe') {
+                    if ($credit_balance <= 0) {
+                    $toemail =  $user->email;
+                    // dd($send);
+                    Mail::send('mail.all_credit_used_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                    function ($message) use ($toemail)
+                    {
+
+                      $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                      $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                      $message->to($toemail);
+                    });
+                  }
+
+                }
                   $sMsg = 'New Timesheet Added';
 
             }else{
@@ -1247,6 +1262,22 @@ class AdminController extends Controller
                   $timesheet_id = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->update($input);
                   $input2['credit_balance'] = $credit_balance;
                   $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
+                  $user = DB::table('users')->where('id',$user_id)->first();
+                  if ($user->automated_email == 'Subscribe') {
+                    if ($credit_balance <= 0) {
+                    $toemail =  $user->email;
+                    // dd($send);
+                    Mail::send('mail.all_credit_used_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                    function ($message) use ($toemail)
+                    {
+
+                      $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                      $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                      $message->to($toemail);
+                    });
+                  }
+
+                }
                     $sMsg = 'Timesheet Updated';
             }
             $request->session()->flash('message' , $sMsg);
@@ -1307,6 +1338,8 @@ class AdminController extends Controller
       $timesheets = DB::table('timesheets')->where('tutor_id',$id)->get();
       foreach ($timesheets as $timesheet ) {
         $timesheet->date2 = date('M d, Y', strtotime($timesheet->date));
+        $timesheet->student_name =SCT::getStudentName($timesheet->student_id)->student_name;
+        $timesheet->tutor_name =SCT::getClientName($timesheet->tutor_id)->first_name;
       }
       echo json_encode($timesheets);
     }

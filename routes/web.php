@@ -133,3 +133,5 @@ Route::match(['get','post'],'/tutor_reports_ajax', 'Admin\AdminController@tutorR
 
  });
 });
+
+Route::get('/check_initialSession/{id}/{id2}', 'frontend\DashboardController@CheckInitialSession');

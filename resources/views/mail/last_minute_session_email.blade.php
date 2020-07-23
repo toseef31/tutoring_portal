@@ -61,7 +61,7 @@
         </center>
         <hr>
         <p style="color:#74787e;">Hello {{$user->first_name}} {{$user->last_name}} ,</p>
-        <p style="color:#74787e;">Session has been immediately created by the tutor</p>
+        <p style="color:#74787e;">"You have a session coming up soon!" followed by the session details.</p>
         <p class='lead'> Session Details: </p>
         <table class='table'>
         <thead>

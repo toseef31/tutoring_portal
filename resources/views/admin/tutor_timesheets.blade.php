@@ -183,7 +183,7 @@ var tutor_id = "{{Request::segment(3)}}";
             $.each(JSON.parse(doc), function(k, v) {
               events.push({
                 id : v.timesheet_id,
-                title: v.date2+' session',
+                title: v.tutor_name+'-'+v.duration+' '+v.student_name,
                 start: v.date,
                 // start: '2020-07-08T16:00:00',
                 url: "{{url('/dashboard/timesheet-details')}}/"+v.timesheet_id,

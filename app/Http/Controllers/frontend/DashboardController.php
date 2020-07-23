@@ -454,7 +454,7 @@ class DashboardController extends Controller
                          function ($message) use ($toemail)
                          {
 
-                           $message->subject('Smart Cookie Tutors.com - Last Minute Session Email');
+                           $message->subject('Smart Cookie Tutors.com - Last Minute Session');
                            $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                            $message->to($toemail);
                          });
@@ -498,6 +498,16 @@ class DashboardController extends Controller
                         ->where('tutor_assign.tutor_id','=',auth()->user()->id)->orderBy('student_name','asc')->get();
                return view('frontend.dashboard.add-edit-sessions',compact('session','rPath','session_id','assign_students'));
            }
+       }
+
+       public function CheckInitialSession(Request $request, $student_id, $tutor_id)
+       {
+         $check = DB::table('sessions')->where('tutor_id',$tutor_id)->where('student_id',$student_id)->first();
+         if ($check == null) {
+           return 0;
+         }else {
+           return 1;
+         }
        }
 
        public function EndSession(Request $request)
@@ -724,6 +734,22 @@ class DashboardController extends Controller
                      $timesheet_id = DB::table('timesheets')->insertGetId($input);
                      $input2['credit_balance'] = $credit_balance;
                      $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
+                     $user = DB::table('users')->where('id',$user_id)->first();
+                     if ($user->automated_email == 'Subscribe') {
+                       if ($credit_balance <= 0) {
+                       $toemail =  $user->email;
+                       // dd($send);
+                       Mail::send('mail.all_credit_used_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                       function ($message) use ($toemail)
+                       {
+
+                         $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                         $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                         $message->to($toemail);
+                       });
+                     }
+
+                   }
                      // dd($credit);
                      $sMsg = 'New Timesheet Added';
 
@@ -787,6 +813,22 @@ class DashboardController extends Controller
                      $timesheet_id = DB::table('timesheets')->where('timesheet_id',$timesheet_id)->update($input);
                      $input2['credit_balance'] = $credit_balance;
                      $update_credit = DB::table('credits')->where('user_id',$user_id)->update($input2);
+                     $user = DB::table('users')->where('id',$user_id)->first();
+                     if ($user->automated_email == 'Subscribe') {
+                       if ($credit_balance <= 0) {
+                       $toemail =  $user->email;
+                       // dd($send);
+                       Mail::send('mail.all_credit_used_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                       function ($message) use ($toemail)
+                       {
+
+                         $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                         $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                         $message->to($toemail);
+                       });
+                     }
+
+                   }
                        $sMsg = 'Session Updated';
                }
                $request->session()->flash('alert',['message' => $sMsg, 'type' => 'success']);

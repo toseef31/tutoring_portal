@@ -61,7 +61,7 @@
         </center>
         <hr>
         <p style="color:#74787e;">Hello {{$user->first_name}} {{$user->last_name}} ,</p>
-        <p style="color:#74787e;">Session has been canceled by the tutor</p>
+        <p style="color:#74787e;">"The following session has been cancelled by your tutor" followed by the session details.</p>
         <p class='lead'> Session Details: </p>
         <table class='table'>
         <thead>
