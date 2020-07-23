@@ -1189,7 +1189,7 @@ class AdminController extends Controller
                     if ($credit_balance <= 0) {
                     $toemail =  $user->email;
                     // dd($send);
-                    Mail::send('mail.all_credit_used_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                    Mail::send('mail.end_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
                     function ($message) use ($toemail)
                     {
 
@@ -1267,7 +1267,7 @@ class AdminController extends Controller
                     if ($credit_balance <= 0) {
                     $toemail =  $user->email;
                     // dd($send);
-                    Mail::send('mail.all_credit_used_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                    Mail::send('mail.end_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
                     function ($message) use ($toemail)
                     {
 
