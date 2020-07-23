@@ -191,7 +191,7 @@ $(document).ready(function() {
               console.log(v.time,v.endtime);
               events.push({
                 id : v.timesheet_id,
-                title: v.date+' session',
+                title: v.duration+' '+v.student_name,
                 start: v.date+'T'+v.time,
                 end: v.date+'T'+v.endtime,
                 // start: '2020-07-08T16:00:00',
@@ -200,7 +200,7 @@ $(document).ready(function() {
             }else {
               events.push({
                 id : v.timesheet_id,
-                title: v.date2+' session',
+                title: v.duration+' '+v.student_name,
                 start: v.date,
                 // start: '2020-07-08T16:00:00',
                 url: "{{url('/user-portal/tutor-timesheet-details')}}/"+v.timesheet_id,

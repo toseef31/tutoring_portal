@@ -1112,6 +1112,9 @@ class AdminController extends Controller
       $timesheets = DB::table('timesheets')->get();
       foreach ($timesheets as $timesheet ) {
         $timesheet->date2 = date('M d, Y', strtotime($timesheet->date));
+        $timesheet->student_name =SCT::getStudentName($timesheet->student_id)->student_name;
+        $timesheet->tutor_name =SCT::getClientName($timesheet->tutor_id)->first_name;
+
       }
       echo json_encode($timesheets);
     }

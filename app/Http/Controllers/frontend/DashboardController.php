@@ -653,10 +653,13 @@ class DashboardController extends Controller
              $endtime = date('H:i:s', strtotime('+2 hour',strtotime($timesheet->time)));
            }
            $timesheet->endtime =$endtime;
-           $timesheet->date2 = date('M d, Y', strtotime($timesheet->date));
+           // $timesheet->date2 = date('M d, Y', strtotime($timesheet->date));
+           $timesheet->student_name =SCT::getStudentName($timesheet->student_id)->student_name;
+
            // dd($endtime);
 
          }
+         // dd($timesheets);
          echo json_encode($timesheets);
        }
 
