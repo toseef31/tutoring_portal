@@ -32,7 +32,7 @@
                         <label for="password">Password</label>
                         <input id="password" class="form-control" type="password" name="password" minlength="6" data-msg-minlength="Password must be 6 characters or more." data-msg-required="Please enter your password." required>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="custom-control custom-control-primary custom-checkbox">
                             <input class="custom-control-input" type="checkbox" checked="checked">
                             <span class="custom-control-indicator"></span>
@@ -40,7 +40,7 @@
                         </label>
                         <span aria-hidden="true"> · </span>
                         <a href="{{ url('admin/forget/passowrd') }}">Forgot password?</a>
-                    </div>
+                    </div> -->
                     <button class="btn btn-primary btn-block btn-log-in" type="submit">Sign in</button>
                 </form>
             </div>
