@@ -370,19 +370,21 @@ class DashboardController extends Controller
                $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
                return redirect(url()->previous());
              }
-             $prev_session2 = DB::table('sessions')->where('recurs_weekly','Yes')->where('tutor_id',auth()->user()->id)->where('session_id','<>',$session_id)->get();
-             foreach ($prev_session2 as $prev) {
-               $prev_date = $prev->date;
-               $day1 = date('l', strtotime($prev_date));
-               $day2 = date('l', strtotime($date));
-               if ($day1 == $day2) {
-                 if ($prev->time == $time) {
-                   $sMsg = 'You can not scheduled this session because you already have session on this date and time';
-                   $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
-                   return redirect(url()->previous());
-                 }
-               }
-             }
+             // $prev_session2 = DB::table('sessions')->where('recurs_weekly','Yes')->where('tutor_id',auth()->user()->id)->where('session_id','<>',$session_id)->get();
+             // foreach ($prev_session2 as $prev) {
+             //   $prev_date = $prev->date;
+             //   $day1 = date('l', strtotime($prev_date));
+             //   $day2 = date('l', strtotime($date));
+             //   if ($day1 == $day2) {
+             //     if ($prev->time == $time) {
+             //       $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+             //       $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+             //       return redirect(url()->previous());
+             //     }
+             //   }
+             // }
+             // dd($session_id);
+
               $data = $request->input('student_id');
                $data = explode(',',$data);
                $student_id = $data[0];
