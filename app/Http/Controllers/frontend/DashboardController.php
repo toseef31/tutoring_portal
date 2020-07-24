@@ -344,7 +344,8 @@ class DashboardController extends Controller
          foreach ($sessions as &$key) {
            $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
            $key->student_name =SCT::getStudentName($key->student_id)->student_name;
-         }// dd($session);
+         }
+         // dd($session);
          echo json_encode($sessions);
 
        }
@@ -447,6 +448,7 @@ class DashboardController extends Controller
                      $combinedDT = date('Y-m-d H:i:s', strtotime("$get_session->date $get_session->time"));
                      $date1 =date("Y-m-d H:i");
                      $date2 = date("Y-m-d H:i", strtotime('-30 hours',strtotime($combinedDT)));
+                     // dd($date1,$date2);
                      if ($date1 >= $date2) {
                        $user_data = DB::table('users')->where('id',$get_session->user_id)->first();
                        $tutor = DB::table('users')->where('id',$get_session->tutor_id)->first();
