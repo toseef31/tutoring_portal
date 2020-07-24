@@ -152,6 +152,11 @@
                               <input type="hidden" name="_method" value="delete">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
                               <input type="hidden" name="session_id" class="actionId">
+                              <div class="form-group">
+                                <label class="form-check-label">
+                                  <input class="form-check-input" type="checkbox" name="notify_client" id="notify_client" value="1" checked> <span style="margin-left:20px;">Notify client of cancellation</span>
+                                </label>
+                              </div>
                               <button class="btn btn-danger" type="submit">Continue</button>
                               <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
                           </form>

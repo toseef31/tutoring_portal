@@ -340,7 +340,7 @@ class DashboardController extends Controller
 
        public function get_session_data(Request $request) {
 
-         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(5)->get();
+         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->get();
          foreach ($sessions as &$key) {
            $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
            $key->student_name =SCT::getStudentName($key->student_id)->student_name;
@@ -426,6 +426,29 @@ class DashboardController extends Controller
                      }
                      if ($credit_balance !='' && $credit_balance > 0) {
                        $session_id = DB::table('sessions')->insertGetId($input);
+                       $get_session2 = DB::table('sessions')->where('session_id',$session_id)->first();
+                       if ($recurs_weekly !='') {
+                       for ($i=0; $i <52 ; $i++) {
+                         if ($i==0) {
+                           $old_date = $get_session2->date;
+                         }
+                         $new_date = date('Y-m-d', strtotime('+7days',strtotime($old_date)));
+                         $input3['tutor_id'] = $get_session2->tutor_id;
+                         $input3['student_id'] = $get_session2->student_id;
+                         $input3['user_id'] = $get_session2->user_id;
+                         $input3['subject']=$get_session2->subject;
+                         $input3['date']= $new_date;
+                         $input3['time']= $get_session2->time;
+                         $input3['duration']= $get_session2->duration;
+                         $input3['location']= $get_session2->location;
+                         $input3['session_type'] = $get_session2->session_type;
+                         $input3['recurs_weekly'] = $get_session2->recurs_weekly;
+                         $input3['status']  = 'Confirm';
+                         $recurs_weekly_session = DB::table('sessions')->insert($input3);
+                        $old_date = $new_date;
+                       }
+                     }
+
                      }else {
                        $sMsg = 'You cannot schedule this session because the client has 0 credits remaining';
                        $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
@@ -535,8 +558,8 @@ class DashboardController extends Controller
            $session_id = trim($request->input('session_id'));
            $notify_client ='';
            $notify_client = $request->input('notify_client');
+           $session_details = DB::table('sessions')->where('session_id',$session_id)->first();
            if ($notify_client !='') {
-             $session_details = DB::table('sessions')->where('session_id',$session_id)->first();
              $user = DB::table('users')->where('id',$session_details->user_id)->first();
              $tutor = DB::table('users')->where('id',$session_details->tutor_id)->first();
              $student = DB::table('students')->where('student_id',$session_details->student_id)->first();
@@ -552,8 +575,21 @@ class DashboardController extends Controller
                });
              }
            }
-
+           $recurs_weekly = $session_details->recurs_weekly;
+           $date = $session_details->date;
+           $time = $session_details->time;
+           $subject = $session_details->subject;
+           $duration = $session_details->duration;
+           $date = $session_details->date;
+           $tutor_id = $session_details->tutor_id;
+           $student_id = $session_details->student_id;
+           if ($recurs_weekly == 'Yes') {
+             $get_recurs_weekly_session = DB::table('sessions')->where('tutor_id',$tutor_id)
+             ->where('student_id',$student_id)->where('time',$time)->where('subject',$subject)
+             ->where('duration',$duration)->where('date','>',$date)->delete();
+           }
            $session = DB::table('sessions')->where('session_id',$session_id)->delete();
+
            $request->session()->flash('message' , 'Session Cancelled Successfully');
          }
          return redirect('user-portal/tutor-sessions');
@@ -569,7 +605,7 @@ class DashboardController extends Controller
        }
 
        public function get_clientSession_data(Request $request) {
-         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(2)->get();
+         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->get();
          foreach ($sessions as &$key) {
            $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
            // Change Time Zone
