@@ -824,7 +824,10 @@ class AdminController extends Controller
           }
         })->orderBy('first_name','asc')->paginate(15);
         $tutor_sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
-
+        foreach ($tutor_sessions as &$key) {
+          $key->student_name =SCT::getStudentName($key->student_id)->student_name;
+          $key->tutor_name =SCT::getClientName($key->tutor_id)->first_name;
+        }
       }else {
         $type ='tutor_search';
         $all_tutors = DB::table('users')->where('role','<>','customer')
@@ -836,6 +839,10 @@ class AdminController extends Controller
           }
         })->orderBy('first_name','asc')->paginate(15);
         $tutor_sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
+        foreach ($tutor_sessions as &$key) {
+          $key->student_name =SCT::getStudentName($key->student_id)->student_name;
+          $key->tutor_name =SCT::getClientName($key->tutor_id)->first_name;
+        }
       }
       return view('admin.view_sessions',compact('all_tutors','type','tutor_sessions'));
     }
@@ -845,6 +852,8 @@ class AdminController extends Controller
       $sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->limit(5)->get();
       foreach ($sessions as &$key) {
         $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+        $key->student_name =SCT::getStudentName($key->student_id)->student_name;
+        $key->tutor_name =SCT::getClientName($key->tutor_id)->first_name;
       }
       echo json_encode($sessions);
     }
@@ -854,6 +863,8 @@ class AdminController extends Controller
       $sessions = DB::table('sessions')->where('tutor_id',$id)->where('date','>=',date("Y-m-d"))->limit(5)->get();
       foreach ($sessions as &$key) {
         $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+        $key->student_name =SCT::getStudentName($key->student_id)->student_name;
+        $key->tutor_name =SCT::getClientName($key->tutor_id)->first_name;
       }
       echo json_encode($sessions);
     }
@@ -1056,6 +1067,10 @@ class AdminController extends Controller
     public function tutorSessions(Request $request, $id)
     {
       $sessions = DB::table('sessions')->where('tutor_id',$id)->where('date','>=',date("Y-m-d"))->get();
+      foreach ($sessions as &$key) {
+        $key->student_name =SCT::getStudentName($key->student_id)->student_name;
+        $key->tutor_name =SCT::getClientName($key->tutor_id)->first_name;
+      }
       return view('admin.tutor_sessions',compact('sessions'));
     }
 

@@ -332,7 +332,9 @@ class DashboardController extends Controller
        public function tutorSessions(Request $request)
        {
          $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
-
+         foreach ($sessions as &$key) {
+           $key->student_name =SCT::getStudentName($key->student_id)->student_name;
+         }
          return view('frontend.dashboard.tutor_sessions',compact('sessions'));
        }
 
@@ -341,6 +343,7 @@ class DashboardController extends Controller
          $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->limit(5)->get();
          foreach ($sessions as &$key) {
            $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+           $key->student_name =SCT::getStudentName($key->student_id)->student_name;
          }// dd($session);
          echo json_encode($sessions);
 
@@ -428,14 +431,14 @@ class DashboardController extends Controller
                        return redirect(url()->previous());
                      }
                      $get_session = DB::table('sessions')->where('session_id',$session_id)->first();
-                     $client_timezone = SCT::getClientName($get_session->user_id)->time_zone;
-                     if ($client_timezone == 'Pacific Time') {
+                     $tutor_timezone = SCT::getClientName($get_session->tutor_id)->time_zone;
+                     if ($tutor_timezone == 'Pacific Time') {
                        date_default_timezone_set("America/Los_Angeles");
-                     }elseif ($client_timezone == 'Mountain Time') {
+                     }elseif ($tutor_timezone == 'Mountain Time') {
                        date_default_timezone_set("America/Denver");
-                     }elseif ($client_timezone == 'Central Time') {
+                     }elseif ($tutor_timezone == 'Central Time') {
                        date_default_timezone_set("America/Chicago");
-                     }elseif ($client_timezone == 'Eastern Time') {
+                     }elseif ($tutor_timezone == 'Eastern Time') {
                        date_default_timezone_set("America/New_York");
                      }
                      $date = $get_session->date;
@@ -557,7 +560,9 @@ class DashboardController extends Controller
        public function clientSessions(Request $request)
        {
          $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(2)->get();
-
+         foreach ($sessions as &$key) {
+           $key->student_name =SCT::getStudentName($key->student_id)->student_name;
+         }
          return view('frontend.dashboard.client_sessions',compact('sessions'));
        }
 
@@ -599,6 +604,7 @@ class DashboardController extends Controller
            // $time3 = $get_datetime[2];
            $time = $time2;
            $key->time = $time;
+           $key->student_name =SCT::getStudentName($key->student_id)->student_name;
          }
          // dd($sessions);
          echo json_encode($sessions);

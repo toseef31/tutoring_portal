@@ -58,15 +58,15 @@ class SessionReminderCommand extends Command
       $sessions = DB::table('sessions')->where('status','Confirm')->get();
       foreach ($sessions as $session) {
         // $session_date = $session->date;
-        $client_timezone = SCT::getClientName($session->user_id)->time_zone;
+        $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
         // dd($tutor_timezone);
-        if ($client_timezone == 'Pacific Time') {
+        if ($tutor_timezone == 'Pacific Time') {
           date_default_timezone_set("America/Los_Angeles");
-        }elseif ($client_timezone == 'Mountain Time') {
+        }elseif ($tutor_timezone == 'Mountain Time') {
           date_default_timezone_set("America/Denver");
-        }elseif ($client_timezone == 'Central Time') {
+        }elseif ($tutor_timezone == 'Central Time') {
           date_default_timezone_set("America/Chicago");
-        }elseif ($client_timezone == 'Eastern Time') {
+        }elseif ($tutor_timezone == 'Eastern Time') {
           date_default_timezone_set("America/New_York");
         }
         // date_default_timezone_set("Asia/Karachi");
