@@ -64,7 +64,7 @@
       </center>
       <hr>
       <p style="color:#74787e;">Dear {{$tutor->first_name}} ,</p>
-      <p style="color:#74787e;">Your session with client has been cancel due to Insufficent credit</p>
+      <p style="color:#74787e;">The below session has been canceled due to Insufficient client credits</p>
       <p class='lead'> Session Details: </p>
       <div class="table-responsive">
       <table class='table'>
