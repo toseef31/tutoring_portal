@@ -118,6 +118,8 @@
                             $status = 'Confirmed';
                           }elseif ($session->status == 'Cancel') {
                             $status = 'Canceled';
+                          }elseif ($session->status == 'End'){
+                            $status = 'Completed';
                           }else {
                             $status = $session->status;
                           }

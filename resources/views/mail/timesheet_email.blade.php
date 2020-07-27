@@ -60,9 +60,10 @@
         <!-- <h2> New Agreement Available. </h2> -->
       </center>
       <hr>
-      <p class='lead'> Hello {{$tutor->first_name}} {{$tutor->last_name}} , </p>
+      <p class='lead'> Dear {{$tutor->first_name}} , </p>
       <p style="color:#74787e;">We send you this email to update you about your timesheets.</p>
       <p class='lead'> Timesheet Details: </p>
+      <div class="table-responsive">
       <table class='table'>
       <thead>
       <tr>
@@ -77,13 +78,14 @@
       <tr>
       <td>{{$timesheet->student_name}}</td>
       <td>{{$timesheet->date}}</td>
-      
+
       <td>{{$timesheet->duration}}</td>
       <td>{{$timesheet->description}}</td>
       </tr>
       @endforeach
       </tbody>
       </table>
+      </div>
       <br>
       <hr>
       <br>

@@ -63,9 +63,10 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
       </center>
       <hr>
-      <p style="color:#74787e;">Hello {{$user->first_name}} {{$user->last_name}} ,</p>
-      <p style="color:#74787e;">You receive this email for Reminding of session which will conduct after 30 hours</p>
+      <p style="color:#74787e;">Dear {{$user->first_name}} ,</p>
+      <p style="color:#74787e;">You have a tutoring session coming up soon!</p>
       <p class='lead'> Session Details: </p>
+      <div class="table-responsive">
       <table class='table'>
         <thead>
           <tr>
@@ -123,13 +124,14 @@
               {{$date}} {{$time}}</td>
               <td>{{$session->location}}</td>
             </tr>
+          </div>
           </tbody>
         </table>
         <br>
 
-        <p style="color:#74787e;">Your Remaining Credit Balance is {{$credit->credit_balance}}</p>
+        <p style="color:#74787e;">You currently have {{$credit->credit_balance}} credits remaining. </p>
         @if($credit->credit_balance <= 0)
-        <p style="color:#74787e;">Your session will be cancelled in 6 hours because you have no credits left</p>
+        <p style="color:#74787e;">Please note that your session will be automatically cancelled in 6 hours because you currently have no credits remaining.</p>
         @endif
         <br>
         <center>

@@ -541,7 +541,7 @@ header.active .top-line {
 {
   .site-footer
   {
-    padding-bottom:0
+    padding-bottom:50px;
   }
   .site-footer .copyright-text,.site-footer .social-icons
   {

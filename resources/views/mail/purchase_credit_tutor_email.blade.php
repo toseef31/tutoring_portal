@@ -61,7 +61,7 @@
         </center>
         <hr>
         <p class='lead'> Dear {{$tutor->first_name}} , </p>
-        <p style="color:#74787e;">You have a new student! Please reach out to the parent/guardian of “{{$student->student_name}}” to schedule the first session. See the student profile for details and contact information.</p>
+        <p style="color:#74787e;">You have a new student! Please reach out to the parent/guardian of {{$student->student_name}} to schedule the first session. See the student profile for details and contact information.</p>
         <br>
         <p style="color:#74787e;">Thank you!</p>
         <br>

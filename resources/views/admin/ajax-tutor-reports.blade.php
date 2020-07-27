@@ -25,10 +25,14 @@
         Earnings
         @endif
       </td>
-      <td style="border-left: 1px solid #ccc;">{{$earning->earning}} $</td>
+      <?php
+      $earnings = number_format((float)$earning->earning, 2, '.', '');
+       ?>
+      <td style="border-left: 1px solid #ccc;">{{$earnings}} $</td>
     </tr>
     <?php
     $sum = (float)$sum+(float)$earning->earning;
+    $sum = number_format((float)$sum, 2, '.', '');
     // dd($sum);
     ?>
     @endforeach

@@ -260,6 +260,27 @@ class DashboardController extends Controller
                $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                $message->to($toemail);
              });
+         }else {
+           $tutor_assign = DB::table('tutor_assign')->where('user_id',$user->id)->groupby('tutor_id')->get();
+           foreach ($tutor_assign as $key) {
+           $get_tutor_students = DB::table('tutor_assign')->where('tutor_id',$key->tutor_id)->where('user_id',$user->id)->groupby('student_id')->get();
+           // dd($get_tutor_students);
+           foreach ($get_tutor_students as $key2) {
+             $key2->student_name = SCT::getStudentName($key2->student_id)->student_name;
+           }
+           // dd($tutor_assign);
+           $tutor_data = DB::table('users')->where('id',$key->tutor_id)->first();
+             $toemail =  $tutor_data->email;
+             // dd($send);
+             Mail::send('mail.client_purchase_additional_credit',['user' =>$user, 'tutor'=>$tutor_data, 'students'=>$get_tutor_students],
+             function ($message) use ($toemail)
+             {
+               $message->subject('Smart Cookie Tutors.com - New Credit Purchased');
+               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+               $message->to($toemail);
+             });
+           }
+
          }
 
          $user_session = DB::table('sessions')->where('user_id',$user->id)->where('status','Insufficient Credit')->get();

@@ -185,7 +185,7 @@ label {
                     <input type="text" class="form-control border-input" placeholder="Enter Location" id="location" name="location" value="{{$session->location}}" required>
                   </div>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                   <label class="control-label col-md-3 text-right"></label>
                   <div class="col-md-6">
                       <input class="form-check-input" type="checkbox" name="initial_session" id="initial_session" value="1"  {{$session->session_type == 'First Session' ? 'checked':''}}><span style="margin-left: 20px;"> Initial Session</span>
@@ -196,7 +196,7 @@ label {
                   <div class="col-md-6">
                     <input class="form-check-input" type="checkbox" name="recurs_weekly" id="recurs_weekly" value="1"  {{$session->recurs_weekly == 'Yes' ? 'checked':'disabled'}} ><span style="margin-left: 20px;"> Recurs Weekly</span>
                   </div>
-              </div>
+              </div> -->
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">&nbsp;</label>
                   <div class="col-md-6">
@@ -267,7 +267,7 @@ label {
                             <input type="text" class="form-control border-input" placeholder="Enter Location" id="location" name="location" required>
                           </div>
                       </div>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                           <label class="control-label col-md-3 text-right"></label>
                           <div class="col-md-6">
                               <input class="form-check-input" type="checkbox" name="initial_session" id="initial_session" value="1" checked><span style="margin-left: 20px;"> Initial Session</span>
@@ -278,7 +278,7 @@ label {
                           <div class="col-md-6">
                             <input class="form-check-input" type="checkbox" name="recurs_weekly" id="recurs_weekly" value="1" disabled><span style="margin-left: 20px;"> Recurs Weekly</span>
                           </div>
-                      </div>
+                      </div> -->
                       <div class="form-group">
                           <label class="control-label col-md-3 text-right">&nbsp;</label>
                           <div class="col-md-6">

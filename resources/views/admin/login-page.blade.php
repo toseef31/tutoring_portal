@@ -7,6 +7,7 @@
         <title>Log In &middot;</title>
         <link rel="shortcut icon" href="">
         <meta name="theme-color" content="#ffffff">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{asset('/frontend-assets/dashboard/img/logo/favicon-32x32.png')}}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,700">
         <link rel="stylesheet" href="{{ asset('frontend-assets/dashboard/css/vendor.min.css') }}">
         <link rel="stylesheet" href="{{ asset('frontend-assets/dashboard/css/elephant.min.css') }}">

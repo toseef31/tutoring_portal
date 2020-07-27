@@ -60,72 +60,10 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
         </center>
         <hr>
-        <p style="color:#74787e;">Dear {{$user->first_name}} ,</p>
-        <p style="color:#74787e;">The following session has been cancelled by your tutor.</p>
-        <p class='lead'> Session Details: </p>
-        <div class="table-responsive">
-        <table class='table'>
-        <thead>
-        <tr>
-        <th>Tutor Name</th>
-	 			<th>Student Name</th>
-	 			<th>Subject</th>
-	 			<th>Duration</th>
-	 			<th>Date/Time</th>
-	 			<th>Location</th>
-        </tr>
-        </thead>
-        <tbody align='center'>
-        <tr>
-        <td>{{$tutor->first_name}} {{$tutor->last_name}}</td>
-        <td>{{$student->student_name}}</td>
-        <td>{{$session->subject}}</td>
-        <td>{{$session->duration}}</td>
-        <td>
-          <?php
-          $time = date('h:i a', strtotime($session->time));
-          $time1 = date('h:i a', strtotime($session->time));
-          $date = date('M d, Y', strtotime($session->date));
-          $tutor_timezone = $tutor->time_zone;
-          if ($tutor_timezone == 'Pacific Time') {
-            date_default_timezone_set("America/Los_Angeles");
-          }elseif ($tutor_timezone == 'Mountain Time') {
-            date_default_timezone_set("America/Denver");
-          }elseif ($tutor_timezone == 'Central Time') {
-            date_default_timezone_set("America/Chicago");
-          }elseif ($tutor_timezone == 'Eastern Time') {
-            date_default_timezone_set("America/New_York");
-          }
-          $time_zone = $user->time_zone;
-          $db_time = $session->date." ".$time1;
-          $datetime = new DateTime($db_time);
-          if ($time_zone == 'Pacific Time') {
-            $la_time = new DateTimeZone('America/Los_Angeles');
-            $datetime->setTimezone($la_time);
-          }elseif ($time_zone == 'Mountain Time') {
-            $la_time = new DateTimeZone('America/Denver');
-            $datetime->setTimezone($la_time);
-          }elseif ($time_zone == 'Central Time') {
-            $la_time = new DateTimeZone('America/Chicago');
-            $datetime->setTimezone($la_time);
-          }elseif ($time_zone == 'Eastern Time') {
-            $la_time = new DateTimeZone('America/New_York');
-            $datetime->setTimezone($la_time);
-          }
-          $newdatetime = $datetime->format('Y-m-d h:i a');
-          $get_datetime = explode(' ',$newdatetime);
-          $time2 = $get_datetime[1];
-          $time3 = $get_datetime[2];
-          $time = $time2." ".$time3;
-           ?>
-          {{$date}} {{$time}}</td>
-        <td>{{$session->location}}</td>
-        </tr>
-        </tbody>
-        </table>
-        </div>
+        <p class='lead'> Dear {{$tutor->first_name}} , </p>
+        <p style="color:#74787e;">{{$user->first_name}} {{$user->last_name}} has recently purchased additional tutoring credits! Please reach out to the client to schedule sessions with @foreach($students as $student) {{$student->student_name}} @if(!$loop->last) , @endif @endforeach . See the student profile for details and contact information.</p>
         <br>
-         <hr>
+        <p style="color:#74787e;">Thank you!</p>
         <br>
         <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
         <center>
@@ -133,11 +71,9 @@
         Click To View All Proposals
         </a> -->
         </center>
+        <hr>
         <table class="m_1888394735623576276footer" align="center" width="620" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:0 auto;padding:0;text-align:center;width:620px"><tbody><tr>
           <td class="m_1888394735623576276content-cell" align="center" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;padding:35px 0">
-            @if($user->role == 'customer')
-            <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
-            @endif
             <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
             <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
           </td>

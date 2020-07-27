@@ -25,6 +25,20 @@ class RegisterController extends Controller
       // }
 
       public function accountLogin(Request $request){
+        if ( Auth::check() ) {
+          // dd(auth()->user()->first_name);
+          if ($request->session()->has('previous_url')) {
+            $url =$request->session()->get('previous_url');
+            session()->forget('previous_url');
+            return redirect($url);
+          } else {
+            if (Auth::user()->role == 'customer') {
+              return redirect('user-portal/client-sessions');
+            }else {
+              return redirect('user-portal/tutor-sessions');
+            }
+          }
+        }
          return view('frontend.login');
      }
 

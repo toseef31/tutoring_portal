@@ -844,6 +844,7 @@ class AdminController extends Controller
           $key->tutor_name =SCT::getClientName($key->tutor_id)->first_name;
         }
       }
+      // dd($tutor_sessions);
       return view('admin.view_sessions',compact('all_tutors','type','tutor_sessions'));
     }
 
@@ -854,6 +855,7 @@ class AdminController extends Controller
         $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
         $key->student_name =SCT::getStudentName($key->student_id)->student_name;
         $key->tutor_name =SCT::getClientName($key->tutor_id)->first_name;
+        $key->time2 =date('h:i a', strtotime($key->time));
       }
       echo json_encode($sessions);
     }

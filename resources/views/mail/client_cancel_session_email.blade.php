@@ -60,9 +60,10 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
         </center>
         <hr>
-        <p style="color:#74787e;">Hello {{$tutor->first_name}} {{$tutor->last_name}} ,</p>
+        <p style="color:#74787e;">Dear {{$tutor->first_name}} ,</p>
         <p style="color:#74787e;">Session has been canceled by the Client</p>
         <p class='lead'> Session Details: </p>
+        <div class="table-responsive">
         <table class='table'>
         <thead>
         <tr>
@@ -89,6 +90,7 @@
         </tr>
         </tbody>
         </table>
+        </div>
         <br>
         <h4>Cancellation Reason</h4>
         <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">{{$reason}}</p>

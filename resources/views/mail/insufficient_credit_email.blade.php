@@ -63,9 +63,10 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
       </center>
       <hr>
-      <p style="color:#74787e;">Hello {{$tutor->first_name}} {{$tutor->last_name}} ,</p>
+      <p style="color:#74787e;">Dear {{$tutor->first_name}} ,</p>
       <p style="color:#74787e;">Your session with client has been cancel due to Insufficent credit</p>
       <p class='lead'> Session Details: </p>
+      <div class="table-responsive">
       <table class='table'>
         <thead>
           <tr>
@@ -92,6 +93,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
         <br>
         <center>
           <!-- <a href="{{url('/user-portal/credits')}}" class='btn pt-2'>

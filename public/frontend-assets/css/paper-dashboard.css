@@ -3299,4 +3299,7 @@ textarea.form-controls {
    .app-formbody{
       padding: 10px 3px !important;
    }
+   .cards {
+     margin-right: 2%;
+   }
 }

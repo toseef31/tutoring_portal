@@ -135,7 +135,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-check-label">
@@ -152,7 +152,7 @@
                       </label>
                     </div>
                   </div>
-                </div>
+                </div> -->
 								<div class="text-center">
 									<button type="submit" class="btn btn-info btn-wd btn-green">Save</button>
 								</div>
@@ -220,7 +220,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-check-label">
@@ -237,7 +237,7 @@
                       </label>
                     </div>
                   </div>
-                </div>
+                </div> -->
 								<div class="text-center">
 									<button type="submit" class="btn btn-info btn-wd btn-green">Save</button>
 								</div>

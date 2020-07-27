@@ -25,6 +25,14 @@ a.low-credit .fc-content {
   border-color: #dcdc25 !important;
   background: #dcdc25 !important;
 }
+@media (max-width:767px){
+.fc .fc-toolbar>*>* {
+  font-size: 16px;
+}
+.fc-toolbar h2{
+  margin-top: 12px;
+}
+}
 </style>
 <?php
 $searchBy = array('first_name' => 'Tutor First Name', 'last_name' => 'Tutor Last Name');

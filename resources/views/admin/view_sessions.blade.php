@@ -25,6 +25,17 @@ a.low-credit .fc-content {
   border-color: #dcdc25 !important;
   background: #dcdc25 !important;
 }
+.fc-day-grid-event > .fc-content {
+    white-space: normal;
+}
+@media (max-width:767px){
+.fc .fc-toolbar>*>* {
+  font-size: 16px;
+}
+.fc-toolbar h2{
+  margin-top: 12px;
+}
+}
 </style>
 <?php
 $searchBy = array('first_name' => 'Tutor First Name', 'last_name' => 'Tutor Last Name');
@@ -102,18 +113,13 @@ $s_app = Session()->get('sessionsSearch');
                       @foreach($tutor_sessions as $session)
                       <?php
                       $time = date('h:i a', strtotime($session->time));
-                       $date = date('M d, Y', strtotime($session->date));
+                       $date = date('M d, ', strtotime($session->date));
                        ?>
                        @if(SCT::checkCredit($session->user_id)->credit_balance == 0.5)
-                       <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$session->tutor_name}} - {{$session->duration}} {{$session->student_name}}</strike> @else {{$session->tutor_name}} - {{$session->duration}} {{$session->student_name}} (half hour credit) @endif</span> </a></li>
+                       <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}} (half hour credit) @endif</span> </a></li>
                        @else
-                       <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$session->tutor_name}} - {{$session->duration}} {{$session->student_name}}</strike> @else {{$session->tutor_name}} - {{$session->duration}} {{$session->student_name}} @endif</span> </a></li>
+                       <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}} @endif</span> </a></li>
                        @endif
-                       <!-- @if(SCT::checkCredit($session->user_id)->credit_balance == 0.5)
-                       <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$date}} {{$session->subject}} Session</strike> @else {{$time}} {{$date}} {{$session->subject}} Session (half hour credit) @endif</span> </a></li>
-                       @else
-                       <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$time}} {{$date}} {{$session->subject}} Session</strike> @else {{$time}} {{$date}} {{$session->subject}} Session @endif</span> </a></li>
-                       @endif -->
                        @endforeach
                     </ul>
                     @else
@@ -249,7 +255,7 @@ $(document).ready(function() {
                 events.push({
                  id : v.session_id,
                      className : 'cancel',
-                     title: v.tutor_name+'-'+v.duration+' '+v.student_name,
+                     title: v.tutor_name+' - '+v.time2+' '+v.student_name,
                      // title: v.subject+' session',
                      start: v.date, // will be parsed
                      // start: v.date+'T'+v.time,
@@ -261,7 +267,7 @@ $(document).ready(function() {
                 events.push({
                  id : v.session_id,
                      className : 'low-credit',
-                     title: v.tutor_name+'-'+v.duration+' '+v.student_name,
+                     title: v.tutor_name+' - '+v.time2+' '+v.student_name,
                      // title: v.subject+' session',
                      start: v.date, // will be parsed
                      // start: v.date+'T'+v.time,
@@ -272,7 +278,7 @@ $(document).ready(function() {
               else {
                   events.push({
                    id : v.session_id,
-                       title: v.tutor_name+'-'+v.duration+' '+v.student_name,
+                       title: v.tutor_name+' - '+v.time2+' '+v.student_name,
                        // title: v.subject+' session',
                        start: v.date, // will be parsed
                        // start: v.date+'T'+v.time,
@@ -293,7 +299,8 @@ $(document).ready(function() {
             center: 'prev title next',
             right: ''
         },
-        contentHeight: 'auto',
+        // contentHeight: 'auto',
+        contentHeight: 400,
         defaultView: 'basicWeek',
         eventColor: '#10C5A7',
         timeFormat: 'h:mma',
