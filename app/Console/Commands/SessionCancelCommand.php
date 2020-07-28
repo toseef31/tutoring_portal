@@ -55,6 +55,7 @@ class SessionCancelCommand extends Command
     //     $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
     //     $message->to($toemail);
     //   });
+    // sadasd
       $sessions = DB::table('sessions')->where('status','Confirm')->groupby('tutor_id')->get();
       foreach ($sessions as $session) {
         $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
