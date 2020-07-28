@@ -70,13 +70,13 @@
             </div>
             <div class="content">
               <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered hidden-xs hidden-sm">
                   <thead>
                     <tr>
                       <th>Student Name</th>
                       <th>Credit Balance</th>
                       <th>Tutoring Subject</th>
-                      <th>Initial Session</th>
+                      <!-- <th>Initial Session</th> -->
                       <th>Date</th>
                       <th>Time</th>
                       <th>Duration</th>
@@ -96,13 +96,13 @@
                         @endif
                       </td>
                       <td>{{$session->subject}}</td>
-                      <td>
+                      <!-- <td>
                         @if($session->session_type =='First Session')
                         YES
                         @else
                         NO
                         @endif
-                      </td>
+                      </td> -->
                       <?php
                       $time = date('h:i a', strtotime($session->time));
                       $date = date('M d, Y', strtotime($session->date));
@@ -129,7 +129,17 @@
                       <td style="text-align: center;">
                         @if($session->status == 'Confirm')
                         <?php
-                        date_default_timezone_set("Asia/Karachi");
+                        // date_default_timezone_set("Asia/Karachi");
+                        $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
+                        if ($tutor_timezone == 'Pacific Time') {
+                          date_default_timezone_set("America/Los_Angeles");
+                        }elseif ($tutor_timezone == 'Mountain Time') {
+                          date_default_timezone_set("America/Denver");
+                        }elseif ($tutor_timezone == 'Central Time') {
+                          date_default_timezone_set("America/Chicago");
+                        }elseif ($tutor_timezone == 'Eastern Time') {
+                          date_default_timezone_set("America/New_York");
+                        }
                         $show='';
                         $date1 =date("Y-m-d");
                         $date2 = date("Y-m-d", strtotime($session->date));
@@ -149,6 +159,106 @@
                         @endif
                       </td>
                     </tr>
+                  </tbody>
+                </table>
+
+                <table class="table table-bordered hidden-md hidden-lg">
+                  <thead>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Student Name</td>
+                      <td>{{SCT::getStudentName($session->student_id)->student_name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Credit Balance</td>
+                      <td>@if(SCT::getClientCredit($session->user_id) !='')
+                        {{SCT::getClientCredit($session->user_id)->credit_balance}}
+                        @else
+                        0
+                        @endif
+                      </td>
+                    </tr>
+                      <tr>
+                        <td>Tutoring Subject</td>
+                        <td>{{$session->subject}}</td>
+                      </tr>
+                      <?php
+                      $time = date('h:i a', strtotime($session->time));
+                      $date = date('M d, Y', strtotime($session->date));
+                       ?>
+                       <tr>
+                         <td>Date</td>
+                         <td>{{$date}}</td>
+                       </tr>
+                       <tr>
+                         <td>Time</td>
+                         <td>{{$time}}</td>
+                       </tr>
+                       <tr>
+                         <td>Duration</td>
+                         <td>{{$session->duration}}</td>
+                       </tr>
+                       <tr>
+                         <td>Location</td>
+                         <td>{{$session->location}}</td>
+                       </tr>
+                       <tr>
+                         <td>Recurs Weekly</td>
+                         <td>{{$session->recurs_weekly}}</td>
+                       </tr>
+                       <tr>
+                         <td>Status</td>
+                         <td>
+                           <?php
+                           if ($session->status == 'Confirm') {
+                             $status = 'Confirmed';
+                           }elseif ($session->status == 'Cancel') {
+                             $status = 'Canceled';
+                           }elseif ($session->status == 'End'){
+                             $status = 'Completed';
+                           }else {
+                             $status = $session->status;
+                           }
+                           ?>
+                           {{$status}}
+                         </td>
+                       </tr>
+                       <tr>
+                         <td>Action</td>
+                         <td style="text-align: center;">
+                           @if($session->status == 'Confirm')
+                           <?php
+                           $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
+                           if ($tutor_timezone == 'Pacific Time') {
+                             date_default_timezone_set("America/Los_Angeles");
+                           }elseif ($tutor_timezone == 'Mountain Time') {
+                             date_default_timezone_set("America/Denver");
+                           }elseif ($tutor_timezone == 'Central Time') {
+                             date_default_timezone_set("America/Chicago");
+                           }elseif ($tutor_timezone == 'Eastern Time') {
+                             date_default_timezone_set("America/New_York");
+                           }
+                           // date_default_timezone_set("Asia/Karachi");
+                           $show='';
+                           $date1 =date("Y-m-d");
+                           $date2 = date("Y-m-d", strtotime($session->date));
+                           if ($date1 == $date2) {
+                             $time1 = date("h:i");
+                             $time2 = date("h:i", strtotime($session->time));
+                             if ($time1 >=$time2) {
+                               $show = 'show';
+                             }
+                           }
+                            ?>
+                           @if($show !='')
+                           <a href="javascript:;" onclick="EndSession('{{ $session->session_id }}')" class="btn btn-green" data-toggle="tooltip" data-original-title="Update">End Session</a>&nbsp;&nbsp;&nbsp; <br>
+                           @endif
+                           <a href="{{ url('user-portal/session/edit/'.$session->session_id) }}" class="btn btn-green" data-toggle="tooltip" data-original-title="Update" style="margin-top: 4px;">Edit Session</a>&nbsp;&nbsp;&nbsp; <br>
+                           <a href="javascript:;" onclick="CancelSession('{{ $session->session_id }}')" class="btn btn-danger" data-toggle="tooltip" data-original-title="Delete" style="margin-top: 4px;">Cancel Session</i></a>
+                           @endif
+                         </td>
+                       </tr>
                   </tbody>
                 </table>
               </div>

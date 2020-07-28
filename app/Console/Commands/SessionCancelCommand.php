@@ -55,10 +55,8 @@ class SessionCancelCommand extends Command
     //     $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
     //     $message->to($toemail);
     //   });
-      $sessions = DB::table('sessions')->where('status','Confirm')->get();
+      $sessions = DB::table('sessions')->where('status','Confirm')->groupby('tutor_id')->get();
       foreach ($sessions as $session) {
-        $session_date = $session->date;
-        // dd($session_date);
         $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
         if ($tutor_timezone == 'Pacific Time') {
           date_default_timezone_set("America/Los_Angeles");
@@ -69,25 +67,36 @@ class SessionCancelCommand extends Command
         }elseif ($tutor_timezone == 'Eastern Time') {
           date_default_timezone_set("America/New_York");
         }
+        $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->get();
+        foreach ($client_sessions as $csession) {
+          $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
+          $date1 =date("Y-m-d H:i");
+          $date2 = date("Y-m-d H:i", strtotime('-24 hours',strtotime($combinedDT)));
+          // dd($date1,$date2);
+          if ($date1 >= $date2) {
+            // dd($date1,$date2);
+            $user_credit = DB::table('credits')->where('user_id',$csession->user_id)->first();
+            if ($user_credit->credit_balance <= 0) {
+              // dd("no credit");
+              $input['status'] = 'Insufficient Credit';
+              DB::table('sessions')->where('session_id',$csession->session_id)->update($input);
+          }
+        }
+      }
+      $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->get();
+        // dd(count($session_data));
+
         // date_default_timezone_set("Asia/Karachi");
-        // dd(date("h:i a"));
-        $combinedDT = date('Y-m-d H:i:s', strtotime("$session->date $session->time"));
-        $date1 =date("Y-m-d H:i");
-        $date2 = date("Y-m-d H:i", strtotime('-24 hours',strtotime($combinedDT)));
+
         // dd($session->session_id,$date1,$date2,$session->date);
-        if ($date1 >= $date2) {
+        if (count($session_data) > 0) {
           // dd($date1,$date2);
           $user = DB::table('users')->where('id',$session->user_id)->first();
           $tutor = DB::table('users')->where('id',$session->tutor_id)->first();
           $student = DB::table('students')->where('student_id',$session->student_id)->first();
           $user_credit = DB::table('credits')->where('user_id',$session->user_id)->first();
-          $session_data = DB::table('sessions')->where('session_id',$session->session_id)->first();
-          if ($user_credit->credit_balance <= 0) {
-            // dd("no credit");
-            $input['status'] = 'Insufficient Credit';
-            DB::table('sessions')->where('session_id',$session->session_id)->update($input);
           $toemail=$tutor->email;
-            Mail::send('mail.insufficient_credit_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'session'=>$session_data],
+            Mail::send('mail.insufficient_credit_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'sessions'=>$session_data],
             function ($message) use ($toemail)
             {
 
@@ -95,7 +104,7 @@ class SessionCancelCommand extends Command
               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
               $message->to($toemail);
             });
-        }
+
       }
      }
     }

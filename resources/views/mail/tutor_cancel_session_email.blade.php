@@ -57,7 +57,6 @@
         <div class='box'>
         <center>
         <img src='http://203.99.61.173/demos/tutoring_portal/public/frontend-assets/images/logo.png' width='20%' >
-        <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
         </center>
         <hr>
         <p style="color:#74787e;">Dear {{$user->first_name}} ,</p>

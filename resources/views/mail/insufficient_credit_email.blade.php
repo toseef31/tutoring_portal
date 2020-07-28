@@ -79,9 +79,10 @@
           </tr>
         </thead>
         <tbody align='center'>
+          @foreach($sessions as $session)
           <tr>
             <td>{{$tutor->first_name}} {{$tutor->last_name}}</td>
-            <td>{{$student->student_name}}</td>
+            <td>{{SCT::getStudentName($session->student_id)->student_name}}</td>
             <td>{{$session->subject}}</td>
             <td>{{$session->duration}}</td>
             <td>
@@ -91,6 +92,7 @@
               {{$session->date}} {{$time}}</td>
               <td>{{$session->location}}</td>
             </tr>
+            @endforeach
           </tbody>
         </table>
         </div>
