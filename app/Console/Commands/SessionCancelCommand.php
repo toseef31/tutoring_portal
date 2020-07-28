@@ -85,7 +85,7 @@ class SessionCancelCommand extends Command
           }
         }
       }
-      $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('cancel_status','<>','send')->get();
+      $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('cancel_status','=',null)->get();
         // dd(count($session_data));
 
         // date_default_timezone_set("Asia/Karachi");
