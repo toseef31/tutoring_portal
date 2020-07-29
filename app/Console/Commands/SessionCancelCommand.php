@@ -84,7 +84,7 @@ class SessionCancelCommand extends Command
           }
         }
       }
-      $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('user_id',$session->user_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
+      $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
       // $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
         // dd($session_data);
 
