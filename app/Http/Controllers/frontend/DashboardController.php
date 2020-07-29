@@ -296,6 +296,7 @@ class DashboardController extends Controller
                $request->session()->flash('message', 'Thank you for your credit purchase but your previously assigned session can not reinstated due to tutor confilicting session');
              }else {
                $input2['status'] = 'Confirm';
+               $input2['mail_status'] = '0';
                DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
                $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
              }

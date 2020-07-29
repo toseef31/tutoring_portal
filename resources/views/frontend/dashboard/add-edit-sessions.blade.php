@@ -143,16 +143,16 @@
                       </label>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" name="recurs_weekly" id="recurs_weekly" value="1" {{$session->recurs_weekly == 'Yes' ? 'checked':'disabled'}} > Recurs Weekly
+                        <input class="form-check-input" type="checkbox" name="recurs_weekly" id="recurs_weekly" value="1" {{$session->recurs_weekly == 'Yes' ? 'checked':''}} > Recurs Weekly
                       </label>
                     </div>
                   </div>
-                </div> -->
+                </div>
 								<div class="text-center">
 									<button type="submit" class="btn btn-info btn-wd btn-green">Save</button>
 								</div>
@@ -228,16 +228,16 @@
                       </label>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" name="recurs_weekly" id="recurs_weekly" value="1" disabled> Recurs Weekly
+                        <input class="form-check-input" type="checkbox" name="recurs_weekly" id="recurs_weekly" value="1"> Recurs Weekly
                       </label>
                     </div>
                   </div>
-                </div> -->
+                </div>
 								<div class="text-center">
 									<button type="submit" class="btn btn-info btn-wd btn-green">Save</button>
 								</div>
