@@ -55,7 +55,6 @@ class SessionCancelCommand extends Command
     //     $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
     //     $message->to($toemail);
     //   });
-    // sadasd
       $sessions = DB::table('sessions')->where('status','Confirm')->groupby('tutor_id')->get();
       foreach ($sessions as $session) {
         $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
@@ -68,6 +67,7 @@ class SessionCancelCommand extends Command
         }elseif ($tutor_timezone == 'Eastern Time') {
           date_default_timezone_set("America/New_York");
         }
+
         $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->get();
         foreach ($client_sessions as $csession) {
           $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
@@ -81,13 +81,12 @@ class SessionCancelCommand extends Command
               // dd("no credit");
               $input['status'] = 'Insufficient Credit';
               DB::table('sessions')->where('session_id',$csession->session_id)->update($input);
-              $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('cancel_status','<>','send')->get();
-              $input['cancel_status'] = 'send';
-              DB::table('sessions')->where('session_id',$csession->session_id)->update($input);
           }
         }
       }
-        // dd(count($session_data));
+      $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('user_id',$session->user_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
+      // $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
+        // dd($session_data);
 
         // date_default_timezone_set("Asia/Karachi");
 
@@ -107,6 +106,8 @@ class SessionCancelCommand extends Command
               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
               $message->to($toemail);
             });
+            $input2['mail_status'] = '1';
+            $session_data2 = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('user_id',$session->user_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->update($input2);
 
       }
      }
