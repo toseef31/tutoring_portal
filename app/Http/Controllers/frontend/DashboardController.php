@@ -513,7 +513,7 @@ class DashboardController extends Controller
                          function ($message) use ($toemail)
                          {
 
-                           $message->subject('Smart Cookie Tutors.com - Last Minute Session');
+                           $message->subject('Smart Cookie Tutors.com - Last Minute Session '.date('H:i:s'));
                            $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                            $message->to($toemail);
                          });
@@ -600,7 +600,7 @@ class DashboardController extends Controller
                Mail::send('mail.tutor_cancel_session_email',['user' =>$user,'tutor' =>$tutor,'student' =>$student,'session'=>$session_details],
                function ($message) use ($toemail)
                {
-                 $message->subject('Smart Cookie Tutors.com - Session Cancelled');
+                 $message->subject('Smart Cookie Tutors.com - Session Cancelled '.date('H:i:s'));
                  $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                  $message->to($toemail);
                });
@@ -702,7 +702,7 @@ class DashboardController extends Controller
                Mail::send('mail.client_cancel_session_email',['user' =>$user,'tutor' =>$tutor,'student' =>$student,'session'=>$session_details, 'reason'=> $reason],
                function ($message) use ($toemail)
                {
-                 $message->subject('Smart Cookie Tutors.com - Session Cancelled');
+                 $message->subject('Smart Cookie Tutors.com - Session Cancelled '.date('H:i:s'));
                  $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                  $message->to($toemail);
                });
@@ -964,5 +964,29 @@ class DashboardController extends Controller
         }
         return redirect('/user-portal/tutor-timesheets');
        }
+
+       public function SendEmail(Request $request)
+       {
+         // dd("Asd");
+         $reason = "Reason";
+         $session_details = DB::table('sessions')->where('session_id',113)->first();
+         $user = DB::table('users')->where('id',2)->first();
+         $tutor = DB::table('users')->where('id',10)->first();
+         $student = DB::table('students')->where('student_id',12)->first();
+         $get_tutor_students = DB::table('tutor_assign')->where('tutor_id',10)->where('user_id',2)->groupby('student_id')->get();
+         // dd($get_tutor_students);
+         $toemail='mwaqas.peek@gmail.com';
+         // $toemail='nabeelirbab@gmail.com';
+         // $toemail='toseef3@gmail.com';
+         Mail::send('mail.client_cancel_session_email',['user' =>$user,'tutor' =>$tutor,'student' =>$student,'session'=>$session_details, 'reason'=> $reason],
+         function ($message) use ($toemail)
+         {
+           // $message->subject('Smart Cookie Tutors.com - New Credit Purchased');
+           $message->subject('Smart Cookie Tutors.com - New Credit Purchased'.date('H:i:s'));
+           $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+           $message->to($toemail);
+         });
+
+   }
 
 }

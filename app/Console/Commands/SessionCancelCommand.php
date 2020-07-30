@@ -95,7 +95,7 @@ class SessionCancelCommand extends Command
             function ($message) use ($toemail)
             {
 
-              $message->subject('Smart Cookie Tutors.com - Session Cancel Email');
+              $message->subject('Smart Cookie Tutors.com - Session Cancel Email '.date('H:i:s'));
               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
               $message->to($toemail);
             });

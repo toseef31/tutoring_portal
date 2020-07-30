@@ -11,17 +11,12 @@
       width:100%;
       padding:1px;
     }
-    .table-responsive {
-      width: 100%;
-      margin-bottom: 15px;
-      overflow-y: hidden;
-      -ms-overflow-style: -ms-autohiding-scrollbar;
-      /* border: 1px solid #ddd; */
-    }
   }
-  .table-responsive{
-    min-height: .01%;
-    overflow-x: auto;
+  @media (max-width: 490px) {
+    .table{
+      max-width: 50%;
+      padding-right: 4%;
+    }
   }
   .box {
     background: #fff;
@@ -74,7 +69,7 @@
       <p style="color:#74787e;">Dear {{$tutor->first_name}} ,</p>
       <p style="color:#74787e;">Session has been canceled by the Client</p>
       <p class='lead'> Session Details: </p>
-      <div class="table-responsive">
+      <!-- <div class="table-responsive" style="width:50%;"> -->
         <table class='table'>
           <thead>
             <tr>
@@ -102,7 +97,7 @@
               </tr>
             </tbody>
           </table>
-        </div>
+        <!-- </div> -->
         <br>
         <h4>Cancellation Reason</h4>
         <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">{{$reason}}</p>
@@ -114,15 +109,8 @@
           Click To View All Proposals
         </a> -->
       </center>
-      <div class="table-responsive">
-        <table class="m_1888394735623576276footer" align="center" width="620" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:0 auto;padding:0;text-align:center;width:620px"><tbody><tr>
-          <td class="m_1888394735623576276content-cell" align="center" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;padding:35px 0">
-            <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
-            <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
-          </td>
-        </tr></tbody>
-      </table>
-    </div>
+      <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
+      <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
   </div>
 </div>
 </body>
