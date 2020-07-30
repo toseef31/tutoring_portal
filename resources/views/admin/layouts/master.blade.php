@@ -39,6 +39,8 @@
       <!-- CSS Just for demo purpose, don't include it in your project -->
        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
       <link href="{{asset('/frontend-assets/dashboard/css/custom.css')}}" rel="stylesheet" />
+      <link href="{{ asset('/frontend-assets/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+      <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
        @yield('style')
     </head>
   <body>
@@ -73,6 +75,7 @@
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
     <script src="{{asset('/frontend-assets/dashboard/demo/demo.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="{{ asset('/frontend-assets/js/bootstrap-datetimepicker.js') }}"></script>
     <script>
       $(document).ready(function() {
         // Javascript method's body can be found in assets/assets-for-demo/js/demo.js

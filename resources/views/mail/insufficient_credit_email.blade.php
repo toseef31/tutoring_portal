@@ -11,6 +11,17 @@
       width:100%;
       padding:1px;
     }
+    .table-responsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+      /* border: 1px solid #ddd; */
+    }
+  }
+  .table-responsive{
+    min-height: .01%;
+    overflow-x: auto;
   }
   .box {
     background: #fff;
@@ -53,8 +64,8 @@
   </style>
 </head>
 <?php
-  $base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
- ?>
+$base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
+?>
 <body class='is-responsive'>
   <div class='container'>
     <div class='box'>
@@ -67,44 +78,46 @@
       <p style="color:#74787e;">The below session has been canceled due to Insufficient client credits</p>
       <p class='lead'> Session Details: </p>
       <div class="table-responsive">
-      <table class='table'>
-        <thead>
-          <tr>
-            <th>Tutor Name</th>
-            <th>Student Name</th>
-            <th>Subject</th>
-            <th>Duration</th>
-            <th>Date/Time</th>
-            <th>Location</th>
-          </tr>
-        </thead>
-        <tbody align='center'>
-          @foreach($sessions as $session)
-          <tr>
-            <td>{{$tutor->first_name}} {{$tutor->last_name}}</td>
-            <td>{{SCT::getStudentName($session->student_id)->student_name}}</td>
-            <td>{{$session->subject}}</td>
-            <td>{{$session->duration}}</td>
-            <td>
-              <?php
-              $time = date('h:i a', strtotime($session->time));
-              ?>
-              {{$session->date}} {{$time}}</td>
-              <td>{{$session->location}}</td>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Tutor Name</th>
+              <th>Student Name</th>
+              <th>Subject</th>
+              <th>Duration</th>
+              <th>Date/Time</th>
+              <th>Location</th>
             </tr>
-            @endforeach
-          </tbody>
-        </table>
+          </thead>
+          <tbody align='center'>
+            @foreach($sessions as $session)
+            <tr>
+              <td>{{$tutor->first_name}} {{$tutor->last_name}}</td>
+              <td>{{SCT::getStudentName($session->student_id)->student_name}}</td>
+              <td>{{$session->subject}}</td>
+              <td>{{$session->duration}}</td>
+              <td>
+                <?php
+                $time = date('h:i a', strtotime($session->time));
+                $date = date('M d, Y', strtotime($session->date));
+                ?>
+                {{$date}} {{$time}}</td>
+                <td>{{$session->location}}</td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div>
         <br>
         <center>
           <!-- <a href="{{url('/user-portal/credits')}}" class='btn pt-2'>
-            Please purchase more credits here
-          </a> -->
-        </center>
-        <br>
-        <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
-        <hr>
+          Please purchase more credits here
+        </a> -->
+      </center>
+      <br>
+      <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
+      <hr>
+      <div class="table-responsive">
         <table class="m_1888394735623576276footer" align="center" width="620" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:0 auto;padding:0;text-align:center;width:620px"><tbody><tr>
           <td class="m_1888394735623576276content-cell" align="center" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;padding:35px 0">
             <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
@@ -114,5 +127,6 @@
       </table>
     </div>
   </div>
+</div>
 </body>
 </html>

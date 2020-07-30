@@ -70,7 +70,7 @@
             </div>
             <div class="content">
               <div class="table-responsive">
-                <table class="table  table-bordered">
+                <table class="table  table-bordered hidden-xs hidden-sm">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -105,7 +105,57 @@
                     @endforeach
                   </tbody>
                 </table>
-                {{$students->render()}}
+                <div class="hidden-sm hidden-xs">
+                  {{$students->render()}}
+                </div>
+              </div>
+              <div class="hidden-md hidden-lg">
+              @foreach($student_mobile as $student)
+              <table class="table table-bordered ">
+                <thead>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Name</td>
+                    <td>{{$student->student_name}}</td>
+                  </tr>
+                  <tr>
+                    <td>Client Name</td>
+                    <td>{{SCT::getClientName($student->user_id)->first_name}} {{SCT::getClientName($student->user_id)->last_name}}
+                    </td>
+                  </tr>
+                    <tr>
+                      <td>Client Credit</td>
+                      @if(SCT::getClientCredit($student->user_id) !='')
+                      <td>{{SCT::getClientCredit($student->user_id)->credit_balance}}</td>
+                      @else
+                      <td>0</td>
+                      @endif
+                    </tr>
+                     <tr>
+                       <td>Hourly Rate</td>
+                       <td>{{$student->hourly_pay_rate}}</td>
+                     </tr>
+                     <tr>
+                       <td>Email</td>
+                       <td>{{$student->email}}</td>
+                     </tr>
+                     <tr>
+                       <td>Grade</td>
+                       <td>{{$student->grade}}</td>
+                     </tr>
+                     <tr>
+                       <td>School/College</td>
+                       <td>{{$student->college}}</td>
+                     </tr>
+                     <tr>
+                       <td>Goal</td>
+                       <td>{{$student->goal}}</td>
+                     </tr>
+                </tbody>
+              </table>
+              @endforeach
+                {{$student_mobile->render()}}
               </div>
             </div>
             <hr>

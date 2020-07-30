@@ -850,7 +850,8 @@ class AdminController extends Controller
 
     public function get_session_data(Request $request) {
 
-      $sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->get();
+      // $sessions = DB::table('sessions')->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->get();
+      $sessions = DB::table('sessions')->orderBy('date','asc')->get();
       foreach ($sessions as &$key) {
         $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
         $key->student_name =SCT::getStudentName($key->student_id)->student_name;
@@ -862,7 +863,8 @@ class AdminController extends Controller
 
     public function get_tutor_session_data(Request $request,$id) {
 
-      $sessions = DB::table('sessions')->where('tutor_id',$id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->get();
+      // $sessions = DB::table('sessions')->where('tutor_id',$id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->get();
+      $sessions = DB::table('sessions')->where('tutor_id',$id)->orderBy('date','asc')->get();
       foreach ($sessions as &$key) {
         $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
         $key->student_name =SCT::getStudentName($key->student_id)->student_name;

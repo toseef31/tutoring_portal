@@ -320,8 +320,11 @@ class DashboardController extends Controller
          $tutors = DB::table('tutor_assign')
                   ->join('users','users.id','=','tutor_assign.tutor_id')
                   ->where('tutor_assign.user_id','=',auth()->user()->id)->paginate(10);
-                  // dd($tutor);
-        return view('frontend.dashboard.tutors',compact('tutors'));
+         $tutor_mobile = DB::table('tutor_assign')
+                  ->join('users','users.id','=','tutor_assign.tutor_id')
+                  ->where('tutor_assign.user_id','=',auth()->user()->id)->paginate(1);
+                  // dd($tutor_mobile);
+        return view('frontend.dashboard.tutors',compact('tutors','tutor_mobile'));
        }
 
        public function TutorStudents(Request $request)
@@ -329,8 +332,11 @@ class DashboardController extends Controller
          $students = DB::table('tutor_assign')
                   ->join('students','students.student_id','=','tutor_assign.student_id')
                   ->where('tutor_assign.tutor_id','=',auth()->user()->id)->paginate(15);
+         $student_mobile = DB::table('tutor_assign')
+                  ->join('students','students.student_id','=','tutor_assign.student_id')
+                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->paginate(1);
                   // dd($students);
-        return view('frontend.dashboard.tutor-students',compact('students'));
+        return view('frontend.dashboard.tutor-students',compact('students','student_mobile'));
        }
 
        public function UnsubscribeEmail(Request $request)
@@ -362,7 +368,8 @@ class DashboardController extends Controller
 
        public function get_session_data(Request $request) {
 
-         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->get();
+         // $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->get();
+         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->orderBy('date','asc')->get();
          foreach ($sessions as &$key) {
            $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
            $key->student_name =SCT::getStudentName($key->student_id)->student_name;
@@ -629,7 +636,8 @@ class DashboardController extends Controller
        }
 
        public function get_clientSession_data(Request $request) {
-         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->get();
+         // $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->get();
+         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->get();
          foreach ($sessions as &$key) {
            $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
            // Change Time Zone

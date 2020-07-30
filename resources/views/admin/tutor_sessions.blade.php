@@ -260,7 +260,8 @@ $(document).ready(function() {
             center: 'prev title next',
             right: ''
         },
-        contentHeight: 'auto',
+        contentHeight: 200,
+        // contentHeight: 'auto',
         defaultView: 'basicWeek',
         eventColor: '#10C5A7',
         timeFormat: 'h:mma',

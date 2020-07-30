@@ -34,6 +34,7 @@
   <link href="{{ asset('/frontend-assets/css/custom-dashboard.css') }}" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="{{ asset('/frontend-assets/fontawesome/css/all.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('/frontend-assets/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
   <!--  CSS for Demo Purpose, don't include it in your project     -->
 
   <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
@@ -58,6 +59,7 @@
   <script src="{{ asset('/frontend-assets/js/jquery.min.js') }}"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="{{ asset('/frontend-assets/bootstrap/js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('/frontend-assets/js/bootstrap-datetimepicker.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.10/js/superfish.min.js"></script>
   <!-- Custom Script -->
   <script src="{{ asset('/frontend-assets/js/script.js') }}"></script>

@@ -71,7 +71,7 @@
             </div>
             <div class="content">
               <div class="table-responsive">
-                <table class="table  table-bordered">
+                <table class="table table-bordered hidden-sm hidden-xs">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -101,6 +101,52 @@
                     @endforeach
                   </tbody>
                 </table>
+                <div class="hidden-sm hidden-xs">
+                  {{$students->render()}}
+                </div>
+              </div>
+              <div class="hidden-md hidden-lg">
+                @foreach($student_mobile as $student)
+                <table class="table table-bordered ">
+                  <thead>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>{{$student->student_name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Email</td>
+                      <td>{{$student->email}}</td>
+                    </tr>
+                    <tr>
+                      <td>Subject</td>
+                      <td>{{$student->subject}}</td>
+                    </tr>
+                    <tr>
+                      <td>Grade</td>
+                      <td>{{$student->grade}}</td>
+                    </tr>
+                    <tr>
+                      <td>School/College</td>
+                      <td>{{$student->college}}</td>
+                    </tr>
+                    <tr>
+                      <td>Goal</td>
+                      <td>{{$student->goal}}</td>
+                    </tr>
+                    <tr>
+                      <td>Action</td>
+                      <td>
+                        <!-- <a href="{{ url('admin/users/view/'.$student->student_id) }}" data-toggle="tooltip" data-original-title="Profile"><i class="ti-eye"></i></a>&nbsp;&nbsp;&nbsp; -->
+                        <a href="{{ url('user-portal/student/edit/'.$student->student_id) }}" data-toggle="tooltip" data-original-title="Update"><i class="ti-pencil"></i></a>&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:;" onclick="deleteEmployer('{{ $student->student_id }}')" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash"></i></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                @endforeach
+                {{$student_mobile->render()}}
               </div>
             </div>
             <hr>

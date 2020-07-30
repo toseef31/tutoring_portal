@@ -28,7 +28,7 @@
       <?php
       $earnings = number_format((float)$earning->earning, 2, '.', '');
        ?>
-      <td style="border-left: 1px solid #ccc;">{{$earnings}} $</td>
+      <td style="border-left: 1px solid #ccc;">${{$earnings}} </td>
     </tr>
     <?php
     $sum = (float)$sum+(float)$earning->earning;
@@ -39,9 +39,9 @@
     <tr  style="border-bottom: 1px solid #ccc;">
       <td><strong>Total Earnings</strong></td>
       @if($sum != '')
-      <td  style="border-left: 1px solid #ccc;"><strong>{{$sum}} $</strong></td>
+      <td  style="border-left: 1px solid #ccc;"><strong>${{$sum}} </strong></td>
       @else
-      <td style="border-left: 1px solid #ccc;"><strong>0 $</strong></td>
+      <td style="border-left: 1px solid #ccc;"><strong>$0 </strong></td>
       @endif
     </tr>
   </tbody>

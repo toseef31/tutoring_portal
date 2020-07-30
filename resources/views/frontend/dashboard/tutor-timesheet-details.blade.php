@@ -68,7 +68,7 @@
         			</div>
         			@endif
             </div>
-            <div class="content">
+            <div class="content hidden-sm hidden-xs">
               <div class="table-responsive">
                 <table class="table  table-bordered">
                   <thead>
@@ -94,7 +94,37 @@
                   </tbody>
                 </table>
               </div>
-
+            </div>
+            <div class="hidden-md hidden-lg">
+            <table class="table table-bordered ">
+              <thead>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Student Name</td>
+                  <td>{{SCT::getStudentName($timesheet->student_id)->student_name}}</td>
+                </tr>
+                <tr>
+                  <td>Date</td>
+                  <td>{{$timesheet->date}}</td>
+                </tr>
+                  <tr>
+                    <td>Duration</td>
+                    <td>{{$timesheet->duration}}</td>
+                  </tr>
+                   <tr>
+                     <td>Session Description</td>
+                     <td>{{$timesheet->description}}</td>
+                   </tr>
+                   <tr>
+                     <td>Action</td>
+                     <td>
+                       <a href="{{ url('user-portal/timesheet/edit/'.$timesheet->timesheet_id) }}" data-toggle="tooltip" data-original-title="Update"><i class="ti-pencil"></i></a>&nbsp;&nbsp;&nbsp;
+                       <a href="javascript:;" onclick="deleteTimesheet('{{ $timesheet->timesheet_id }}')" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash"></i></a>
+                     </td>
+                   </tr>
+              </tbody>
+            </table>
             </div>
             <hr>
           </div>

@@ -159,7 +159,7 @@ label {
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">Date : *</label>
                   <div class="col-md-6">
-                    <input type="date" class="form-control border-input" placeholder="Select Date" id="date" name="date" value="{{$session->date}}" required>
+                    <input type="text" class="form-control border-input date-picker-year" placeholder="Select Date" id="date" name="date" value="{{$session->date}}" required>
                   </div>
               </div>
               <div class="form-group">
@@ -241,7 +241,7 @@ label {
                       <div class="form-group">
                           <label class="control-label col-md-3 text-right">Date : *</label>
                           <div class="col-md-6">
-                            <input type="date" class="form-control border-input" placeholder="Select Date" id="date" name="date" value="" required>
+                            <input type="text" class="form-control border-input date-picker-year" placeholder="Select Date" id="date" name="date" value="" required>
                           </div>
                       </div>
                       <div class="form-group">
@@ -343,27 +343,39 @@ if (this.checked == true) {
 }
 })
 
-$('#student_id').on('change', function () {
-  var student_user_id = $(this).val();
-  var tutor_id = $('#tutor_id').val();
-  if (student_user_id !=null) {
-  var result = student_user_id.split(',');
-  var student_id = result[0];
-}
-  $.ajax({
-    url: "{{ url('check_initialSession') }}/"+student_id+"/"+tutor_id,
-    success: function(response){
-      // console.log(response);
-      if (response == 0) {
-        $('#initial_session').prop('checked',true);
-        $('#recurs_weekly').prop('disabled',true);
-      }else {
-        $('#initial_session').prop('checked',false);
-        $('#recurs_weekly').prop('disabled',false);
-      }
-    }
-  });
-});
+// $('#student_id').on('change', function () {
+//   var student_user_id = $(this).val();
+//   var tutor_id = $('#tutor_id').val();
+//   if (student_user_id !=null) {
+//   var result = student_user_id.split(',');
+//   var student_id = result[0];
+// }
+//   $.ajax({
+//     url: "{{ url('check_initialSession') }}/"+student_id+"/"+tutor_id,
+//     success: function(response){
+//       // console.log(response);
+//       if (response == 0) {
+//         $('#initial_session').prop('checked',true);
+//         $('#recurs_weekly').prop('disabled',true);
+//       }else {
+//         $('#initial_session').prop('checked',false);
+//         $('#recurs_weekly').prop('disabled',false);
+//       }
+//     }
+//   });
+// });
 
+$('.date-picker-year').datetimepicker({
+  format:'yyyy-mm-dd',
+  // endDate: '+0d',
+  startDate: '+0d',
+  weekStart: 1,
+  todayBtn:  1,
+  autoclose: 1,
+  todayHighlight: 1,
+  startView: 2,
+  minView: 2,
+  forceParse: 0
+});
 </script>
 @endsection

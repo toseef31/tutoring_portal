@@ -37,6 +37,10 @@ a.low-credit .fc-content {
 .fc-toolbar h2{
   margin-top: 12px;
 }
+.fc th{
+  font-size: 16px;
+
+}
 }
 </style>
 @endsection
@@ -228,7 +232,7 @@ $(document).ready(function() {
           url: "{{url('/user-portal/getclientCallenderData')}}",
           datatype : 'json',
           success: function(doc) {
-          console.log(doc);
+          // console.log(doc);
             var events = [];
 
             $.each(JSON.parse(doc), function(k, v) {
@@ -298,7 +302,7 @@ $(document).ready(function() {
           dataType: "json",
           success: function(res) {
 
-            console.log(res);
+            // console.log(res);
 
             $('.file_menu').html("");
 

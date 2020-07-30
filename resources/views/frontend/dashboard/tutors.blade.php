@@ -71,7 +71,7 @@
             <div class="content">
               @if(count($tutors)>0)
               <div class="table-responsive">
-                <table class="table  table-bordered">
+                <table class="table table-bordered hidden-sm hidden-xs">
                   <thead>
                     <tr>
                       <th>Tutor</th>
@@ -100,9 +100,50 @@
                 {{$tutors->render()}}
               </div>
               @else
-              <h4>Tutor assignment pending <img src="{{asset('/frontend-assets/images/user.jpg')}}" alt=""></h4>
-
+              <div class="hidden-sm hidden-xs">
+                <h4>Tutor assignment pending <img src="{{asset('/frontend-assets/images/user.jpg')}}" alt=""></h4>
+              </div>
               @endif
+              <div class="hidden-md hidden-lg">
+              @if(count($tutor_mobile)>0)
+              @foreach($tutor_mobile as $tutor)
+              <table class="table table-bordered ">
+                <thead>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tutor</td>
+                    <td>
+                      <div class="text-center">
+                        <img src="{{asset('/frontend-assets/images/dashboard/profile-photos/'.$tutor->image)}}" alt="" style="width:100px;height: 100px;border-radius:50%;">
+                      </div>
+                      <p class="text-center" style="margin-top:10px;">{{$tutor->first_name}} {{$tutor->last_name}}</p>
+                    </td>
+                  </tr>
+                     <tr>
+                       <td>Email</td>
+                       <td>{{$tutor->email}}</td>
+                     </tr>
+                     <tr>
+                       <td>Phone</td>
+                       <td>{{$tutor->phone}}</td>
+                     </tr>
+                     <tr>
+                       <td>Assigned To</td>
+                       <td>{{SCT::getStudentName($tutor->student_id)->student_name}}</td>
+                     </tr>
+                     <tr>
+                       <td>About Your Tutor</td>
+                       <td>{{$tutor->description}}</td>
+                     </tr>
+                </tbody>
+              </table>
+              @endforeach
+                {{$tutor_mobile->render()}}
+                @else
+                <h4>Tutor assignment pending <img src="{{asset('/frontend-assets/images/user.jpg')}}" alt=""></h4>
+                @endif
+              </div>
             </div>
             <hr>
           </div>

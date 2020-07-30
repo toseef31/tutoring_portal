@@ -11,6 +11,17 @@
       width:100%;
       padding:1px;
     }
+    .table-responsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+      /* border: 1px solid #ddd; */
+    }
+  }
+  .table-responsive{
+    min-height: .01%;
+    overflow-x: auto;
   }
   .box {
     background: #fff;
@@ -64,48 +75,50 @@
       <p style="color:#74787e;">We send you this email to update you about your timesheets.</p>
       <p class='lead'> Timesheet Details: </p>
       <div class="table-responsive">
-      <table class='table'>
-      <thead>
-      <tr>
-      <th>Student Name</th>
-      <th>Date</th>
-      <th>Duration</th>
-      <th>Session Description</th>
-      </tr>
-      </thead>
-      <tbody align='center'>
-      @foreach($timesheets as $timesheet)
-      <tr>
-      <td>{{$timesheet->student_name}}</td>
-      <td>{{$timesheet->date}}</td>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Date</th>
+              <th>Duration</th>
+              <th>Session Description</th>
+            </tr>
+          </thead>
+          <tbody align='center'>
+            @foreach($timesheets as $timesheet)
+            <tr>
+              <td>{{$timesheet->student_name}}</td>
+              <td>{{$timesheet->date}}</td>
 
-      <td>{{$timesheet->duration}}</td>
-      <td>{{$timesheet->description}}</td>
-      </tr>
-      @endforeach
-      </tbody>
-      </table>
+              <td>{{$timesheet->duration}}</td>
+              <td>{{$timesheet->description}}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
       </div>
       <br>
       <hr>
       <br>
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
       <center>
-         <a href="{{url('/user-portal/tutor-timesheets')}}" class='btn pt-2'>
-        Click To View Timesheets
-      </a>
-    </center>
-    <table class="m_1888394735623576276footer" align="center" width="620" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:0 auto;padding:0;text-align:center;width:620px"><tbody><tr>
-      <td class="m_1888394735623576276content-cell" align="center" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;padding:35px 0">
-        @if($tutor->role == 'customer')
-        <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
-        @endif
-        <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
-        <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
-      </td>
-    </tr></tbody>
-  </table>
-</div>
+        <a href="{{url('/user-portal/tutor-timesheets')}}" class='btn pt-2'>
+          Click To View Timesheets
+        </a>
+      </center>
+      <div class="table-responsive">
+        <table class="m_1888394735623576276footer" align="center" width="620" cellpadding="0" cellspacing="0" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;margin:0 auto;padding:0;text-align:center;width:620px"><tbody><tr>
+          <td class="m_1888394735623576276content-cell" align="center" style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;padding:35px 0">
+            @if($tutor->role == 'customer')
+            <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
+            @endif
+            <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
+            <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
+          </td>
+        </tr></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 </body>
 </html>

@@ -76,7 +76,8 @@ class CustomCommand extends Command
           // dd(date("h:i a"));
           // date_default_timezone_set("Asia/Karachi");
           $time1 = date("h:i a");
-          $time2 = date("h:i a", strtotime('+2 hour +30 minutes',strtotime($session->time)));
+          // $time2 = date("h:i a", strtotime('+2 hour +30 minutes',strtotime($session->time)));
+          $time2 = date("h:i a", strtotime('+3 hour',strtotime($session->time)));
           // dd($session->session_id,$time1,$time2);
           if ($time1 >= $time2) {
             $input['status'] = 'End';
