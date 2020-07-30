@@ -40,7 +40,7 @@
        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
       <link href="{{asset('/frontend-assets/dashboard/css/custom.css')}}" rel="stylesheet" />
       <link href="{{ asset('/frontend-assets/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
-      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+      <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"> -->
        @yield('style')
     </head>
   <body>
