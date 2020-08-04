@@ -69,7 +69,6 @@ class SessionCancelCommand extends Command
         }
 
         $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->get();
-        dd($client_sessions);
         foreach ($client_sessions as $csession) {
           $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
           $date1 =date("Y-m-d H:i");
@@ -80,7 +79,7 @@ class SessionCancelCommand extends Command
               $input['status'] = 'Insufficient Credit';
               DB::table('sessions')->where('session_id',$csession->session_id)->update($input);
               $get_session = DB::table('sessions')->where('session_id',$csession->session_id)->first();
-              dd($get_session);
+              // dd($get_session);
               if ($get_session->recurs_weekly == 'Yes') {
                 $tutor_id = $get_session->tutor_id;
                 $student_id = $get_session->student_id;
