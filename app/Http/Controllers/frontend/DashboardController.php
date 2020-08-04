@@ -359,7 +359,7 @@ class DashboardController extends Controller
        /////////////// Sessions //////////////////////////
        public function tutorSessions(Request $request)
        {
-         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(5)->get();
+         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->orderBy('time','asc')->limit(5)->get();
          foreach ($sessions as &$key) {
            $key->student_name =SCT::getStudentName($key->student_id)->student_name;
          }
@@ -393,26 +393,87 @@ class DashboardController extends Controller
              $date= $request->input('date');
              $time= $request->input('time');
              $session_id = $request->input('session_id');
+
+             $tutor_timezone = SCT::getClientName(auth()->user()->id)->time_zone;
+             if ($tutor_timezone == 'Pacific Time') {
+               date_default_timezone_set("America/Los_Angeles");
+             }elseif ($tutor_timezone == 'Mountain Time') {
+               date_default_timezone_set("America/Denver");
+             }elseif ($tutor_timezone == 'Central Time') {
+               date_default_timezone_set("America/Chicago");
+             }elseif ($tutor_timezone == 'Eastern Time') {
+               date_default_timezone_set("America/New_York");
+             }
+             $date1 = date('Y-m-d H:i:s', strtotime("$date $time"));
+             $date2 =date("Y-m-d H:i:s");
+             if ($date2 > $date1) {
+               // dd($date1,$date2);
+               $sMsg = 'You can not scheduled this session because you are scheduling session at past date/time';
+               $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+               return redirect(url()->previous());
+             }
+
              $prev_session = DB::table('sessions')->where('date',$date)->where('time',$time)->where('tutor_id',auth()->user()->id)->where('session_id','<>',$session_id)->where('status','confirm')->first();
              if ($prev_session !=null) {
                $sMsg = 'You can not scheduled this session because you already have session on this date and time';
                $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
                return redirect(url()->previous());
              }
-             // $prev_session2 = DB::table('sessions')->where('recurs_weekly','Yes')->where('tutor_id',auth()->user()->id)->where('session_id','<>',$session_id)->get();
-             // foreach ($prev_session2 as $prev) {
-             //   $prev_date = $prev->date;
-             //   $day1 = date('l', strtotime($prev_date));
-             //   $day2 = date('l', strtotime($date));
-             //   if ($day1 == $day2) {
-             //     if ($prev->time == $time) {
-             //       $sMsg = 'You can not scheduled this session because you already have session on this date and time';
-             //       $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
-             //       return redirect(url()->previous());
-             //     }
-             //   }
-             // }
-             // dd($session_id);
+
+             $prev_session2 = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date',$date)->where('session_id','<>',$session_id)->where('status','confirm')->get();
+             foreach ($prev_session2 as $prev) {
+               $prev_time = $prev->time;
+               $prev_duration = $prev->duration;
+               if ($prev_duration == '0:30') {
+                 $new_time = date("H:i", strtotime('+30 minutes',strtotime($prev_time)));
+               }elseif ($prev_duration == '1:00') {
+                 $new_time = date("H:i", strtotime('+1 hour',strtotime($prev_time)));
+               }elseif ($prev_duration == '1:30') {
+                 $new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($prev_time)));
+               }elseif ($prev_duration == '2:00') {
+                 $new_time = date("H:i", strtotime('+2 hours',strtotime($prev_time)));
+               }
+               $time = date("h:i a" ,strtotime($time));
+               $prev_time = date("h:i a" ,strtotime($prev_time));
+               $new_time = date("h:i a" ,strtotime($new_time));
+               $time1 = DateTime::createFromFormat('H:i a', $time);
+               $time2 = DateTime::createFromFormat('H:i a', $prev_time);
+               $time3 = DateTime::createFromFormat('H:i a', $new_time);
+               if ($time1 > $time2 && $time1 < $time3) {
+                 // dd($time1,$time2,$time3,"exist");
+                 $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+                 $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                 return redirect(url()->previous());
+               }
+             }
+
+             $prev_session3 = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date',$date)->where('session_id','<>',$session_id)->where('status','confirm')->orderby('time','asc')->get();
+             foreach ($prev_session3 as $prev) {
+               $new_session_old_time = $time;
+               $new_session_duration = $request->input('duration');
+               $old_session_time = $prev->time;
+               if ($new_session_duration == '0:30') {
+                 $new_session_new_time = date("H:i", strtotime('+30 minutes',strtotime($new_session_old_time)));
+               }elseif ($new_session_duration == '1:00') {
+                 $new_session_new_time = date("H:i", strtotime('+1 hour',strtotime($new_session_old_time)));
+               }elseif ($new_session_duration == '1:30') {
+                 $new_session_new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($new_session_old_time)));
+               }elseif ($new_session_duration == '2:00') {
+                 $new_session_new_time = date("H:i", strtotime('+2 hours',strtotime($new_session_old_time)));
+               }
+               $old_session_time = date("h:i a" ,strtotime($old_session_time));
+               $new_session_old_time = date("h:i a" ,strtotime($new_session_old_time));
+               $new_session_new_time = date("h:i a" ,strtotime($new_session_new_time));
+               $time1 = DateTime::createFromFormat('H:i a', $old_session_time);
+               $time2 = DateTime::createFromFormat('H:i a', $new_session_old_time);
+               $time3 = DateTime::createFromFormat('H:i a', $new_session_new_time);
+               if ($time1 > $time2 && $time1 < $time3) {
+                 // dd($time1,$time2,$time3,"exist");
+                 $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+                 $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                 return redirect(url()->previous());
+               }
+             }
 
               $data = $request->input('student_id');
                $data = explode(',',$data);
@@ -525,10 +586,36 @@ class DashboardController extends Controller
                }else{
                      $credit_balance='';
                      $check_credit = DB::table('credits')->where('user_id',$user_id)->first();
+
                      if ($check_credit !=null) {
                        $credit_balance = $check_credit->credit_balance;
                      }
                      if ($credit_balance !='' && $credit_balance > 0) {
+                       if ($input['recurs_weekly']  == 'Yes') {
+                         $get_session_edit = DB::table('sessions')->where('session_id',$session_id)->first();
+                         if ($get_session_edit->recurs_weekly == "No") {
+                           for ($i=0; $i <52 ; $i++) {
+                             if ($i==0) {
+                               $old_date = $get_session_edit->date;
+                             }
+                             $new_date = date('Y-m-d', strtotime('+7days',strtotime($old_date)));
+                             $input3['tutor_id'] = $get_session_edit->tutor_id;
+                             $input3['student_id'] = $get_session_edit->student_id;
+                             $input3['user_id'] = $get_session_edit->user_id;
+                             $input3['subject']=$input['subject'];
+                             $input3['date']= $new_date;
+                             $input3['time']= $input['time'];
+                             $input3['duration']= $input['duration'];
+                             $input3['location']= $input['location'];
+                             $input3['session_type'] = $input['location'];
+                             $input3['recurs_weekly'] = $input['recurs_weekly'];
+                             $input3['status']  = 'Confirm';
+                             $recurs_weekly_session = DB::table('sessions')->insert($input3);
+                             $old_date = $new_date;
+                           }
+                         }
+                         // dd($get_session_edit);
+                       }
                        $session_id = DB::table('sessions')->where('session_id',$session_id)->update($input);
                      }else {
                        $sMsg = 'You cannot schedule this session because the client has 0 credits remaining';
@@ -628,7 +715,7 @@ class DashboardController extends Controller
 
        public function clientSessions(Request $request)
        {
-         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->limit(2)->get();
+         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->orderBy('time','asc')->limit(2)->get();
          foreach ($sessions as &$key) {
            $key->student_name =SCT::getStudentName($key->student_id)->student_name;
          }
