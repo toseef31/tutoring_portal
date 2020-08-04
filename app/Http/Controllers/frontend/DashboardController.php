@@ -289,7 +289,36 @@ class DashboardController extends Controller
              $tutor_id = $session->tutor_id;
              $date = $session->date;
              $time = $session->time;
+
              $check_session = DB::table('sessions')->where('tutor_id',$tutor_id)->where('date',$date)->where('time',$time)->where('status','Confirm')->first();
+         //     $prev_session2 = DB::table('sessions')->where('tutor_id',$tutor_id)->where('date',$date)->where('status','confirm')->get();
+         //     if (count($prev_session2) > 0) {
+         //       foreach ($prev_session2 as $prev) {
+         //       $prev_time = $prev->time;
+         //       $prev_duration = $prev->duration;
+         //       if ($prev_duration == '0:30') {
+         //         $new_time = date("H:i", strtotime('+30 minutes',strtotime($prev_time)));
+         //       }elseif ($prev_duration == '1:00') {
+         //         $new_time = date("H:i", strtotime('+1 hour',strtotime($prev_time)));
+         //       }elseif ($prev_duration == '1:30') {
+         //         $new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($prev_time)));
+         //       }elseif ($prev_duration == '2:00') {
+         //         $new_time = date("H:i", strtotime('+2 hours',strtotime($prev_time)));
+         //       }
+         //       $time = date("h:i a" ,strtotime($time));
+         //       $prev_time = date("h:i a" ,strtotime($prev_time));
+         //       $new_time = date("h:i a" ,strtotime($new_time));
+         //       $time1 = DateTime::createFromFormat('H:i a', $time);
+         //       $time2 = DateTime::createFromFormat('H:i a', $prev_time);
+         //       $time3 = DateTime::createFromFormat('H:i a', $new_time);
+         //       if ($time1 > $time2 && $time1 < $time3) {
+         //         // dd($time1,$time2,$time3,"exist");
+         //         $input2['status'] = 'Cancel';
+         //        $check_session = DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
+         //         $request->session()->flash('message', 'Thank you for your credit purchase but your previously assigned session can not reinstated due to tutor confilicting session');
+         //     }
+         //   }
+         // }
              if ($check_session !='') {
                $input2['status'] = 'Cancel';
                DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
@@ -297,7 +326,7 @@ class DashboardController extends Controller
              }else {
                $input2['status'] = 'Confirm';
                $input2['mail_status'] = '0';
-               DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
+               DB::table('sessions')->where('session_id',$session->session_id)->where('status','<>','Cancel')->update($input2);
                $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
              }
            }
