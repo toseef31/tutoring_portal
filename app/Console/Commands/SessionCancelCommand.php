@@ -69,6 +69,7 @@ class SessionCancelCommand extends Command
         }
 
         $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->get();
+        dd($client_sessions);
         foreach ($client_sessions as $csession) {
           $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
           $date1 =date("Y-m-d H:i");
