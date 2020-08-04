@@ -79,6 +79,7 @@ class SessionCancelCommand extends Command
               $input['status'] = 'Insufficient Credit';
               DB::table('sessions')->where('session_id',$csession->session_id)->update($input);
               $get_session = DB::table('sessions')->where('session_id',$csession->session_id)->first();
+              dd($get_session);
               if ($get_session->recurs_weekly == 'Yes') {
                 $tutor_id = $get_session->tutor_id;
                 $student_id = $get_session->student_id;
