@@ -1,6 +1,8 @@
 <html>
 <head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
+
   .container {
     background: rgb(238, 238, 238);
     padding: 80px;
@@ -8,9 +10,13 @@
   @media only screen and (max-device-width: 690px) {
     .container {
       background: rgb(238, 238, 238);
-      width:100%;
+      width:100% !important;
       padding:1px;
     }
+    .table{
+      max-width: 50px !important
+    }
+
   }
   .box {
     background: #fff;

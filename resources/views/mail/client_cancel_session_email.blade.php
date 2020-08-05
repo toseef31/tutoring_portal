@@ -1,4 +1,5 @@
 <html>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
 <head>
   <style>
   .container {
@@ -8,7 +9,7 @@
   @media only screen and (max-device-width: 690px) {
     .container {
       background: rgb(238, 238, 238);
-      width:100%;
+      width:100% !important;
       padding:1px;
     }
   }
@@ -69,7 +70,7 @@
       <p style="color:#74787e;">Dear {{$tutor->first_name}} ,</p>
       <p style="color:#74787e;">Session has been canceled by the Client</p>
       <p class='lead'> Session Details: </p>
-      <!-- <div class="table-responsive" style="width:50%;"> -->
+      <div class="table-responsive">
         <table class='table'>
           <thead>
             <tr>
@@ -97,7 +98,7 @@
               </tr>
             </tbody>
           </table>
-        <!-- </div> -->
+        </div>
         <br>
         <h4>Cancellation Reason</h4>
         <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">{{$reason}}</p>

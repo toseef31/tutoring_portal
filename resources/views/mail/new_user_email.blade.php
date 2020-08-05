@@ -1,4 +1,5 @@
 <html>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
 <head>
   <style>
   .container {
@@ -8,7 +9,7 @@
   @media only screen and (max-device-width: 690px) {
     .container {
       background: rgb(238, 238, 238);
-      width:100%;
+      width:100% !important;
       padding:1px;
     }
   }
@@ -61,6 +62,7 @@
       </center>
       <hr>
       <p class='lead'> Client Details: </p>
+      <div class="table-responsive">
       <table class='table'>
         <thead>
           <tr>
@@ -85,9 +87,11 @@
           </tr>
         </tbody>
       </table>
+    </div>
       <br>
       <hr>
       <p class='lead'> Student Details: </p>
+      <div class="table-responsive">
       <table class='table'>
         <thead>
           <tr>
@@ -110,6 +114,7 @@
           </tr>
         </tbody>
       </table>
+    </div>
       <br>
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
       <center>
