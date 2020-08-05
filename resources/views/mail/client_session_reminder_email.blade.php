@@ -141,6 +141,7 @@ $base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
           </a>
           @endif
         </center>
+        <br>
         <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
         <hr>
         @if($user->role == 'customer')

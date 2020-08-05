@@ -64,12 +64,12 @@
       <p class='lead'> Dear {{$user->first_name}} , </p>
       <p style="color:#74787e;">Thank you so much for using your tutoring credits! Your current credit balance is {{$credit_balance}} credits. To continue attending tutoring sessions, please purchase more credits using the following link.</p>
       <br>
-      <br>
       <center>
         <a href="{{url('/user-portal/credits')}}" class='btn pt-2'>
           Please purchase more credits here
         </a>
       </center>
+      <br>
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Warm regards,<br>Smart Cookie Tutors</p>
       <hr>
       @if($user->role == 'customer')

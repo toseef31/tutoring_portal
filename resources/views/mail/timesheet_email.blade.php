@@ -95,6 +95,7 @@
           Click To View Timesheets
         </a>
       </center>
+      <br>
       @if($tutor->role == 'customer')
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
       @endif
