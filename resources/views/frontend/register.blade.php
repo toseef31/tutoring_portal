@@ -44,11 +44,11 @@
 				  	<div class="row">
 				  		<div class="col-md-6">
 				  			<label>First Name (Parent/Adult)</label>
-				  			<input type="text" class="form-control" placeholder="Enter firstname" id="first_name" name="first_name" required>
+				  			<input type="text" class="form-control" placeholder="Enter First Name" id="first_name" name="first_name" required>
 				  		</div>
 				  		<div class="col-md-6">
 				  			<label>Last Name (Parent/Adult)</label>
-				  			<input type="text" class="form-control" placeholder="Enter lastname" id="last_name" name="last_name" required>
+				  			<input type="text" class="form-control" placeholder="Enter Last Name" id="last_name" name="last_name" required>
 				  		</div>
 				  	</div>
 				  </div>
@@ -149,7 +149,8 @@
 				  </div>
 				  <div class="form-group">
 				  	<label>Phone Number</label>
-				    <input type="tel"  class="form-control" placeholder="Enter phone number" id="phone_number" name="phone" required>
+				    <!-- <input type="tel"  class="form-control" placeholder="Enter phone number" id="phone_number" name="phone" required> -->
+				    <input type="tel"  class="form-control" placeholder="Enter phone number" id="" name="phone" required>
 				  </div>
 				  <div class="form-group">
 						<label>Student Name</label>

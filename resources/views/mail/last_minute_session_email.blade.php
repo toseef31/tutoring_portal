@@ -14,9 +14,30 @@
       padding:1px;
     }
     .table{
-      max-width: 50px !important
+      padding-right: 10px !important;
+    }
+    ::-webkit-scrollbar {
+      -webkit-appearance: none;
     }
 
+    ::-webkit-scrollbar:vertical {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar:horizontal {
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, .5);
+      border-radius: 10px;
+      border: 2px solid #ffffff;
+    }
+
+    ::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: #ffffff;
+    }
   }
   .box {
     background: #fff;
@@ -145,7 +166,7 @@
       @endif
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
+    </div>
   </div>
-</div>
 </body>
 </html>

@@ -382,10 +382,10 @@ class DashboardController extends Controller
        {
          $students = DB::table('tutor_assign')
                   ->join('students','students.student_id','=','tutor_assign.student_id')
-                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->paginate(15);
+                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->orderby('student_name','asc')->paginate(15);
          $student_mobile = DB::table('tutor_assign')
                   ->join('students','students.student_id','=','tutor_assign.student_id')
-                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->paginate(1);
+                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->orderby('student_name','asc')->paginate(1);
                   // dd($students);
         return view('frontend.dashboard.tutor-students',compact('students','student_mobile'));
        }

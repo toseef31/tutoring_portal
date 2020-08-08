@@ -12,6 +12,31 @@
       width:100% !important;
       padding:1px;
     }
+    .table{
+      padding-right: 10px !important;
+    }
+    ::-webkit-scrollbar {
+      -webkit-appearance: none;
+    }
+
+    ::-webkit-scrollbar:vertical {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar:horizontal {
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, .5);
+      border-radius: 10px;
+      border: 2px solid #ffffff;
+    }
+
+    ::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background-color: #ffffff;
+    }
   }
   .box {
     background: #fff;
@@ -63,58 +88,58 @@
       <hr>
       <p class='lead'> Client Details: </p>
       <div class="table-responsive">
-      <table class='table'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Zip</th>
-          </tr>
-        </thead>
-        <tbody align='center'>
-          <tr>
-            <td>{{$user->first_name}} {{$user->last_name}}</td>
-            <td>{{$user->email}}</td>
-            <td>{{$user->phone}}</td>
-            <td>{{$user->address}}</td>
-            <td>{{$user->city}}</td>
-            <td>{{$user->state}}</td>
-            <td>{{$user->zip}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Zip</th>
+            </tr>
+          </thead>
+          <tbody align='center'>
+            <tr>
+              <td>{{$user->first_name}} {{$user->last_name}}</td>
+              <td>{{$user->email}}</td>
+              <td>{{$user->phone}}</td>
+              <td>{{$user->address}}</td>
+              <td>{{$user->city}}</td>
+              <td>{{$user->state}}</td>
+              <td>{{$user->zip}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <br>
       <hr>
       <p class='lead'> Student Details: </p>
       <div class="table-responsive">
-      <table class='table'>
-        <thead>
-          <tr>
-            <th>Student Name</th>
-            <th>Student Email</th>
-            <th>School/College</th>
-            <th>Grade/Level</th>
-            <th>Tutoring Subject</th>
-            <th>Tutoring Goals</th>
-          </tr>
-        </thead>
-        <tbody align='center'>
-          <tr>
-            <td>{{$student->student_name}}</td>
-            <td>{{$student->email}}</td>
-            <td>{{$student->college}}</td>
-            <td>{{$student->grade}}</td>
-            <td>{{$student->subject}}</td>
-            <td>{{$student->goal}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Student Email</th>
+              <th>School/College</th>
+              <th>Grade/Level</th>
+              <th>Tutoring Subject</th>
+              <th>Tutoring Goals</th>
+            </tr>
+          </thead>
+          <tbody align='center'>
+            <tr>
+              <td>{{$student->student_name}}</td>
+              <td>{{$student->email}}</td>
+              <td>{{$student->college}}</td>
+              <td>{{$student->grade}}</td>
+              <td>{{$student->subject}}</td>
+              <td>{{$student->goal}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <br>
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
       <center>
@@ -123,7 +148,7 @@
       </a> -->
     </center>
     <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
-</div>
+  </div>
 </div>
 </body>
 </html>

@@ -63,6 +63,7 @@ Route::group(['prefix' => 'user-portal'], function () {
   Route::get('/tutor-timesheet-details/{id}', 'frontend\DashboardController@tutorTimesheetDetails');
   Route::delete('delete-timesheet','frontend\DashboardController@deleteTimesheet');
   Route::get('/send-email', 'frontend\DashboardController@SendEmail');
+  Route::get('/get_last_minute_session', 'frontend\DashboardController@LastminuteSession');
 
   });
 });

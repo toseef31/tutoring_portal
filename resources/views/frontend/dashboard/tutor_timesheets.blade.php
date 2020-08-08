@@ -223,7 +223,7 @@ $(document).ready(function() {
       right: ''
     },
     contentHeight: 'auto',
-    // defaultView: 'week',
+    // defaultView: 'agendaWeek',
     // defaultView: "timelineFifteenDay",
     eventColor: '#10C5A7',
     timeFormat: 'h:mma',
