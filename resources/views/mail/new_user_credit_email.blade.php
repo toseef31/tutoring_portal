@@ -121,8 +121,6 @@
               <th>Phone</th>
               <th>Address</th>
               <th>City</th>
-              <th>State</th>
-              <th>Zip</th>
             </tr>
           </thead>
           <tbody align='center'>
