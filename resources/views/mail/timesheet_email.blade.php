@@ -118,7 +118,7 @@
         </table>
       </div>
       @else
-      <p>No Timesheet Record</p>
+      <p class='lead'>No Timesheet Record</p>
       @endif
       <br>
       <hr>
