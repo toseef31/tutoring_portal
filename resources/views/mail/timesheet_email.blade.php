@@ -103,7 +103,11 @@
             @foreach($timesheets as $timesheet)
             <tr>
               <td>{{$timesheet->student_name}}</td>
-              <td>{{$timesheet->date}}</td>
+              <td>
+                <?php
+                $date = date('M d, Y', strtotime($timesheet->date));
+                ?>
+                {{$date}}</td>
 
               <td>{{$timesheet->duration}}</td>
               <td>{{$timesheet->description}}</td>
