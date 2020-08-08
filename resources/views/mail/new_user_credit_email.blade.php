@@ -37,6 +37,12 @@
       border-radius: 10px;
       background-color: #ffffff;
     }
+    .table1{
+      display: none;
+    }
+    .table1{
+      display: block;
+    }
   }
   .box {
     background: #fff;
@@ -76,6 +82,9 @@
     border:1px solid #ddd;
     padding:10px;
   }
+  .table2{
+    display: none;
+  }
   </style>
 </head>
 <body class='is-responsive'>
@@ -89,7 +98,7 @@
       <p style="color:#74787e;">{{$user->first_name}} {{$user->last_name}} have successfully purchased first credits and new credit balance is {{$credit->credit_balance}}.</p>
       <p class='lead'> Client Details: </p>
       <div class="table-responsive">
-        <table class='table hidden-sm hidden-xs'>
+        <table class='table table1'>
           <thead>
             <tr>
               <th>Name</th>
@@ -113,7 +122,7 @@
             </tr>
           </tbody>
         </table>
-        <table class='table hidden-md hidden-lg'>
+        <table class='table table2'>
           <thead>
             <tr>
               <th>Name</th>
