@@ -38,10 +38,10 @@
       background-color: #ffffff;
     }
     .table1{
-      display: none;
+      display: none !important;
     }
-    .table1{
-      display: block;
+    .table2{
+      display: block !important;
     }
   }
   .box {
@@ -82,9 +82,11 @@
     border:1px solid #ddd;
     padding:10px;
   }
-  .table2{
-    display: none;
-  }
+    @media only screen and (min-device-width: 690px) {
+      .table2{
+        display: none;
+      }
+    }
   </style>
 </head>
 <body class='is-responsive'>
