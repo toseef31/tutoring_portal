@@ -88,6 +88,7 @@
       <hr>
       <p class='lead'> Dear {{$tutor->first_name}} , </p>
       <p style="color:#74787e;">We send you this email to update you about your timesheets.</p>
+      @if(count($timesheets) >0)
       <p class='lead'> Timesheet Details: </p>
       <div class="table-responsive">
         <table class='table'>
@@ -116,6 +117,9 @@
           </tbody>
         </table>
       </div>
+      @else
+      <p>No Timesheet Record</p>
+      @endif
       <br>
       <hr>
       <br>
