@@ -89,7 +89,7 @@
       <p style="color:#74787e;">{{$user->first_name}} {{$user->last_name}} have successfully purchased first credits and new credit balance is {{$credit->credit_balance}}.</p>
       <p class='lead'> Client Details: </p>
       <div class="table-responsive">
-        <table class='table'>
+        <table class='table hidden-sm hidden-xs'>
           <thead>
             <tr>
               <th>Name</th>
@@ -110,6 +110,28 @@
               <td>{{$user->city}}</td>
               <td>{{$user->state}}</td>
               <td>{{$user->zip}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table class='table hidden-md hidden-lg'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Zip</th>
+            </tr>
+          </thead>
+          <tbody align='center'>
+            <tr>
+              <td>{{$user->first_name}} {{$user->last_name}}</td>
+              <td>{{$user->email}}</td>
+              <td>{{$user->phone}}</td>
+              <td>{{$user->address}}</td>
+              <td>{{$user->city}}</td>
             </tr>
           </tbody>
         </table>
