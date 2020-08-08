@@ -150,9 +150,9 @@ $base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
                 {{$date}} {{$time}}</td>
                 <td>{{$session->location}}</td>
               </tr>
-            </div>
           </tbody>
         </table>
+      </div>
         <br>
 
         <p style="color:#74787e;">You currently have {{$credit->credit_balance}} credits remaining. </p>
