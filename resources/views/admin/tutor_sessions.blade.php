@@ -13,6 +13,20 @@
 a.cancel .fc-content .fc-title ,a.cancel .fc-content .fc-time {
   text-decoration: line-through;
 }
+/* red event */
+a.cancel .fc-content .fc-title ,a.low-credit .fc-content .fc-time {
+  background: red !important;
+  border: 1px solid red !important;
+}
+a.cancel  {
+  border-color: red !important;
+  background: red !important;
+}
+a.cancel .fc-content {
+  border-color: red !important;
+  background: red !important;
+}
+/* yellow event */
 a.low-credit .fc-content .fc-title ,a.low-credit .fc-content .fc-time {
   background: #dcdc25 !important;
   border: 1px solid #dcdc25 !important;
@@ -122,7 +136,9 @@ $s_app = Session()->get('sessionsSearch');
                       $time = date('h:i a', strtotime($session->time));
                        $date = date('M d, Y', strtotime($session->date));
                        ?>
-                       @if(SCT::checkCredit($session->user_id)->credit_balance == 0.5)
+                       @if($session->status == 'Cancel' || $session->status == 'Insufficient Credit')
+                       <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: red;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}} (half hour credit) @endif</span> </a></li>
+                       @elseif(SCT::checkCredit($session->user_id)->credit_balance == 0.5)
                        <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}} (half hour credit) @endif</span> </a></li>
                        @else
                        <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}} @endif</span> </a></li>

@@ -899,14 +899,14 @@ class AdminController extends Controller
           $date2 =date("Y-m-d H:i:s");
           if ($date2 > $date1) {
             // dd($date1,$date2);
-            $sMsg = 'You can not scheduled this session because you are scheduling session at past date/time';
+            $sMsg = 'Unable to schedule a session in the past. Please correct the session date or time and try again.';
             $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
             return redirect(url()->previous());
           }
 
           $prev_session = DB::table('sessions')->where('date',$date)->where('time',$time)->where('tutor_id',$tutor_id)->where('session_id','<>',$session_id)->where('status','confirm')->first();
           if ($prev_session !=null) {
-            $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+            $sMsg = 'Unable to schedule session due to one or more conflicting sessions. Please correct the session date or time and try again.';
             $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
             // $request->session()->flash('message' , 'Agreement Deleted Successfully');
             return redirect(url()->previous());
@@ -933,7 +933,7 @@ class AdminController extends Controller
             $time3 = DateTime::createFromFormat('H:i a', $new_time);
             if ($time1 > $time2 && $time1 < $time3) {
               // dd($time1,$time2,$time3,"exist");
-              $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+              $sMsg = 'Unable to schedule session due to one or more conflicting sessions. Please correct the session date or time and try again.';
               $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
               return redirect(url()->previous());
             }
@@ -961,7 +961,7 @@ class AdminController extends Controller
             $time3 = DateTime::createFromFormat('H:i a', $new_session_new_time);
             if ($time1 > $time2 && $time1 < $time3) {
               // dd($time1,$time2,$time3,"exist");
-              $sMsg = 'You can not scheduled this session because you already have session on this date and time';
+              $sMsg = 'Unable to schedule session due to one or more conflicting sessions. Please correct the session date or time and try again.';
               $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
               return redirect(url()->previous());
             }
