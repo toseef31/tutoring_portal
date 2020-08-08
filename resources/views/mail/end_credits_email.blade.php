@@ -11,6 +11,9 @@
       width:100%;
       padding:1px;
     }
+    .btn{
+      font-size: 14px !important;
+    }
   }
 
   .box {
