@@ -1002,6 +1002,74 @@ class AdminController extends Controller
               return redirect(url()->previous());
             }
 
+            // Recurs Weekly Conflicting Check
+            if ($input['recurs_weekly'] == 'Yes') {
+              for ($i=0; $i <52 ; $i++) {
+                if ($i==0) {
+                  $old_date = $date;
+                }
+                $new_date = date('Y-m-d', strtotime('+7days',strtotime($old_date)));
+                // Check confliting session before end
+                $prev_session2 = DB::table('sessions')->where('tutor_id',$tutor_id)->where('date',$new_date)->where('session_id','<>',$session_id)->where('status','confirm')->get();
+                foreach ($prev_session2 as $prev) {
+                  $prev_time = $prev->time;
+                  $prev_duration = $prev->duration;
+                  if ($prev_duration == '0:30') {
+                    $new_time = date("H:i", strtotime('+30 minutes',strtotime($prev_time)));
+                  }elseif ($prev_duration == '1:00') {
+                    $new_time = date("H:i", strtotime('+1 hour',strtotime($prev_time)));
+                  }elseif ($prev_duration == '1:30') {
+                    $new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($prev_time)));
+                  }elseif ($prev_duration == '2:00') {
+                    $new_time = date("H:i", strtotime('+2 hours',strtotime($prev_time)));
+                  }
+                  $time = date("h:i a" ,strtotime($time));
+                  $prev_time = date("h:i a" ,strtotime($prev_time));
+                  $new_time = date("h:i a" ,strtotime($new_time));
+                  $time1 = DateTime::createFromFormat('H:i a', $time);
+                  $time2 = DateTime::createFromFormat('H:i a', $prev_time);
+                  $time3 = DateTime::createFromFormat('H:i a', $new_time);
+                  if ($time1 > $time2 && $time1 < $time3) {
+                    // dd($time1,$time2,$time3,"exist");
+                    $sMsg = 'Unable to schedule session due to one or more conflicting sessions. Please correct the session date or time and try again.';
+                    $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                    return redirect(url()->previous());
+                  }
+                }
+
+                // Check confliting session before start
+                $prev_session3 = DB::table('sessions')->where('tutor_id',$tutor_id)->where('date',$new_date)->where('session_id','<>',$session_id)->where('status','confirm')->get();
+                foreach ($prev_session3 as $prev) {
+                  $new_session_old_time = $time;
+                  $new_session_duration = $request->input('duration');
+                  $old_session_time = $prev->time;
+                  if ($new_session_duration == '0:30') {
+                    $new_session_new_time = date("H:i", strtotime('+30 minutes',strtotime($new_session_old_time)));
+                  }elseif ($new_session_duration == '1:00') {
+                    $new_session_new_time = date("H:i", strtotime('+1 hour',strtotime($new_session_old_time)));
+                  }elseif ($new_session_duration == '1:30') {
+                    $new_session_new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($new_session_old_time)));
+                  }elseif ($new_session_duration == '2:00') {
+                    $new_session_new_time = date("H:i", strtotime('+2 hours',strtotime($new_session_old_time)));
+                  }
+                  $old_session_time = date("h:i a" ,strtotime($old_session_time));
+                  $new_session_old_time = date("h:i a" ,strtotime($new_session_old_time));
+                  $new_session_new_time = date("h:i a" ,strtotime($new_session_new_time));
+                  $time1 = DateTime::createFromFormat('H:i a', $old_session_time);
+                  $time2 = DateTime::createFromFormat('H:i a', $new_session_old_time);
+                  $time3 = DateTime::createFromFormat('H:i a', $new_session_new_time);
+                  if ($time1 > $time2 && $time1 < $time3) {
+                    // dd($time1,$time2,$time3,"exist");
+                    $sMsg = 'Unable to schedule session due to one or more conflicting sessions. Please correct the session date or time and try again.';
+                    $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                    return redirect(url()->previous());
+                  }
+                }
+                $old_date = $new_date;
+             }
+            }
+
+
             if($session_id == ''){
                   $credit_balance='';
                   $check_credit = DB::table('credits')->where('user_id',$user_id)->first();
