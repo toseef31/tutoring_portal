@@ -370,10 +370,10 @@ class DashboardController extends Controller
        {
          $tutors = DB::table('tutor_assign')
                   ->join('users','users.id','=','tutor_assign.tutor_id')
-                  ->where('tutor_assign.user_id','=',auth()->user()->id)->paginate(10);
+                  ->where('tutor_assign.user_id','=',auth()->user()->id)->orderby('users.first_name')->paginate(10);
          $tutor_mobile = DB::table('tutor_assign')
                   ->join('users','users.id','=','tutor_assign.tutor_id')
-                  ->where('tutor_assign.user_id','=',auth()->user()->id)->paginate(1);
+                  ->where('tutor_assign.user_id','=',auth()->user()->id)->orderby('users.first_name')->paginate(1);
                   // dd($tutor_mobile);
         return view('frontend.dashboard.tutors',compact('tutors','tutor_mobile'));
        }

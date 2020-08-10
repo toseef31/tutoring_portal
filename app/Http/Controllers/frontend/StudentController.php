@@ -47,8 +47,8 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        $students = Student::where('user_id',auth()->user()->id)->paginate(15);
-        $student_mobile = Student::where('user_id',auth()->user()->id)->paginate(1);
+        $students = Student::where('user_id',auth()->user()->id)->orderBy('student_name','asc')->paginate(15);
+        $student_mobile = Student::where('user_id',auth()->user()->id)->orderBy('student_name','asc')->paginate(1);
         return view('frontend.dashboard.students',compact('students','student_mobile'));
     }
 
