@@ -1029,7 +1029,7 @@ class AdminController extends Controller
                   $time1 = DateTime::createFromFormat('H:i a', $time);
                   $time2 = DateTime::createFromFormat('H:i a', $prev_time);
                   $time3 = DateTime::createFromFormat('H:i a', $new_time);
-                  if ($time1 > $time2 && $time1 < $time3) {
+                  if ($time1 >= $time2 && $time1 < $time3) {
                     // dd($time1,$time2,$time3,"exist");
                     $sMsg = 'Unable to schedule session due to one or more conflicting sessions. Please correct the session date or time and try again.';
                     $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
