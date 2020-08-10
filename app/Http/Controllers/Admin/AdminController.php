@@ -1065,7 +1065,8 @@ class AdminController extends Controller
                       function ($message) use ($toemail)
                       {
 
-                        $message->subject('Smart Cookie Tutors.com - Last Minute Session '.date('H:i:s'));
+                        // $message->subject('Smart Cookie Tutors.com - Last Minute Session '.date('H:i:s'));
+                        $message->subject('Smart Cookie Tutors.com - Last Minute Session');
                         $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                         $message->to($toemail);
                       });
@@ -1162,7 +1163,8 @@ class AdminController extends Controller
             Mail::send('mail.tutor_cancel_session_email',['user' =>$user,'tutor' =>$tutor,'student' =>$student,'session'=>$session_details],
             function ($message) use ($toemail)
             {
-              $message->subject('Smart Cookie Tutors.com - Session Cancelled '.date('H:i:s'));
+              // $message->subject('Smart Cookie Tutors.com - Session Cancelled '.date('H:i:s'));
+              $message->subject('Smart Cookie Tutors.com - Session Cancelled');
               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
               $message->to($toemail);
             });

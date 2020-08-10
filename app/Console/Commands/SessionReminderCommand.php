@@ -88,7 +88,8 @@ class SessionReminderCommand extends Command
             function ($message) use ($toemail)
             {
 
-              $message->subject('Smart Cookie Tutors.com - Session Reminder Email '.date('H:i:s'));
+              // $message->subject('Smart Cookie Tutors.com - Session Reminder Email '.date('H:i:s'));
+              $message->subject('Smart Cookie Tutors.com - Session Reminder Email');
               $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
               $message->to($toemail);
             });
