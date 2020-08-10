@@ -371,7 +371,7 @@ class DashboardController extends Controller
          $tutors = DB::table('tutor_assign')
                   ->join('users','users.id','=','tutor_assign.tutor_id')
                   ->join('students','students.student_id','=','students.student_id')
-                  ->where('tutor_assign.user_id','=',auth()->user()->id)->orderby('users.first_name')->orderby('students.student_name')->paginate(10);
+                  ->where('tutor_assign.user_id','=',auth()->user()->id)->where('students.user_id','=',auth()->user()->id)->orderby('users.first_name')->orderby('students.student_name')->paginate(10);
                   // dd($tutors);
          $tutor_mobile = DB::table('tutor_assign')
                   ->join('users','users.id','=','tutor_assign.tutor_id')
