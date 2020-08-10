@@ -101,6 +101,44 @@
               <div class="card-body">
                 <div class="col-md-6">
                   <?php
+                  $current_date = date('Y-m-d');
+                  $interval_date = date('Y-m-15');
+                  $current_interval2='';
+                  if ($current_date <= date('Y-m-15')) {
+                    $current_interval = date("M d, Y" ,strtotime( date( 'Y-m-01' )))." - ".date("M d, Y",strtotime( date( 'Y-m-15' )));
+                    // dd($current_interval);
+                  }else {
+                    $current_interval2 = date("M d, Y" ,strtotime( date( 'Y-m-16' )))." - ".date("M d, Y",strtotime( date( 'Y-m-t' )));
+                    $current_interval = date("M d, Y" ,strtotime( date( 'Y-m-01' )))." - ".date("M d, Y",strtotime( date( 'Y-m-15' )));
+                    // dd($current_interval);
+                  }
+                  // $current_interval2 = date("M d, Y" ,strtotime( date( 'Y-m-16' )))." - ".date("M d, Y",strtotime( date( 'Y-m-t' )));
+                  for ($i = 0; $i <= 13; $i++) {
+                    $months[] = date("Y-m-d", strtotime( date( 'Y-m-01' )." -$i months"));
+                    if ($i == 0) {
+                      if ($current_interval2 !='') {
+                        $previous_interval1[] =$current_interval;
+                        $previous_interval2[] =$current_interval2;
+                      }else {
+                        $previous_interval1[] =$current_interval;
+                        $previous_interval2 = array();
+                      }
+                    }else {
+                    $previous_month_start =date("Y-m-d", strtotime( date( 'Y-m-01' )." -$i months"));
+                    $previous_month_mid =date("Y-m-d", strtotime( date( 'Y-m-15' )." -$i months"));
+                    $previous_month_end = date("Y-m-t", strtotime($previous_month_start));
+                    $previous_interval1[] =date("M d, Y" ,strtotime($previous_month_start))." - ".date("M d, Y",strtotime( $previous_month_mid));
+                    $previous_interval2[] =date("M d, Y" ,strtotime( '+1 day' ,strtotime($previous_month_mid)))." - ".date("M d, Y",strtotime( $previous_month_end));
+                  }
+                    $get_months[] = array_merge($previous_interval2,$previous_interval1);
+                    unset($previous_interval1);
+                    $previous_interval1 = array();
+                    unset($previous_interval2);
+                    $previous_interval2 = array();
+
+                    // dd($get_months);
+                  }
+                  // dd($get_months);
                   $jan1 = date('Y-01-1');
                   $jan2 =date('Y-01-15');
                   $jan3 =date('Y-01-16');
@@ -174,10 +212,15 @@
                   $nov2_show = date('M d, Y', strtotime($nov3))." - ".date('M d, Y', strtotime($nov4));
                   $dec1_show = date('M d, Y', strtotime($dec1))." - ".date('M d, Y', strtotime($dec2));
                   $dec2_show = date('M d, Y', strtotime($dec3))." - ".date('M d, Y', strtotime($dec4));
-                  // dd($jan1_show);
+                  // dd($period,$aug1_show);
                    ?>
                   <select class="form-control" name="time_period" id="time_period">
-                    <option value="{{$jan1_show}}" {{$period == $jan1_show ? 'selected="selected"' : ''}}>{{$jan1_show}}</option>
+                    @foreach($get_months as $month)
+                    @foreach($month as $interval)
+                    <option value="{{$interval}}">{{$interval}}</option>
+                    @endforeach
+                    @endforeach
+                    <!-- <option value="{{$jan1_show}}" {{$period == $jan1_show ? 'selected="selected"' : ''}}>{{$jan1_show}}</option>
                     <option value="{{$jan2_show}}" {{$period == $jan2_show ? 'selected="selected"' : ''}}>{{$jan2_show}}</option>
                     <option value="{{$feb1_show}}" {{$period == $feb1_show ? 'selected="selected"' : ''}}>{{$feb1_show}}</option>
                     <option value="{{$feb2_show}}" {{$period == $feb2_show ? 'selected="selected"' : ''}}>{{$feb2_show}}</option>
@@ -200,7 +243,7 @@
                     <option value="{{$nov1_show}}" {{$period == $nov1_show ? 'selected="selected"' : ''}}>{{$nov1_show}}</option>
                     <option value="{{$nov2_show}}" {{$period == $nov2_show ? 'selected="selected"' : ''}}>{{$nov2_show}}</option>
                     <option value="{{$dec1_show}}" {{$period == $dec1_show ? 'selected="selected"' : ''}}>{{$dec1_show}}</option>
-                    <option value="{{$dec2_show}}" {{$period == $dec2_show ? 'selected="selected"' : ''}}>{{$dec2_show}}</option>
+                    <option value="{{$dec2_show}}" {{$period == $dec2_show ? 'selected="selected"' : ''}}>{{$dec2_show}}</option> -->
                     <!-- <option value="">{{date('M d, Y', strtotime($dec3))}} - {{date('M d, Y', strtotime($dec4))}}</option> -->
                   </select>
                 </div>

@@ -1541,24 +1541,32 @@ class AdminController extends Controller
       $date2 = date('Y-m-15');
       // dd(date("Y-m-t"));
       if ($date1 <= $date2) {
-        $earnings = DB::table('timesheets')
-        ->where('date','<=',date('Y-m-15'))->where('tutor_id',$id)->groupby('user_id')->get();
-        $start_date = date('M 1, Y');
+        $start_date = date('M 01, Y');
         $end_date = date('M 15, Y');
-        $period = $start_date.' - '.$end_date;
+        $start_date2 = date('Y-m-d', strtotime($start_date));
+        $end_date2 = date('Y-m-d', strtotime($end_date));
+        // dd($start_date2,$end_date2);
+        $earnings = DB::table('timesheets')->where('tutor_id',$id);
+        $earnings=$earnings->whereBetween('date',[$start_date2, $end_date2]);
+        $earnings=$earnings->groupby('user_id')->get();
         foreach ($earnings as &$key) {
-          $key->earning = DB::table('timesheets')->where('date','<=',date('Y-m-15'))->where('tutor_id',$key->tutor_id)->where('user_id',$key->user_id)->sum(DB::raw('duration2 * hourly_pay_rate'));
+          $key->earning = DB::table('timesheets')->whereBetween('date',[$start_date2, $end_date2])->where('tutor_id',$key->tutor_id)->where('user_id',$key->user_id)->sum(DB::raw('duration2 * hourly_pay_rate'));
         }
+        $period = $start_date.' - '.$end_date;
+        // dd($period);
       }else {
-        $earnings = DB::table('timesheets')
-        ->where('date','>',date('Y-m-15'))->where('tutor_id',$id)->groupby('user_id')->get();
-        // $get_date = date("Y-m-t");
         $start_date = date('M 16, Y');
         $end_date = date('M t, Y');
-        $period = $start_date.' - '.$end_date;
+        $start_date2 = date('Y-m-d', strtotime($start_date));
+        $end_date2 = date('Y-m-d', strtotime($end_date));
+        $earnings = DB::table('timesheets')->where('tutor_id',$id);
+        $earnings=$earnings->whereBetween('date',[$start_date2, $end_date2]);
+        $earnings=$earnings->groupby('user_id')->get();
         foreach ($earnings as &$key) {
-          $key->earning = DB::table('timesheets')->where('date','>',date('Y-m-15'))->where('tutor_id',$key->tutor_id)->where('user_id',$key->user_id)->sum(DB::raw('duration2 * hourly_pay_rate'));
+          $key->earning = DB::table('timesheets')->whereBetween('date',[$start_date2, $end_date2])->where('tutor_id',$key->tutor_id)->where('user_id',$key->user_id)->sum(DB::raw('duration2 * hourly_pay_rate'));
         }
+
+        $period = $start_date.' - '.$end_date;
       }
       // dd($earnings);
       $tutor = DB::table('users')->where('id',$id)->first();
