@@ -91,7 +91,7 @@
       $date = date('Y-m-d');
       $mid_date = date('Y-m-15');
       $end_date =date('Y-m-t');
-      if ($date<$mid_date) {
+      if ($date<=$mid_date) {
         $period = date('F 1').'  -  '.date('F 15');
       }else {
         $period = date('F 16').'  -  '.date('F t');
