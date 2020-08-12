@@ -92,9 +92,9 @@
       $mid_date = date('Y-m-15');
       $end_date =date('Y-m-t');
       if ($date>$mid_date) {
-        $period = date('M 1').' - '.date('M 15');
+        $period = date('F 1').' - '.date('F 15');
       }else {
-        $period = date('M 16').' - '.date('M t');
+        $period = date('F 16').' - '.date('F t');
       }
        ?>
       <p style="color:#74787e;">If you have not already done so, please make sure to submit your timesheet for the {{$period}} pay period by the end of the day today.</p>
