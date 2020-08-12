@@ -8,7 +8,10 @@
 @section('content')
 
 @include('frontend.dashboard.menu.menu')
-
+<?php
+$searchBy = array('student_name' => 'Student Name', 'email' => 'Student Email', 'first_name' => 'Client First Name');
+$s_app = Session()->get('TutorStudentSearch');
+?>
 <div class="main-panel">
   <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -58,6 +61,30 @@
             <div class="header">
               <h3 class="title">Students</h3>
               <hr>
+              <form method="post" action="{{ url('user-portal/tutor-students') }}">
+                <div class="row">
+                      {{ csrf_field() }}
+                      <div class="col-md-4">
+                          <label>Search By</label>
+                          <select class="form-control select2" name="searchBy">
+                            @foreach($searchBy as $x => $y)
+                                <option value="{{ $x }}" {{ $x == $s_app['searchBy'] ? 'selected="selected"' : '' }}>{{ $y }}</option>
+                            @endforeach
+                          </select>
+                      </div>
+                      <div class="col-md-4">
+                          <label>Search String</label>
+                          <input type="text" class="form-control" name="search" placeholder="Type here ..." value="{{ $s_app['search'] }}" style="line-height: 2;">
+                      </div>
+                      <div class="col-md-4" style="margin-top: 0;">
+                          <label style="display: block;">&nbsp;</label>
+                          <button class="btn btn-primary" type="submit" name="filter" style="background:#10C5A7;border:1px solid #10C5A7;">Search</button>
+                          @if($s_app !=null)
+                              <a class="btn btn-default" href="{{ url('user-portal/tutor-students?reset=true') }}">Reset</a>
+                          @endif
+                      </div>
+                  </div>
+            </form>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))
         			<div class="alert alert-success">
@@ -85,6 +112,9 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <?php
+                    // dd($students);
+                     ?>
                     @foreach($students as $student)
                     <tr>
                       <td>{{$student->student_name}}</td>

@@ -41,7 +41,7 @@ Route::group(['prefix' => 'user-portal'], function () {
   Route::post('/buy-credit','frontend\DashboardController@buyCredit');
   Route::post('/subscribe_process', 'frontend\DashboardController@subscribe_process');
   Route::get('/tutors', 'frontend\DashboardController@studentTutor');
-  Route::get('/tutor-students', 'frontend\DashboardController@TutorStudents');
+  Route::match(['get','post'],'/tutor-students', 'frontend\DashboardController@TutorStudents');
   Route::get('/unsubscribe-email', 'frontend\DashboardController@UnsubscribeEmail');
   Route::get('/unsubscribe-email-confirm', 'frontend\DashboardController@UnsubscribeEmailConfirm');
   Route::get('/tutor-sessions', 'frontend\DashboardController@tutorSessions');

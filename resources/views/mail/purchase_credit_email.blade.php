@@ -63,14 +63,14 @@
       <p class='lead'> Dear {{$user->first_name}} , </p>
       <p style="color:#74787e;">You have successfully purchased credits and your new credit balance is {{$credit->credit_balance}}.</p>
       <br>
-      <hr>
-      <br>
-      <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
       <center>
         <a href="{{$credit->receipt_url}}" class='btn pt-2'>
           Click To View Receipt
         </a>
       </center>
+      <hr>
+      <br>
+      <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
       <br>
       @if($user->role == 'customer')
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>

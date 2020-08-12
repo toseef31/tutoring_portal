@@ -380,12 +380,72 @@ class DashboardController extends Controller
 
        public function TutorStudents(Request $request)
        {
+         // $app = session()->get('sct_admin');
+         // if ($app =="") {
+         //   return redirect('/admin');
+         // }
+       	if($request->isMethod('post')){
+       		$request->session()->put('TutorStudentSearch',$request->all());
+       	}
+
+       	if($request->input('reset') && $request->input('reset') == 'true'){
+       		$request->session()->forget('TutorStudentSearch');
+       		return redirect('user-portal/tutor-students');
+       	}
+         $s_app = $request->session()->get('TutorStudentSearch');
+         // dd($s_app);
+         if ($s_app ==null) {
+           $s_app=[];
+         }
+         if ($s_app !=null && $s_app['searchBy'] == 'first_name') {
+           $students = DB::table('tutor_assign')
+                        ->join('users','users.id','=','tutor_assign.user_id')
+                        ->join('students','students.student_id','=','tutor_assign.student_id')
+                        ->select('users.first_name','users.last_name','students.*','tutor_assign.*')
+                         ->where('tutor_assign.tutor_id','=',auth()->user()->id)
+                         ->where(function ($query) use ($s_app) {
+                             if(count($s_app) > 0){
+                                 if($s_app['search'] != ''){
+                                     $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                                 }
+                             }
+                         })->orderBy('first_name','asc')->paginate(15);
+           $student_mobile = DB::table('tutor_assign')
+                        ->join('users','users.id','=','tutor_assign.user_id')
+                        ->join('students','students.student_id','=','tutor_assign.student_id')
+                        ->select('users.first_name','users.last_name','students.*','tutor_assign.*')
+                         ->where('tutor_assign.tutor_id','=',auth()->user()->id)
+                         ->where(function ($query) use ($s_app) {
+                             if(count($s_app) > 0){
+                                 if($s_app['search'] != ''){
+                                     $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                                 }
+                             }
+                         })->orderBy('first_name','asc')->paginate(1);
+         }else {
+
          $students = DB::table('tutor_assign')
-                  ->join('students','students.student_id','=','tutor_assign.student_id')
-                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->orderby('student_name','asc')->paginate(15);
+                      ->join('students','students.student_id','=','tutor_assign.student_id')
+                       ->where('tutor_assign.tutor_id','=',auth()->user()->id)
+                       ->where(function ($query) use ($s_app) {
+                           if(count($s_app) > 0){
+                               if($s_app['search'] != ''){
+                                   $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                               }
+                           }
+                       })->orderBy('student_name','asc')->paginate(15);
          $student_mobile = DB::table('tutor_assign')
-                  ->join('students','students.student_id','=','tutor_assign.student_id')
-                  ->where('tutor_assign.tutor_id','=',auth()->user()->id)->orderby('student_name','asc')->paginate(1);
+                      ->join('students','students.student_id','=','tutor_assign.student_id')
+                       ->where('tutor_assign.tutor_id','=',auth()->user()->id)
+                       ->where(function ($query) use ($s_app) {
+                           if(count($s_app) > 0){
+                               if($s_app['search'] != ''){
+                                   $query->where($s_app['searchBy'], 'like', '%'.$s_app['search'].'%');
+                               }
+                           }
+                       })->orderBy('student_name','asc')->paginate(1);
+                     }
+
                   // dd($students);
         return view('frontend.dashboard.tutor-students',compact('students','student_mobile'));
        }

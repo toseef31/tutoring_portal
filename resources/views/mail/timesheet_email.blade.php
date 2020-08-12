@@ -87,7 +87,17 @@
       </center>
       <hr>
       <p class='lead'> Dear {{$tutor->first_name}} , </p>
-      <p style="color:#74787e;">We send you this email to update you about your timesheets.</p>
+      <?php
+      $date = date('Y-m-d');
+      $mid_date = date('Y-m-15');
+      $end_date =date('Y-m-t');
+      if ($date>$mid_date) {
+        $period = date('M 1').' - '.date('M 15');
+      }else {
+        $period = date('M 15').' - '.date('M t');
+      }
+       ?>
+      <p style="color:#74787e;">If you have not already done so, please make sure to submit your timesheet for the {{$period}} pay period by the end of the day today.</p>
       @if(count($timesheets) >0)
       <p class='lead'> Timesheet Details: </p>
       <div class="table-responsive">
@@ -117,18 +127,16 @@
           </tbody>
         </table>
       </div>
-      @else
-      <p class='lead'>No Timesheets Record</p>
       @endif
       <br>
-      <hr>
-      <br>
-      <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
       <center>
         <a href="{{url('/user-portal/tutor-timesheets')}}" class='btn pt-2'>
           Click To View Timesheets
         </a>
       </center>
+      <hr>
+      <br>
+      <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
       <br>
       @if($tutor->role == 'customer')
       <p style="font-family:Avenir,Helvetica,sans-serif;box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
