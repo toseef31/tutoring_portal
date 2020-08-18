@@ -618,7 +618,34 @@ class DashboardController extends Controller
                  return redirect(url()->previous());
                }
              }
-
+             // Check confliting session before start with other tutor
+             $prev_session33 = DB::table('sessions')->where('user_id',$user_id)->where('student_id',$student_id)->where('date',$date)->where('session_id','<>',$session_id)->where('status','confirm')->orderby('time','asc')->get();
+             foreach ($prev_session33 as $prev) {
+               $new_session_old_time = $time;
+               $new_session_duration = $request->input('duration');
+               $old_session_time = $prev->time;
+               if ($new_session_duration == '0:30') {
+                 $new_session_new_time = date("H:i", strtotime('+30 minutes',strtotime($new_session_old_time)));
+               }elseif ($new_session_duration == '1:00') {
+                 $new_session_new_time = date("H:i", strtotime('+1 hour',strtotime($new_session_old_time)));
+               }elseif ($new_session_duration == '1:30') {
+                 $new_session_new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($new_session_old_time)));
+               }elseif ($new_session_duration == '2:00') {
+                 $new_session_new_time = date("H:i", strtotime('+2 hours',strtotime($new_session_old_time)));
+               }
+               $old_session_time = date("h:i a" ,strtotime($old_session_time));
+               $new_session_old_time = date("h:i a" ,strtotime($new_session_old_time));
+               $new_session_new_time = date("h:i a" ,strtotime($new_session_new_time));
+               $time1 = DateTime::createFromFormat('H:i a', $old_session_time);
+               $time2 = DateTime::createFromFormat('H:i a', $new_session_old_time);
+               $time3 = DateTime::createFromFormat('H:i a', $new_session_new_time);
+               if ($time1 > $time2 && $time1 < $time3) {
+                 // dd($time1,$time2,$time3,"exist");
+                 $sMsg = 'Unable to schedule session due to one or more conflicting sessions. Please correct the session date or time and try again.';
+                 $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                 return redirect(url()->previous());
+               }
+             }
 
                // dd($student_id,$user_id);
 
