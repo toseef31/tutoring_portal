@@ -504,6 +504,10 @@ class DashboardController extends Controller
              $date= $request->input('date');
              $time= $request->input('time');
              $session_id = $request->input('session_id');
+             $data = $request->input('student_id');
+              $data = explode(',',$data);
+              $student_id = $data[0];
+              $user_id = $data[1];
 
              $tutor_timezone = SCT::getClientName(auth()->user()->id)->time_zone;
              if ($tutor_timezone == 'Pacific Time') {
@@ -558,6 +562,33 @@ class DashboardController extends Controller
                  return redirect(url()->previous());
                }
              }
+             // Check confliting session before end with other tutor
+             $prev_session22 = DB::table('sessions')->where('user_id',$user_id)->where('student_id',$student_id)->where('date',$date)->where('session_id','<>',$session_id)->where('status','confirm')->get();
+             foreach ($prev_session22 as $prev) {
+               $prev_time = $prev->time;
+               $prev_duration = $prev->duration;
+               if ($prev_duration == '0:30') {
+                 $new_time = date("H:i", strtotime('+30 minutes',strtotime($prev_time)));
+               }elseif ($prev_duration == '1:00') {
+                 $new_time = date("H:i", strtotime('+1 hour',strtotime($prev_time)));
+               }elseif ($prev_duration == '1:30') {
+                 $new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($prev_time)));
+               }elseif ($prev_duration == '2:00') {
+                 $new_time = date("H:i", strtotime('+2 hours',strtotime($prev_time)));
+               }
+               $time = date("h:i a" ,strtotime($time));
+               $prev_time = date("h:i a" ,strtotime($prev_time));
+               $new_time = date("h:i a" ,strtotime($new_time));
+               $time1 = DateTime::createFromFormat('H:i a', $time);
+               $time2 = DateTime::createFromFormat('H:i a', $prev_time);
+               $time3 = DateTime::createFromFormat('H:i a', $new_time);
+               if ($time1 >= $time2 && $time1 < $time3) {
+                 // dd($time1,$time2,$time3,"exist");
+                 $sMsg = 'Unable to schedule session due to one or more conflicting sessions. Please correct the session date or time and try again.';
+                 $request->session()->flash('alert',['message' => $sMsg, 'type' => 'danger']);
+                 return redirect(url()->previous());
+               }
+             }
 
              // Check confliting session before start
              $prev_session3 = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date',$date)->where('session_id','<>',$session_id)->where('status','confirm')->orderby('time','asc')->get();
@@ -588,10 +619,7 @@ class DashboardController extends Controller
                }
              }
 
-              $data = $request->input('student_id');
-               $data = explode(',',$data);
-               $student_id = $data[0];
-               $user_id = $data[1];
+
                // dd($student_id,$user_id);
 
                $input['tutor_id'] =auth()->user()->id;
