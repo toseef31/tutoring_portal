@@ -72,12 +72,23 @@ class CustomCommand extends Command
         $date2 =$session->date;
         // dd($date1,$date2);
         if ($date1 == $date2) {
+          $duration = $session->duration;
 
           // dd(date("h:i a"));
           // date_default_timezone_set("Asia/Karachi");
           $time1 = date("h:i a");
           // $time2 = date("h:i a", strtotime('+2 hour +30 minutes',strtotime($session->time)));
-          $time2 = date("h:i a", strtotime('+3 hour',strtotime($session->time)));
+          if ($duration == '0:30') {
+            $time2 = date("h:i a", strtotime('+30 minutes',strtotime($session->time)));
+          }elseif ($duration == '1:00') {
+            $time2 = date("h:i a", strtotime('+1 hour',strtotime($session->time)));
+          }elseif ($duration == '1:30') {
+            $time2 = date("h:i a", strtotime('+1 hour +30 minutes',strtotime($session->time)));
+          }elseif ($duration == '2:00') {
+            $time2 = date("h:i a", strtotime('+2 hours',strtotime($session->time)));
+          }
+          // dd($time1,$time2);
+          // $time2 = date("h:i a", strtotime('+3 hour',strtotime($session->time)));
           // dd($session->session_id,$time1,$time2);
           if ($time1 >= $time2) {
             $input['status'] = 'End';

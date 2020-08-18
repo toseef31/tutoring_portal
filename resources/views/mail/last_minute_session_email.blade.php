@@ -88,7 +88,7 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
       </center>
       <hr>
-      <p style="color:#74787e;">Dear {{$user->first_name}} ,</p>
+      <p class='lead'>Dear {{$user->first_name}} ,</p>
       <p style="color:#74787e;">You have a session coming up soon!</p>
       <p class='lead'> Session Details: </p>
       <div class="table-responsive">

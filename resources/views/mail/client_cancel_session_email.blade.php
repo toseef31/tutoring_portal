@@ -87,7 +87,7 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
       </center>
       <hr>
-      <p style="color:#74787e;">Dear {{$tutor->first_name}} ,</p>
+      <p class='lead'>Dear {{$tutor->first_name}} ,</p>
       <p style="color:#74787e;">Session has been canceled by the Client</p>
       <p class='lead'> Session Details: </p>
       <div class="table-responsive">
