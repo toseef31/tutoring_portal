@@ -132,7 +132,7 @@
       </div>
       <br>
       <hr>
-      <p class='lead'> Student Details: </p>
+      <p class='bg-gray'> Student Details: </p>
       <div class="table-responsive">
         <table class='table'>
           <thead>
@@ -158,7 +158,7 @@
         </table>
       </div>
       <br>
-      <p style="regards">Regards,<br>Smart Cookie Tutors</p>
+      <p class="regards">Regards,<br>Smart Cookie Tutors</p>
       <br>
       <hr>
       <center>
