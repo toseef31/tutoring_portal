@@ -500,7 +500,7 @@ class AdminController extends Controller
 
     public function all_tutors(Request $request)
     {
-      $all_tutor = User::where('role','<>','customer')->orderBy('id','desc')->paginate(15);
+      $all_tutor = User::where('role','<>','customer')->orderBy('first_name','asc')->paginate(15);
        return view('admin.view_teachers',compact('all_tutor'));
     }
 
