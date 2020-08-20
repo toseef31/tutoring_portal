@@ -72,10 +72,27 @@
     border:1px solid #ddd;
     font-weight:bolder;
     padding:10px;
+    color:#74787e;
   }
   .table tbody tr td {
     border:1px solid #ddd;
     padding:10px;
+    color:#74787e;
+  }
+  .bg-gray {
+    color:#74787e;
+  }
+  .regards{
+    color:#74787e;
+    text-align:left;
+  }
+  .footer {
+  box-sizing:border-box;
+  line-height:1.5em;
+  margin-top:0;
+  color:#aeaeae;
+  font-size:12px;
+  text-align:center;
   }
   </style>
 </head>
@@ -87,9 +104,9 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
       </center>
       <hr>
-      <p class='lead'>Dear {{$tutor->first_name}} ,</p>
-      <p style="color:#74787e;">Session has been canceled by the Client</p>
-      <p class='lead'> Session Details: </p>
+      <p class='bg-gray'>Dear {{$tutor->first_name}} ,</p>
+      <p class='bg-gray'>Session has been canceled by the Client</p>
+      <p class='bg-gray'> Session Details: </p>
       <div class="table-responsive">
         <table class='table'>
           <thead>
@@ -120,18 +137,16 @@
           </table>
         </div>
         <br>
-        <h4>Cancellation Reason</h4>
-        <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">{{$reason}}</p>
-        <hr>
+        <p class="bg-gray">Cancellation Reason</p>
+        <p class="bg-gray">{{$reason}}</p>
         <br>
-        <p style="box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
+        <p class="regards">Regards,<br>Smart Cookie Tutors</p>
         <center>
-          <!--  <a href='$site_url/admin/index?view_proposals' class='btn pt-2'>
-          Click To View All Proposals
-        </a> -->
       </center>
-      <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
-      <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
+      <br>
+      <hr>
+      <p class="footer">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
+      <p class="footer">© 2020 Smart Cookie Tutors All rights reserved.</p>
     </div>
   </div>
 </body>

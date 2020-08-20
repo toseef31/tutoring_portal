@@ -77,15 +77,32 @@
     border:1px solid #ddd;
     font-weight:bolder;
     padding:10px;
+    color:#74787e;
   }
   .table tbody tr td {
     border:1px solid #ddd;
     padding:10px;
+    color:#74787e;
   }
     @media only screen and (min-device-width: 690px) {
       .table2{
         display: none;
       }
+    }
+    .bg-gray {
+      color:#74787e;
+    }
+    .regards{
+      color:#74787e;
+      text-align:left;
+    }
+    .footer {
+    box-sizing:border-box;
+    line-height:1.5em;
+    margin-top:0;
+    color:#aeaeae;
+    font-size:12px;
+    text-align:center;
     }
   </style>
 </head>
@@ -97,8 +114,8 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
       </center>
       <hr>
-      <p style="color:#74787e;">{{$user->first_name}} {{$user->last_name}} have successfully purchased first credits and new credit balance is {{$credit->credit_balance}}.</p>
-      <p class='lead'> Client Details: </p>
+      <p class="bg-gray">{{$user->first_name}} {{$user->last_name}} have successfully purchased first credits and new credit balance is {{$credit->credit_balance}}.</p>
+      <p class='bg-gray'> Client Details: </p>
       <div class="table-responsive">
         <table class='table table1'>
           <thead>
@@ -146,15 +163,16 @@
         </table>
       </div>
       <br>
-      <hr>
+      <p class="regards">Regards,<br>Smart Cookie Tutors</p>
       <br>
-      <p style="box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
+      <hr>
       <center>
         <!--  <a href='$site_url/admin/index?view_proposals' class='btn pt-2'>
         Click To View All Proposals
       </a> -->
     </center>
-    <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
+    <p class="footer">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
+    <p class="footer">© 2020 Smart Cookie Tutors All rights reserved.</p>
   </div>
 </div>
 </body>

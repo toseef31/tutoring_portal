@@ -71,12 +71,29 @@
     border:1px solid #ddd;
     font-weight:bolder;
     padding:10px;
+    color:#74787e;
   }
   .table tbody tr td {
     border:1px solid #ddd;
     padding:10px;
+    color:#74787e;
   }
-  </style>
+  .bg-gray {
+    color:#74787e;
+  }
+  .regards{
+    color:#74787e;
+    text-align:left;
+  }
+  .footer {
+    box-sizing:border-box;
+    line-height:1.5em;
+    margin-top:0;
+    color:#aeaeae;
+    font-size:12px;
+    text-align:center;
+  }
+</style>
 </head>
 <?php
 $base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
@@ -89,9 +106,9 @@ $base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
       </center>
       <hr>
-      <p class='lead'>Dear {{$user->first_name}} ,</p>
-      <p style="color:#74787e;">You have a tutoring session coming up soon!</p>
-      <p class='lead'> Session Details: </p>
+      <p class='bg-gray'>Dear {{$user->first_name}} ,</p>
+      <p class="bg-gray">You have a tutoring session coming up soon!</p>
+      <p class='bg-gray'> Session Details: </p>
       <div class="table-responsive">
         <table class='table'>
           <thead>
@@ -150,14 +167,13 @@ $base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
                 {{$date}} {{$time}}</td>
                 <td>{{$session->location}}</td>
               </tr>
-          </tbody>
-        </table>
-      </div>
+            </tbody>
+          </table>
+        </div>
         <br>
-
-        <p style="color:#74787e;">You currently have {{$credit->credit_balance}} credits remaining. </p>
+        <p class="bg-gray">You currently have {{$credit->credit_balance}} credits remaining. </p>
         @if($credit->credit_balance <= 0)
-        <p style="color:#74787e;">Please note that your session will be automatically cancelled in 6 hours because you currently have no credits remaining.</p>
+        <p class="bg-gray">Please note that your session will be automatically cancelled in 6 hours because you currently have no credits remaining.</p>
         @endif
         <br>
         <center>
@@ -168,13 +184,14 @@ $base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
           @endif
         </center>
         <br>
-        <p style="box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
+        <p class="regards">Regards,<br>Smart Cookie Tutors</p>
+        <br>
         <hr>
         @if($user->role == 'customer')
-        <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('/user-portal/credits')}}/user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
+        <p class="footer">Click to <a href="{{url('/user-portal/credits')}}/user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
         @endif
-        <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
-        <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
+        <p class="footer">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
+        <p class="footer">© 2020 Smart Cookie Tutors All rights reserved.</p>
       </div>
     </div>
   </body>

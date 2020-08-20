@@ -45,10 +45,27 @@
     border:1px solid #ddd;
     font-weight:bolder;
     padding:10px;
+    color:#74787e;
   }
   .table tbody tr td {
     border:1px solid #ddd;
     padding:10px;
+    color:#74787e;
+  }
+  .bg-gray {
+    color:#74787e;
+  }
+  .regards{
+    color:#74787e;
+    text-align:left;
+  }
+  .footer {
+    box-sizing:border-box;
+    line-height:1.5em;
+    margin-top:0;
+    color:#aeaeae;
+    font-size:12px;
+    text-align:center;
   }
   </style>
 </head>
@@ -60,21 +77,21 @@
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
       </center>
       <hr>
-      <p class='lead'> Dear {{$tutor->first_name}} , </p>
-      <p style="color:#74787e;">You have a new student! Please reach out to the parent/guardian of {{$student->student_name}} to schedule the first session. See the student profile for details and contact information.</p>
+      <p class='bg-gray'> Dear {{$tutor->first_name}} , </p>
+      <p class="bg-gray">You have a new student! Please reach out to the parent/guardian of {{$student->student_name}} to schedule the first session. See the student profile for details and contact information.</p>
+      <p class="bg-gray">Thank you!</p>
       <br>
-      <p style="color:#74787e;">Thank you!</p>
+      <p class="regards">Regards,<br>Smart Cookie Tutors</p>
       <br>
-      <p style="box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
       <center>
         <!--  <a href='$site_url/admin/index?view_proposals' class='btn pt-2'>
         Click To View All Proposals
       </a> -->
     </center>
     <hr>
-    <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
-    <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
-</div>
+    <p class="footer">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
+    <p class="footer">© 2020 Smart Cookie Tutors All rights reserved.</p>
+  </div>
 </div>
 </body>
 </html>

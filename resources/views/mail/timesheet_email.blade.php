@@ -71,10 +71,27 @@
     border:1px solid #ddd;
     font-weight:bolder;
     padding:10px;
+    color:#74787e;
   }
   .table tbody tr td {
     border:1px solid #ddd;
     padding:10px;
+    color:#74787e;
+  }
+  .bg-gray {
+    color:#74787e;
+  }
+  .regards{
+    color:#74787e;
+    text-align:left;
+  }
+  .footer {
+    box-sizing:border-box;
+    line-height:1.5em;
+    margin-top:0;
+    color:#aeaeae;
+    font-size:12px;
+    text-align:center;
   }
   </style>
 </head>
@@ -86,7 +103,7 @@
         <!-- <h2> New Agreement Available. </h2> -->
       </center>
       <hr>
-      <p class='lead'> Dear {{$tutor->first_name}} , </p>
+      <p class='bg-gray'> Dear {{$tutor->first_name}} , </p>
       <?php
       $date = date('Y-m-d');
       $mid_date = date('Y-m-15');
@@ -96,10 +113,10 @@
       }else {
         $period = date('F 16').'  -  '.date('F t');
       }
-       ?>
-      <p style="color:#74787e;">If you have not already done so, please make sure to submit your timesheet for the {{$period}} pay period by the end of the day today.</p>
+      ?>
+      <p class="bg-gray">If you have not already done so, please make sure to submit your timesheet for the {{$period}} pay period by the end of the day today.</p>
       @if(count($timesheets) >0)
-      <p class='lead'> Timesheet Details: </p>
+      <p class='bg-gray'> Timesheet Details: </p>
       <div class="table-responsive">
         <table class='table'>
           <thead>
@@ -120,30 +137,30 @@
                 ?>
                 {{$date}}</td>
 
-              <td>{{$timesheet->duration}}</td>
-              <td>{{$timesheet->description}}</td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
+                <td>{{$timesheet->duration}}</td>
+                <td>{{$timesheet->description}}</td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+        @endif
+        <br>
+        <center>
+          <a href="{{url('/user-portal/tutor-timesheets')}}" class='btn pt-2'>
+            Click To View Timesheets
+          </a>
+        </center>
+        <br>
+        <p class="regards">Regards,<br>Smart Cookie Tutors</p>
+        <br>
+        <hr>
+        @if($tutor->role == 'customer')
+        <p class="footer">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
+        @endif
+        <p class="footer">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
+        <p class="footer">© 2020 Smart Cookie Tutors All rights reserved.</p>
       </div>
-      @endif
-      <br>
-      <center>
-        <a href="{{url('/user-portal/tutor-timesheets')}}" class='btn pt-2'>
-          Click To View Timesheets
-        </a>
-      </center>
-      <hr>
-      <br>
-      <p style="box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
-      <br>
-      @if($tutor->role == 'customer')
-      <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
-      @endif
-      <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
-      <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
     </div>
-  </div>
-</body>
-</html>
+  </body>
+  </html>

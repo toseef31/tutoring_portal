@@ -45,10 +45,27 @@
     border:1px solid #ddd;
     font-weight:bolder;
     padding:10px;
+    color:#74787e;
   }
   .table tbody tr td {
     border:1px solid #ddd;
     padding:10px;
+    color:#74787e;
+  }
+  .bg-gray {
+    color:#74787e;
+  }
+  .regards{
+    color:#74787e;
+    text-align:left;
+  }
+  .footer {
+  box-sizing:border-box;
+  line-height:1.5em;
+  margin-top:0;
+  color:#aeaeae;
+  font-size:12px;
+  text-align:center;
   }
   </style>
 </head>
@@ -60,23 +77,23 @@
         <!-- <h2> New Agreement Available. </h2> -->
       </center>
       <hr>
-      <p class='lead'> Dear {{$user->first_name}} , </p>
-      <p style="color:#74787e;">New Agreement is available for review.</p>
+      <p class='bg-gray'> Dear {{$user->first_name}} , </p>
+      <p class="bg-gray">New Agreement is available for review.</p>
       <br>
       <center>
         <a href="{{url('/user-portal/view_agreement/'.$agreement_id)}}" class='btn pt-2'>
           Click To Review Agreement
         </a>
       </center>
+      <br>
+      <p class="regards">Regards,<br>Smart Cookie Tutors</p>
+      <br>
       <hr>
-      <br>
-      <p style="box-sizing:border-box;color:#74787e;font-size:16px;line-height:1.5em;margin-top:0;text-align:left">Regards,<br>Smart Cookie Tutors</p>
-      <br>
       @if($user->role == 'customer')
-      <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
+      <p class="footer">Click to <a href="{{url('user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
       @endif
-      <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:left">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
-      <p style="box-sizing:border-box;line-height:1.5em;margin-top:0;color:#aeaeae;font-size:12px;text-align:center">© 2020 Smart Cookie Tutors All rights reserved.</p>
+      <p class="footer">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
+      <p class="footer">© 2020 Smart Cookie Tutors All rights reserved.</p>
   </div>
 </div>
 </body>
