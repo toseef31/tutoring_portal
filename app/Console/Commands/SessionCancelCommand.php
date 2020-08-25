@@ -73,7 +73,7 @@ class SessionCancelCommand extends Command
           $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
           $date1 =date("Y-m-d H:i");
           $date2 = date("Y-m-d H:i", strtotime('-24 hours',strtotime($combinedDT)));
-          dd($date1,$date2,$csession->session_id);
+          // dd($date1,$date2,$csession->session_id);
           if ($date1 >= $date2) {
             $user_credit = DB::table('credits')->where('user_id',$csession->user_id)->first();
             if ($user_credit->credit_balance <= 0) {
