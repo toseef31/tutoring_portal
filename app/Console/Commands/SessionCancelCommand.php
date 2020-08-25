@@ -58,7 +58,6 @@ class SessionCancelCommand extends Command
       $sessions = DB::table('sessions')->where('status','Confirm')->groupby('tutor_id')->get();
       foreach ($sessions as $session) {
         $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
-        dd($tutor_timezone);
         if ($tutor_timezone == 'Pacific Time') {
           date_default_timezone_set("America/Los_Angeles");
         }elseif ($tutor_timezone == 'Mountain Time') {
@@ -70,6 +69,7 @@ class SessionCancelCommand extends Command
         }
 
         $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->get();
+        dd($client_sessions);
         foreach ($client_sessions as $csession) {
           $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
           $date1 =date("Y-m-d H:i");
