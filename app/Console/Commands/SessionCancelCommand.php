@@ -69,11 +69,11 @@ class SessionCancelCommand extends Command
         }
 
         $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->get();
-        dd($client_sessions);
         foreach ($client_sessions as $csession) {
           $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
           $date1 =date("Y-m-d H:i");
           $date2 = date("Y-m-d H:i", strtotime('-24 hours',strtotime($combinedDT)));
+          dd($date1,$date2);
           if ($date1 >= $date2) {
             $user_credit = DB::table('credits')->where('user_id',$csession->user_id)->first();
             if ($user_credit->credit_balance <= 0) {
