@@ -56,6 +56,7 @@ class SessionCancelCommand extends Command
     //     $message->to($toemail);
     //   });
       $sessions = DB::table('sessions')->where('status','Confirm')->groupby('tutor_id')->get();
+      dd($sessions);
       foreach ($sessions as $session) {
         $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
         if ($tutor_timezone == 'Pacific Time') {
