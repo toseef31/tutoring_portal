@@ -56,7 +56,7 @@ class SessionCancelCommand extends Command
     //     $message->to($toemail);
     //   });
     //
-      $sessions = DB::table('sessions')->where('status','Confirm')->groupby('user_id')->orderby('date','asc')->get();
+      $sessions = DB::table('sessions')->where('status','Confirm')->orderby('date','asc')->get();
       foreach ($sessions as $session) {
         $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
         if ($tutor_timezone == 'Pacific Time') {
@@ -74,7 +74,7 @@ class SessionCancelCommand extends Command
           $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
           $date1 =date("Y-m-d H:i");
           $date2 = date("Y-m-d H:i", strtotime('-24 hours',strtotime($combinedDT)));
-          dd($date1,$date2);
+          dd($date1,$date2,$csession);
           if ($date1 >= $date2) {
             $user_credit = DB::table('credits')->where('user_id',$csession->user_id)->first();
             if ($user_credit->credit_balance <= 0) {
