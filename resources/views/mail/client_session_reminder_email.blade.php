@@ -188,7 +188,7 @@ $base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
         <br>
         <hr>
         @if($user->role == 'customer')
-        <p class="footer">Click to <a href="{{url('/user-portal/credits')}}/user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
+        <p class="footer">Click to <a href="{{url('/user-portal/unsubscribe-email')}}">Unsubscribe</a>  </p>
         @endif
         <p class="footer">— This is an automated message. If you have any questions please reach out to sofi@smartcookietutors.com —</p>
         <p class="footer">© 2020 Smart Cookie Tutors All rights reserved.</p>
