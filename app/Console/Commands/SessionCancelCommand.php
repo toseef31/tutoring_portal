@@ -68,7 +68,7 @@ class SessionCancelCommand extends Command
           date_default_timezone_set("America/New_York");
         }
 
-        $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->get();
+        $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->orderby('date','asc')->get();
         foreach ($client_sessions as $csession) {
           $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
           $date1 =date("Y-m-d H:i");
