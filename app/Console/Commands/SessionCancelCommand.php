@@ -97,29 +97,32 @@ class SessionCancelCommand extends Command
           }
         }
       }
-      $session_data = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
         // date_default_timezone_set("Asia/Karachi");
 
         // dd($session->session_id,$date1,$date2,$session->date);
-        if (count($session_data) > 0) {
-          $user = DB::table('users')->where('id',$session->user_id)->first();
-          $tutor = DB::table('users')->where('id',$session->tutor_id)->first();
-          $student = DB::table('students')->where('student_id',$session->student_id)->first();
-          $user_credit = DB::table('credits')->where('user_id',$session->user_id)->first();
-          $toemail=$tutor->email;
-            Mail::send('mail.insufficient_credit_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'sessions'=>$session_data],
-            function ($message) use ($toemail)
-            {
-
-              // $message->subject('Smart Cookie Tutors.com - Session Cancel Email '.date('H:i:s'));
-              $message->subject('Smart Cookie Tutors.com - Session Cancel Email');
-              $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
-              $message->to($toemail);
-            });
-            $input2['mail_status'] = '1';
-            $session_data2 = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('user_id',$session->user_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->update($input2);
-
       }
-     }
+      $session_data_tutor = DB::table('sessions')->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->groupby('tutor_id')->get();
+      if (count($session_data_tutor) > 0) {
+        foreach ($session_data_tutor as $email_session) {
+          $session_data = DB::table('sessions')->where('tutor_id',$email_session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
+        $user = DB::table('users')->where('id',$email_session->user_id)->first();
+        $tutor = DB::table('users')->where('id',$email_session->tutor_id)->first();
+        $student = DB::table('students')->where('student_id',$email_session->student_id)->first();
+        $user_credit = DB::table('credits')->where('user_id',$email_session->user_id)->first();
+        $toemail=$tutor->email;
+        // $toemail='mwaqas.arid@gmail.com';
+          Mail::send('mail.insufficient_credit_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'sessions'=>$session_data],
+          function ($message) use ($toemail)
+          {
+
+            // $message->subject('Smart Cookie Tutors.com - Session Cancel Email '.date('H:i:s'));
+            $message->subject('Smart Cookie Tutors.com - Session Cancel Email');
+            $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+            $message->to($toemail);
+          });
+          $input2['mail_status'] = '1';
+          $session_data2 = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('user_id',$session->user_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->update($input2);
+        }
+    }
     }
 }
