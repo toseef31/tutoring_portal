@@ -104,13 +104,13 @@ class SessionCancelCommand extends Command
       $session_data_tutor = DB::table('sessions')->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->groupby('tutor_id')->get();
       if (count($session_data_tutor) > 0) {
         foreach ($session_data_tutor as $email_session) {
-          $session_data = DB::table('sessions')->where('tutor_id',$email_session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->orderBy('date','asc')->get();
+          $session_data = DB::table('sessions')->where('tutor_id',$email_session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
         $user = DB::table('users')->where('id',$email_session->user_id)->first();
         $tutor = DB::table('users')->where('id',$email_session->tutor_id)->first();
         $student = DB::table('students')->where('student_id',$email_session->student_id)->first();
         $user_credit = DB::table('credits')->where('user_id',$email_session->user_id)->first();
-        // $toemail=$tutor->email;
-        $toemail='mwaqas.arid@gmail.com';
+        $toemail=$tutor->email;
+        // $toemail='mwaqas.arid@gmail.com';
           Mail::send('mail.insufficient_credit_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'sessions'=>$session_data],
           function ($message) use ($toemail)
           {
