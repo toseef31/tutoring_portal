@@ -109,8 +109,8 @@ class SessionCancelCommand extends Command
         $tutor = DB::table('users')->where('id',$email_session->tutor_id)->first();
         $student = DB::table('students')->where('student_id',$email_session->student_id)->first();
         $user_credit = DB::table('credits')->where('user_id',$email_session->user_id)->first();
-        $toemail=$tutor->email;
-        // $toemail='mwaqas.arid@gmail.com';
+        // $toemail=$tutor->email;
+        $toemail='mwaqas.arid@gmail.com';
           Mail::send('mail.insufficient_credit_email',['user' =>$user,'credit'=>$user_credit,'tutor'=>$tutor,'student'=>$student,'sessions'=>$session_data],
           function ($message) use ($toemail)
           {
