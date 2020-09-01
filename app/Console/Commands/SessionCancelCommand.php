@@ -104,7 +104,7 @@ class SessionCancelCommand extends Command
       $session_data_tutor = DB::table('sessions')->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->groupby('tutor_id')->get();
       if (count($session_data_tutor) > 0) {
         foreach ($session_data_tutor as $email_session) {
-          $session_data = DB::table('sessions')->where('tutor_id',$email_session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
+          $session_data = DB::table('sessions')->where('tutor_id',$email_session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->orderBy('date','asc')->get();
         $user = DB::table('users')->where('id',$email_session->user_id)->first();
         $tutor = DB::table('users')->where('id',$email_session->tutor_id)->first();
         $student = DB::table('students')->where('student_id',$email_session->student_id)->first();
