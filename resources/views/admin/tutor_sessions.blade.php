@@ -133,8 +133,41 @@ $s_app = Session()->get('sessionsSearch');
                     <ul style="list-style-type: none;">
                       @foreach($sessions as $session)
                       <?php
-                      $time = date('h:i a', strtotime($session->time));
-                       $date = date('M d, Y', strtotime($session->date));
+                      $tutor_timezone = Session::get('sct_admin')->time_zone;
+                      // dd($tutor_timezone);
+                      if ($tutor_timezone == 'Pacific Time') {
+                        date_default_timezone_set("America/Los_Angeles");
+                      }elseif ($tutor_timezone == 'Mountain Time') {
+                        date_default_timezone_set("America/Denver");
+                      }elseif ($tutor_timezone == 'Central Time') {
+                        date_default_timezone_set("America/Chicago");
+                      }elseif ($tutor_timezone == 'Eastern Time') {
+                        date_default_timezone_set("America/New_York");
+                      }
+                      $time1 = date('h:i a', strtotime($session->time));
+                      $date = date('M d, ', strtotime($session->date));
+                      $time_zone =SCT::getClientName($session->tutor_id)->time_zone;
+                      // dd($time_zone);
+                      $db_time = $session->date." ".$time1;
+                      $datetime = new DateTime($db_time);
+                      if ($time_zone == 'Pacific Time') {
+                        $la_time = new DateTimeZone('America/Los_Angeles');
+                        $datetime->setTimezone($la_time);
+                      }elseif ($time_zone == 'Mountain Time') {
+                        $la_time = new DateTimeZone('America/Denver');
+                        $datetime->setTimezone($la_time);
+                      }elseif ($time_zone == 'Central Time') {
+                        $la_time = new DateTimeZone('America/Chicago');
+                        $datetime->setTimezone($la_time);
+                      }elseif ($time_zone == 'Eastern Time') {
+                        $la_time = new DateTimeZone('America/New_York');
+                        $datetime->setTimezone($la_time);
+                      }
+                      $newdatetime = $datetime->format('Y-m-d h:i a');
+                      $get_datetime = explode(' ',$newdatetime);
+                      $time2 = $get_datetime[1];
+                      $time3 = $get_datetime[2];
+                      $time = $time2." ".$time3;
                        ?>
                        @if($session->status == 'Cancel' || $session->status == 'Insufficient Credit')
                        <li><a href="{{url('dashboard/session-details/'.$session->session_id)}}" style="background: red;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$session->tutor_name}} - {{$date}} {{$time}} - {{$session->student_name}} (half hour credit) @endif</span> </a></li>
@@ -236,11 +269,12 @@ $(document).ready(function() {
             var events = [];
 
             $.each(JSON.parse(doc), function(k, v) {
+              console.log(v.time);
               if (v.status == 'Cancel' || v.status == 'Insufficient Credit') {
                 events.push({
                  id : v.session_id,
                      className : 'cancel',
-                     title: v.tutor_name+' - '+v.time2+' '+v.student_name,
+                     title: v.tutor_name+' - '+v.time+' '+v.student_name,
                      // title: v.subject+' session',
                      start: v.date, // will be parsed
                      // start: v.date+'T'+v.time,
@@ -252,7 +286,7 @@ $(document).ready(function() {
                 events.push({
                  id : v.session_id,
                      className : 'low-credit',
-                     title: v.tutor_name+' - '+v.time2+' '+v.student_name,
+                     title: v.tutor_name+' - '+v.time+' '+v.student_name,
                      // title: v.subject+' session',
                      start: v.date, // will be parsed
                      // start: v.date+'T'+v.time,
@@ -263,7 +297,7 @@ $(document).ready(function() {
               else {
                   events.push({
                    id : v.session_id,
-                      title: v.tutor_name+' - '+v.time2+' '+v.student_name,
+                      title: v.tutor_name+' - '+v.time+' '+v.student_name,
                        // title: v.subject+' session',
                        start: v.date, // will be parsed
                        // start: v.date+'T'+v.time,
