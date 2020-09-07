@@ -57,6 +57,7 @@ class SessionCancelCommand extends Command
     //   });
     //
       $sessions = DB::table('sessions')->where('status','Confirm')->orderby('date','asc')->get();
+      // dd($sessions);
       foreach ($sessions as $session) {
         $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
         if ($tutor_timezone == 'Pacific Time') {
@@ -69,7 +70,7 @@ class SessionCancelCommand extends Command
           date_default_timezone_set("America/New_York");
         }
 
-        $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->orderby('date','asc')->get();
+        $client_sessions = DB::table('sessions')->where('user_id',$session->user_id)->where('status','Confirm')->orderby('date','asc')->orderby('time','asc')->get();
         foreach ($client_sessions as $csession) {
           $combinedDT = date('Y-m-d H:i:s', strtotime("$csession->date $csession->time"));
           $date1 =date("Y-m-d H:i");
@@ -78,21 +79,22 @@ class SessionCancelCommand extends Command
           if ($date1 >= $date2) {
             $user_credit = DB::table('credits')->where('user_id',$csession->user_id)->first();
             if ($user_credit->credit_balance <= 0) {
+              // dd($date1,$date2,$csession,$csession->user_id);
               $input['status'] = 'Insufficient Credit';
               DB::table('sessions')->where('session_id',$csession->session_id)->update($input);
               $cancel_client_session = DB::table('sessions')->where('user_id',$csession->user_id)->where('status','Confirm')->where('date','>=',date("Y-m-d"))->update($input);
-              $get_session = DB::table('sessions')->where('session_id',$csession->session_id)->first();
+              // $get_session = DB::table('sessions')->where('session_id',$csession->session_id)->first();
               // dd($get_session);
-              if ($get_session->recurs_weekly == 'Yes') {
-                $tutor_id = $get_session->tutor_id;
-                $student_id = $get_session->student_id;
-                $date = $get_session->date;
-                $time = $get_session->time;
-                $subject = $get_session->subject;
-                $duration = $get_session->duration;
-                $recurs_session = DB::table('sessions')->where('tutor_id',$tutor_id)->where('student_id',$student_id)->where('time',$time)->where('subject',$subject)
-                ->where('duration',$duration)->where('date','>',$date)->update($input);
-              }
+              // if ($get_session->recurs_weekly == 'Yes') {
+              //   $tutor_id = $get_session->tutor_id;
+              //   $student_id = $get_session->student_id;
+              //   $date = $get_session->date;
+              //   $time = $get_session->time;
+              //   $subject = $get_session->subject;
+              //   $duration = $get_session->duration;
+              //   $recurs_session = DB::table('sessions')->where('tutor_id',$tutor_id)->where('student_id',$student_id)->where('time',$time)->where('subject',$subject)
+              //   ->where('duration',$duration)->where('date','>',$date)->update($input);
+              // }
 
           }
         }
@@ -104,7 +106,7 @@ class SessionCancelCommand extends Command
       $session_data_tutor = DB::table('sessions')->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->groupby('tutor_id')->get();
       if (count($session_data_tutor) > 0) {
         foreach ($session_data_tutor as $email_session) {
-          $session_data = DB::table('sessions')->where('tutor_id',$email_session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
+        $session_data = DB::table('sessions')->where('tutor_id',$email_session->tutor_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->get();
         $user = DB::table('users')->where('id',$email_session->user_id)->first();
         $tutor = DB::table('users')->where('id',$email_session->tutor_id)->first();
         $student = DB::table('students')->where('student_id',$email_session->student_id)->first();
@@ -121,7 +123,7 @@ class SessionCancelCommand extends Command
             $message->to($toemail);
           });
           $input2['mail_status'] = '1';
-          $session_data2 = DB::table('sessions')->where('tutor_id',$session->tutor_id)->where('user_id',$session->user_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->update($input2);
+          $session_data2 = DB::table('sessions')->where('tutor_id',$email_session->tutor_id)->where('user_id',$email_session->user_id)->where('date','>=',date("Y-m-d"))->where('status','Insufficient Credit')->where('mail_status','0')->update($input2);
         }
     }
     }

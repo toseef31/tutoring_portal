@@ -54,7 +54,7 @@ class CustomCommand extends Command
     //     $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
     //     $message->to($toemail);
     //   });
-      $sessions = DB::table('sessions')->where('status','Confirm')->get();
+      $sessions = DB::table('sessions')->where('status','Confirm')->orderby('date','asc')->get();
       foreach ($sessions as $session) {
         $session_date = $session->date;
         $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
@@ -95,6 +95,9 @@ class CustomCommand extends Command
             DB::table('sessions')->where('session_id',$session->session_id)->update($input);
 
           }
+        }elseif ($date1 > $date2) {
+          $input['status'] = 'End';
+          DB::table('sessions')->where('session_id',$session->session_id)->update($input);
         }
       }
 
