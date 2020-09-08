@@ -136,6 +136,50 @@ a.low-credit .fc-content {
                   // Central ........... America/Chicago
                   // Mountain .......... America/Denver
                   // Pacific ........... America/Los_Angeles
+
+                  if ($session->added_by == 'Admin') {
+                    $tutor_timezone = $session->admin_timezone;
+                    $admin_timezone =SCT::getClientName($session->user_id)->time_zone;
+                    // Check session time zone and admin time zone
+                    if ($tutor_timezone == $admin_timezone) {
+                      $time = date('h:i a', strtotime($session->time));
+                      $date = date('M d, ', strtotime($session->date));
+                    }else {
+                        if ($tutor_timezone == 'Pacific Time') {
+                          date_default_timezone_set("America/Los_Angeles");
+                        }elseif ($tutor_timezone == 'Mountain Time') {
+                          date_default_timezone_set("America/Denver");
+                        }elseif ($tutor_timezone == 'Central Time') {
+                          date_default_timezone_set("America/Chicago");
+                        }elseif ($tutor_timezone == 'Eastern Time') {
+                          date_default_timezone_set("America/New_York");
+                        }
+                        $time1 = date('h:i a', strtotime($session->time));
+                        $date = date('M d, ', strtotime($session->date));
+                        $time_zone =SCT::getClientName($session->user_id)->time_zone;
+                        // dd($time_zone);
+                        $db_time = $session->date." ".$time1;
+                        $datetime = new DateTime($db_time);
+                        if ($time_zone == 'Pacific Time') {
+                          $la_time = new DateTimeZone('America/Los_Angeles');
+                          $datetime->setTimezone($la_time);
+                        }elseif ($time_zone == 'Mountain Time') {
+                          $la_time = new DateTimeZone('America/Denver');
+                          $datetime->setTimezone($la_time);
+                        }elseif ($time_zone == 'Central Time') {
+                          $la_time = new DateTimeZone('America/Chicago');
+                          $datetime->setTimezone($la_time);
+                        }elseif ($time_zone == 'Eastern Time') {
+                          $la_time = new DateTimeZone('America/New_York');
+                          $datetime->setTimezone($la_time);
+                        }
+                        $newdatetime = $datetime->format('Y-m-d h:i a');
+                        $get_datetime = explode(' ',$newdatetime);
+                        $time2 = $get_datetime[1];
+                        $time3 = $get_datetime[2];
+                        $time = $time2." ".$time3;
+                    }
+              }else {
                   $tutor_timezone = SCT::getClientName($session->tutor_id)->time_zone;
                   if ($tutor_timezone == 'Pacific Time') {
                     date_default_timezone_set("America/Los_Angeles");
@@ -169,6 +213,7 @@ a.low-credit .fc-content {
                   $time2 = $get_datetime[1];
                   $time3 = $get_datetime[2];
                   $time = $time2." ".$time3;
+                }
                   // dd(date('Y-m-d H:i a'));
                   // dd($time1,$time);
                    ?>
@@ -257,10 +302,11 @@ $(document).ready(function() {
                 events.push({
                  id : v.session_id,
                      className : 'cancel',
-                     title: '-'+v.student_name,
+                     title: v.time+' - '+v.student_name,
+                     // title: '-'+v.student_name,
                      // title: v.subject+' session',
-                     // start: v.date, // will be parsed
-                     start: v.date+'T'+v.time,
+                     start: v.date, // will be parsed
+                     // start: v.date+'T'+v.time,
                      // start: '2020-07-08T16:00:00',
                      url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
                    });
@@ -269,10 +315,11 @@ $(document).ready(function() {
                 events.push({
                  id : v.session_id,
                      className : 'low-credit',
-                     title: '-'+v.student_name,
+                     title: v.time+' - '+v.student_name,
+                     // title: '-'+v.student_name,
                      // title: v.subject+' session',
-                     // start: v.date, // will be parsed
-                     start: v.date+'T'+v.time,
+                     start: v.date, // will be parsed
+                     // start: v.date+'T'+v.time,
                      // start: '2020-07-08T16:00:00',
                      url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
                    });
@@ -280,10 +327,11 @@ $(document).ready(function() {
               else {
                   events.push({
                    id : v.session_id,
-                       title: '-'+v.student_name,
+                        title: v.time+' - '+v.student_name,
+                       // title: '-'+v.student_name,
                        // title: v.subject+' session',
-                       // start: v.date, // will be parsed
-                       start: v.date+'T'+v.time,
+                       start: v.date, // will be parsed
+                       // start: v.date+'T'+v.time,
                        // start: '2020-07-08T16:00:00',
                        url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
                      });
