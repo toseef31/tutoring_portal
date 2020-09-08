@@ -327,15 +327,23 @@ class DashboardController extends Controller
                  DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
                  $request->session()->flash('message', 'Thank you for your credit purchase but your previously assigned session can not reinstated due to tutor confilicting session');
                }else {
-                 $input2['status'] = 'Confirm';
-                 $input2['mail_status'] = '0';
+                 if ($session->date >= date('Y-m-d')) {
+                   $input2['status'] = 'Confirm';
+                   $input2['mail_status'] = '0';
+                 }else {
+                   $input2['status'] = 'Cancel';
+                 }
                  DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
                  $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
                }
            }
          }else {
-           $input2['status'] = 'Confirm';
-           $input2['mail_status'] = '0';
+           if ($session->date >= date('Y-m-d')) {
+             $input2['status'] = 'Confirm';
+             $input2['mail_status'] = '0';
+           }else {
+             $input2['status'] = 'Cancel';
+           }
            DB::table('sessions')->where('session_id',$session->session_id)->where('status','Insufficient Credit')->update($input2);
            $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
          }
@@ -380,7 +388,7 @@ class DashboardController extends Controller
 
        public function TutorStudents(Request $request)
        {
-         
+
        	if($request->isMethod('post')){
        		$request->session()->put('TutorStudentSearch',$request->all());
        	}
