@@ -98,7 +98,7 @@
 
                   <div class="card-footer text-right">
                     <button class="btn btn-dark w-49 p-2" onclick="window.history.go(-1); return false;">Back</button>
-                      <button class="btn btn-green p-2 w-49" type="submit">Pay</button>
+                      <button class="btn btn-green p-2 w-49" id="pay_btn" type="submit">Pay</button>
                   </div>
               </form>
             </div>
@@ -166,6 +166,10 @@ form.addEventListener('submit', function(event) {
       var errorElement = document.getElementById('card-errors');
       errorElement.textContent = result.error.message;
     } else {
+      $('#pay_btn').prop('disabled', true);
+      $('#pay_btn').html('Processing ...');
+      $('#pay_btn').addClass('btn-green');
+      $('#pay_btn').css({'background':'#10C5A7', 'color':'white'});
       // Send the token to your server.
       stripeTokenHandler(result.token);
     }
