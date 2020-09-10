@@ -288,77 +288,60 @@ class DashboardController extends Controller
            foreach ($user_session as $session) {
              $tutor_id = $session->tutor_id;
              $date = $session->date;
-             $time = $session->time;
-             $duration = $session->duration;
-             if ($duration == '0:30') {
-               $new_time = date("H:i", strtotime('+30 minutes',strtotime($time)));
-               $new_time2 = date("H:i", strtotime('-30 minutes',strtotime($time)));
-             }elseif ($duration == '1:00') {
-               $new_time = date("H:i", strtotime('+1 hour',strtotime($time)));
-               $new_time2 = date("H:i", strtotime('-1 hour',strtotime($time)));
-             }elseif ($duration == '1:30') {
-               $new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($time)));
-               $new_time2 = date("H:i", strtotime('-1 hour +30 minutes',strtotime($time)));
-             }elseif ($duration == '2:00') {
-               $new_time = date("H:i", strtotime('+2 hours',strtotime($time)));
-               $new_time2 = date("H:i", strtotime('-2 hours',strtotime($time)));
-             }
-             $time = date("h:i a" ,strtotime($time));
-             $new_time = date("h:i a" ,strtotime($new_time));
-             $new_time2 = date("h:i a" ,strtotime($new_time2));
-             $time1 = DateTime::createFromFormat('H:i a', $time);
-             $time2 = DateTime::createFromFormat('H:i a', $new_time);
-             $time3 = DateTime::createFromFormat('H:i a', $new_time2);
+             $time = date("h:i a" ,strtotime($session->time));
+             // dd($time);
              $prev_session2 = DB::table('sessions')->where('tutor_id',$tutor_id)->where('date',$date)->where('status','confirm')->get();
-             // dd($prev_session2);
-
              $check_session = DB::table('sessions')->where('tutor_id',$tutor_id)->where('date',$date)->where('time',$time)->where('status','Confirm')->first();
              if (count($prev_session2) > 0) {
                foreach ($prev_session2 as $prev) {
                $prev_time = $prev->time;
-               $prev_time = date("h:i a" ,strtotime($prev_time));
-               $prev_time1 = DateTime::createFromFormat('H:i a', $prev_time);
-               if ($prev_time !='' && $prev->session_id ==546) {
-                 // dd($prev_time1,$time2,$time3,$prev->session_id,$session->session_id);
+               $duration = $prev->duration;
+               if ($duration == '0:30') {
+                 $new_time = date("H:i", strtotime('+30 minutes',strtotime($prev_time)));
+                 $new_time2 = date("H:i", strtotime('-30 minutes',strtotime($prev_time)));
+               }elseif ($duration == '1:00') {
+                 $new_time = date("H:i", strtotime('+1 hour',strtotime($prev_time)));
+                 $new_time2 = date("H:i", strtotime('-1 hour',strtotime($prev_time)));
+               }elseif ($duration == '1:30') {
+                 $new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($prev_time)));
+                 $new_time2 = date("H:i", strtotime('-1 hour +30 minutes',strtotime($prev_time)));
+               }elseif ($duration == '2:00') {
+                 $new_time = date("H:i", strtotime('+2 hours',strtotime($prev_time)));
+                 $new_time2 = date("H:i", strtotime('-2 hours',strtotime($prev_time)));
                }
-               // dd($prev_time1,$time2,$time3);
-               if ($prev_time1 <= $time2 && $prev_time1 >= $time3) {
+               // dd($prev_time,$new_time,$new_time2);
+               $prev_time = date("h:i a" ,strtotime($prev_time));
+               $new_time = date("h:i a" ,strtotime($new_time));
+               $new_time2 = date("h:i a" ,strtotime($new_time2));
+               $time1 = DateTime::createFromFormat('H:i a', $time);
+               $time2 = DateTime::createFromFormat('H:i a', $new_time);
+               $time3 = DateTime::createFromFormat('H:i a', $new_time2);
+               // dd($prev_time,$new_time,$new_time2);
+               if ($time1 < $time2 && $time1 > $time3) {
+                 // dd($time1,$time2,$time3);
                  $input2['status'] = 'Cancel';
-                 DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
-                 $request->session()->flash('message', 'Thank you for your credit purchase but your previously assigned session can not reinstated due to tutor confilicting session');
+                 DB::table('sessions')->where('session_id',$session->session_id)->where('status','Insufficient Credit')->update($input2);
+                 // $request->session()->flash('message', 'Thank you for your credit purchase but your previously assigned session can not reinstated due to tutor confilicting session');
                }else {
-                 if ($session->date >= date('Y-m-d')) {
-                   $input2['status'] = 'Confirm';
+                 // dd($time1,$time2,$time3);
+                 $input2['status'] = 'Confirm';
                    $input2['mail_status'] = '0';
-                 }else {
-                   $input2['status'] = 'Cancel';
-                 }
-                 DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
-                 $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
+                 DB::table('sessions')->where('session_id',$session->session_id)->where('status','Insufficient Credit')->update($input2);
+                 // $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
                }
            }
-         }else {
+         }
+         else {
            if ($session->date >= date('Y-m-d')) {
              $input2['status'] = 'Confirm';
              $input2['mail_status'] = '0';
-           }else {
+           }elseif ($session->date < date('Y-m-d')) {
              $input2['status'] = 'Cancel';
            }
            DB::table('sessions')->where('session_id',$session->session_id)->where('status','Insufficient Credit')->update($input2);
-           $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
+           // $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
          }
 
-         // dd($check_session2);
-             // if ($check_session !='') {
-             //   $input2['status'] = 'Cancel';
-             //   DB::table('sessions')->where('session_id',$session->session_id)->update($input2);
-             //   $request->session()->flash('message', 'Thank you for your credit purchase but your previously assigned session can not reinstated due to tutor confilicting session');
-             // }else {
-             //   $input2['status'] = 'Confirm';
-             //   $input2['mail_status'] = '0';
-             //   DB::table('sessions')->where('session_id',$session->session_id)->where('status','<>','Cancel')->update($input2);
-             //   $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
-             // }
            }
          }else {
            $request->session()->flash('message', 'Thank you for your credit purchase!');
