@@ -468,7 +468,7 @@ class DashboardController extends Controller
        public function get_session_data(Request $request) {
 
          // $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->orderBy('date','asc')->get();
-         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->orderBy('date','asc')->get();
+         $sessions = DB::table('sessions')->where('tutor_id',auth()->user()->id)->orderBy('date','asc')->orderBy('time','asc')->get();
          foreach ($sessions as &$key) {
            $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
            $key->student_name =SCT::getStudentName($key->student_id)->student_name;
@@ -548,7 +548,9 @@ class DashboardController extends Controller
              $time3 = $get_datetime[2];
              $time = $time2." ".$time3;
            }
-           $key->time = $time;
+             $time2 = date('H:i:s',strtotime($time));
+             $key->time = $time;
+             $key->time2 = $time2;
          }
          // dd($session);
          echo json_encode($sessions);
@@ -1027,9 +1029,10 @@ class DashboardController extends Controller
 
        public function get_clientSession_data(Request $request) {
          // $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->where('date','>=',date("Y-m-d"))->get();
-         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->get();
+         $sessions = DB::table('sessions')->where('user_id',auth()->user()->id)->orderBy('date','asc')->orderBy('time','asc')->get();
          foreach ($sessions as &$key) {
            $key->credit =DB::table('credits')->where('user_id',$key->user_id)->first()->credit_balance;
+           $key->student_name =SCT::getStudentName($key->student_id)->student_name;
            // Change Time Zone
            if ($key->added_by == 'Admin') {
              $tutor_timezone = $key->admin_timezone;
@@ -1107,8 +1110,9 @@ class DashboardController extends Controller
            $time3 = $get_datetime[2];
            $time = $time2." ".$time3;
          }
+           $time2 = date('H:i:s',strtotime($time));
            $key->time = $time;
-           $key->student_name =SCT::getStudentName($key->student_id)->student_name;
+           $key->time2 = $time2;
          }
          // dd($sessions);
          echo json_encode($sessions);

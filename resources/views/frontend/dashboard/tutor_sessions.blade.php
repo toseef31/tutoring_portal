@@ -296,41 +296,41 @@ $(document).ready(function() {
             $.each(JSON.parse(doc), function(k, v) {
               if (v.status == 'Cancel' || v.status == 'Insufficient Credit') {
                 events.push({
-                 id : v.session_id,
-                     className : 'cancel',
-                     title: v.time+' - '+v.student_name,
-                     // title: '-'+v.student_name,
-                     // title: v.subject+' session',
-                     start: v.date, // will be parsed
-                     // start: v.date+'T'+v.time,
-                     // start: '2020-07-08T16:00:00',
-                     url: "{{url('/user-portal/tutor-sessions-details')}}/"+v.session_id,
-                   });
+                  id : v.session_id,
+                  className : 'cancel',
+                  title: '-'+v.student_name,
+                  // title: v.time+' - '+v.student_name,
+                  // title: v.subject+' session',
+                  // start: v.date, // will be parsed
+                  start: v.date+'T'+v.time2,
+                  // start: '2020-07-08T16:00:00',
+                  url: "{{url('/user-portal/tutor-sessions-details')}}/"+v.session_id,
+                });
               }
               else if (v.credit == 0.5) {
                 events.push({
-                 id : v.session_id,
-                     className : 'low-credit',
-                     title: v.time+' - '+v.student_name,
-                     // title: '-'+v.student_name,
-                     // title: v.subject+' session',
-                     start: v.date, // will be parsed
-                     // start: v.date+'T'+v.time,
-                     // start: '2020-07-08T16:00:00',
-                     url: "{{url('/user-portal/tutor-sessions-details')}}/"+v.session_id,
-                   });
+                  id : v.session_id,
+                  className : 'low-credit',
+                  title: '-'+v.student_name,
+                  // title: v.time+' - '+v.student_name,
+                  // title: v.subject+' session',
+                  // start: v.date, // will be parsed
+                  start: v.date+'T'+v.time2,
+                  // start: '2020-07-08T16:00:00',
+                  url: "{{url('/user-portal/tutor-sessions-details')}}/"+v.session_id,
+                });
               }
               else {
-                  events.push({
-                   id : v.session_id,
-                   title: v.time+' - '+v.student_name,
-                    // title: '-'+v.student_name,
-                       // title: v.subject+' session',
-                       start: v.date, // will be parsed
-                       // start: v.date+'T'+v.time,
-                       // start: '2020-07-08T16:00:00',
-                       url: "{{url('/user-portal/tutor-sessions-details')}}/"+v.session_id,
-                     });
+                events.push({
+                  id : v.session_id,
+                  title: '-'+v.student_name,
+                  // title: v.time+' - '+v.student_name,
+                  // title: v.subject+' session',
+                  // start: v.date, // will be parsed
+                  start: v.date+'T'+v.time2,
+                  // start: '2020-07-08T16:00:00',
+                  url: "{{url('/user-portal/tutor-sessions-details')}}/"+v.session_id,
+                });
               }
 
         });

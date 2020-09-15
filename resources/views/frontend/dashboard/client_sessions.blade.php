@@ -302,11 +302,10 @@ $(document).ready(function() {
                 events.push({
                  id : v.session_id,
                      className : 'cancel',
-                     title: v.time+' - '+v.student_name,
-                     // title: '-'+v.student_name,
-                     // title: v.subject+' session',
-                     start: v.date, // will be parsed
-                     // start: v.date+'T'+v.time,
+                     title: '-'+v.student_name,
+                     // title: v.time+' - '+v.student_name,
+                     // start: v.date, // will be parsed
+                     start: v.date+'T'+v.time2,
                      // start: '2020-07-08T16:00:00',
                      url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
                    });
@@ -315,26 +314,24 @@ $(document).ready(function() {
                 events.push({
                  id : v.session_id,
                      className : 'low-credit',
-                     title: v.time+' - '+v.student_name,
-                     // title: '-'+v.student_name,
-                     // title: v.subject+' session',
-                     start: v.date, // will be parsed
-                     // start: v.date+'T'+v.time,
+                     title: '-'+v.student_name,
+                     // title: v.time+' - '+v.student_name,
+                     // start: v.date, // will be parsed
+                     start: v.date+'T'+v.time2,
                      // start: '2020-07-08T16:00:00',
                      url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
                    });
               }
               else {
-                  events.push({
-                   id : v.session_id,
-                        title: v.time+' - '+v.student_name,
-                       // title: '-'+v.student_name,
-                       // title: v.subject+' session',
-                       start: v.date, // will be parsed
-                       // start: v.date+'T'+v.time,
-                       // start: '2020-07-08T16:00:00',
-                       url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
-                     });
+                events.push({
+                  id : v.session_id,
+                  title: '-'+v.student_name,
+                  // title: v.time+' - '+v.student_name,
+                  // start: v.date, // will be parsed
+                  start: v.date+'T'+v.time2,
+                  // start: '2020-07-08T16:00:00',
+                  url: "{{url('/user-portal/client-sessions-details')}}/"+v.session_id,
+                });
               }
 
 
