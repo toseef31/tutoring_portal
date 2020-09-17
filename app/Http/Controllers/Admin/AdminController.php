@@ -330,42 +330,49 @@ class AdminController extends Controller
                     $check_session = DB::table('sessions')->where('tutor_id',$tutor_id)->where('date',$date)->where('time',$time)->where('status','Confirm')->first();
                     if (count($prev_session2) > 0) {
                       foreach ($prev_session2 as $prev) {
-                      $prev_time = $prev->time;
-                      $duration = $prev->duration;
-                      if ($duration == '0:30') {
-                        $new_time = date("H:i", strtotime('+30 minutes',strtotime($prev_time)));
-                        $new_time2 = date("H:i", strtotime('-30 minutes',strtotime($prev_time)));
-                      }elseif ($duration == '1:00') {
-                        $new_time = date("H:i", strtotime('+1 hour',strtotime($prev_time)));
-                        $new_time2 = date("H:i", strtotime('-1 hour',strtotime($prev_time)));
-                      }elseif ($duration == '1:30') {
-                        $new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($prev_time)));
-                        $new_time2 = date("H:i", strtotime('-1 hour +30 minutes',strtotime($prev_time)));
-                      }elseif ($duration == '2:00') {
-                        $new_time = date("H:i", strtotime('+2 hours',strtotime($prev_time)));
-                        $new_time2 = date("H:i", strtotime('-2 hours',strtotime($prev_time)));
-                      }
-                      // dd($prev_time,$new_time,$new_time2);
-                      $prev_time = date("h:i a" ,strtotime($prev_time));
-                      $new_time = date("h:i a" ,strtotime($new_time));
-                      $new_time2 = date("h:i a" ,strtotime($new_time2));
-                      $time1 = DateTime::createFromFormat('H:i a', $time);
-                      $time2 = DateTime::createFromFormat('H:i a', $new_time);
-                      $time3 = DateTime::createFromFormat('H:i a', $new_time2);
-                      // dd($prev_time,$new_time,$new_time2);
-                      if ($time1 < $time2 && $time1 > $time3) {
-                        // dd($time1,$time2,$time3);
-                        $input2['status'] = 'Cancel';
-                        DB::table('sessions')->where('session_id',$session->session_id)->where('status','Insufficient Credit')->update($input2);
-                        // $request->session()->flash('message', 'Thank you for your credit purchase but your previously assigned session can not reinstated due to tutor confilicting session');
-                      }else {
-                        // dd($time1,$time2,$time3);
-                        $input2['status'] = 'Confirm';
+                        $check_time1 = $time;
+                        $check_time2 = date("h:i a" ,strtotime($prev->time));
+                        $check_time3 = DateTime::createFromFormat('H:i a', $check_time1);
+                        $check_time4 = DateTime::createFromFormat('H:i a', $check_time2);
+                        $prev_time = $prev->time;
+                        $duration = $prev->duration;
+                        if ($duration == '0:30') {
+                          $new_time = date("H:i", strtotime('+30 minutes',strtotime($prev_time)));
+                          $new_time2 = date("H:i", strtotime('-30 minutes',strtotime($prev_time)));
+                        }elseif ($duration == '1:00') {
+                          $new_time = date("H:i", strtotime('+1 hour',strtotime($prev_time)));
+                          $new_time2 = date("H:i", strtotime('-1 hour',strtotime($prev_time)));
+                        }elseif ($duration == '1:30') {
+                          $new_time = date("H:i", strtotime('+1 hour +30 minutes',strtotime($prev_time)));
+                          $new_time2 = date("H:i", strtotime('-1 hour +30 minutes',strtotime($prev_time)));
+                        }elseif ($duration == '2:00') {
+                          $new_time = date("H:i", strtotime('+2 hours',strtotime($prev_time)));
+                          $new_time2 = date("H:i", strtotime('-2 hours',strtotime($prev_time)));
+                        }
+                        // dd($prev_time,$new_time,$new_time2);
+                        $prev_time = date("h:i a" ,strtotime($prev_time));
+                        $new_time = date("h:i a" ,strtotime($new_time));
+                        $new_time2 = date("h:i a" ,strtotime($new_time2));
+                        $time1 = DateTime::createFromFormat('H:i a', $time);
+                        $time2 = DateTime::createFromFormat('H:i a', $new_time);
+                        $time3 = DateTime::createFromFormat('H:i a', $new_time2);
+                        // dd($prev_time,$new_time,$new_time2);
+                        if ($time1 < $time2 && $time1 > $time3) {
+                          // dd($time1,$time2,$time3);
+                          $input2['status'] = 'Cancel';
+                          DB::table('sessions')->where('session_id',$session->session_id)->where('status','Insufficient Credit')->update($input2);
+                          // $request->session()->flash('message', 'Thank you for your credit purchase but your previously assigned session can not reinstated due to tutor confilicting session');
+                        }elseif ($check_time3 == $check_time4) {
+                          $status_info['status'] = 'Cancel';
+                          $update_info =  DB::table('sessions')->where('session_id',$session->session_id)->update($status_info);
+                        }else {
+                          // dd($time1,$time2,$time3);
+                          $input2['status'] = 'Confirm';
                           $input2['mail_status'] = '0';
-                        DB::table('sessions')->where('session_id',$session->session_id)->where('status','Insufficient Credit')->update($input2);
-                        // $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
+                          DB::table('sessions')->where('session_id',$session->session_id)->where('status','Insufficient Credit')->update($input2);
+                          // $request->session()->flash('message', 'Thank you for your credit purchase, your session is reinstated');
+                        }
                       }
-                  }
                 }
                 else {
                   if ($session->date >= date('Y-m-d')) {
