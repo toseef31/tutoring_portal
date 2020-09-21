@@ -14,6 +14,14 @@
 			width: 100% !important;
 		}
 	}
+	@media only screen
+  and (min-device-width: 768px)
+  and (max-device-width: 1024px)
+  and (-webkit-min-device-pixel-ratio: 1) {
+		.pdf_view {
+			width: 100% !important;
+		}
+}
 </style>
 <div class="main-panel">
 	<nav class="navbar navbar-default">

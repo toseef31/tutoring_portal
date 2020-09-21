@@ -3,7 +3,30 @@
 @section('title', 'Agreements')
 
 @section('styling')
+<style>
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
 
+::-webkit-scrollbar:vertical {
+  width: 12px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+</style>
 @endsection
 @section('content')
 
@@ -71,7 +94,7 @@
             </div>
             <div class="content">
               <div class="table-responsive">
-                <table class="table  table-bordered">
+                <table class="table  table-bordered hidden-xs hidden-sm">
                   <thead>
                     <tr>
                       <th>Agreement Name</th>
@@ -94,7 +117,40 @@
                     @endforeach
                   </tbody>
                 </table>
-                {{$agreements->render()}}
+                <div class="hidden-sm hidden-xs">
+                  {{$agreements->render()}}
+                </div>
+              </div>
+              <div class="hidden-md hidden-lg">
+                @foreach($agreements_mobile as $agreement)
+                <table class="table table-bordered ">
+                  <thead>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Agreement Name</td>
+                      <td>{{$agreement->aggreement_name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Status</td>
+                      <td>{{$agreement->status}}</td>
+                    </tr>
+                    <tr>
+                      <td>Signed Date</td>
+                      <td>{{$agreement->date}}</td>
+                    </tr>
+                    <tr>
+                      <td>Action</td>
+                      <td>
+                        <a href="{{ url('user-portal/view_agreement/'.$agreement->aggreement_id) }}" class="btn btn-green" data-toggle="tooltip" data-original-title="Update">View</a>&nbsp;&nbsp;&nbsp;
+                        <!-- <a href="javascript:;" onclick="deleteEmployer('{{ $agreement->aggreement_id }}')" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash"></i></a> -->
+                      </td>
+                    </tr>
+                    </tr>
+                  </tbody>
+                </table>
+                @endforeach
+                {{$agreements_mobile->render()}}
               </div>
             </div>
             <hr>

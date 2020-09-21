@@ -781,7 +781,7 @@ class AdminController extends Controller
     public function getUserList(Request $request,$id)
     {
       $clients = User::where('role','customer')->orderBy('first_name','asc')->get();
-      $tutors = User::where('role','tutor')->orderBy('first_name','asc')->get();
+      $tutors = User::where('role','<>','customer')->orderBy('first_name','asc')->get();
       return view('admin.ajax-users-list',compact('clients','tutors','id'));
     }
 

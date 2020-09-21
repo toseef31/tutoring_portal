@@ -15,7 +15,7 @@
 		<div class="container">
 
 				<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-12 text-center">
 								<div class="brand">
 									<a href="{{url('/user-portal')}}">
 										<img src="{{asset('frontend-assets/images/logo.png')}}" style="height: 105px; padding-top: 10px;">

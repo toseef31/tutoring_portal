@@ -3,7 +3,30 @@
 @section('title', 'Session Details')
 
 @section('styling')
+<style>
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
 
+::-webkit-scrollbar:vertical {
+  width: 12px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+</style>
 @endsection
 @section('content')
 
@@ -110,7 +133,7 @@
                         // Check session time zone and admin time zone
                         if ($tutor_timezone == $admin_timezone) {
                           $time = date('h:i a', strtotime($session->time));
-                          $date = date('M d, ', strtotime($session->date));
+                          $date = date('M d, Y', strtotime($session->date));
                         }else {
                             if ($tutor_timezone == 'Pacific Time') {
                               date_default_timezone_set("America/Los_Angeles");
@@ -122,7 +145,7 @@
                               date_default_timezone_set("America/New_York");
                             }
                             $time1 = date('h:i a', strtotime($session->time));
-                            $date = date('M d, ', strtotime($session->date));
+                            $date = date('M d, Y', strtotime($session->date));
                             $time_zone =SCT::getClientName($session->tutor_id)->time_zone;
                             // dd($time_zone);
                             $db_time = $session->date." ".$time1;
@@ -159,7 +182,7 @@
                         date_default_timezone_set("America/New_York");
                       }
                       $time1 = date('h:i a', strtotime($session->time));
-                      $date = date('M d, ', strtotime($session->date));
+                      $date = date('M d, Y', strtotime($session->date));
                       $time_zone =SCT::getClientName($session->tutor_id)->time_zone;
                       // dd($time_zone);
                       $db_time = $session->date." ".$time1;

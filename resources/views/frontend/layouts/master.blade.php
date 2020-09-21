@@ -64,21 +64,59 @@
           });
         });
 
-        var idleMax = 30; // Logout after 30 minutes of IDLE
-        var idleTime = 0;
+        // var idleMax = 30; // Logout after 30 minutes of IDLE
+        // var idleTime = 0;
+        //
+        // var idleInterval = setInterval("timerIncrement()", 60000);  // 1 minute interval
+        // $( "body" ).mousemove(function( event ) {
+        //   idleTime = 0; // reset to zero
+        // });
+        //
+        // // count minutes
+        // function timerIncrement() {
+        //   idleTime = idleTime + 1;
+        //   if (idleTime > idleMax) {
+        //     window.location="{{url('logout')}}";
+        //   }
+        // }
 
-        var idleInterval = setInterval("timerIncrement()", 60000);  // 1 minute interval
-        $( "body" ).mousemove(function( event ) {
-          idleTime = 0; // reset to zero
-        });
+        $(document).ready(function(){
+					var t;
+					 idleTime = 0;
+					window.onload = resetTimer;
+					window.onmousemove = resetTimer;
+					window.onmousedown = resetTimer;  // catches touchscreen presses as well
+					window.ontouchstart = resetTimer; // catches touchscreen swipes as well
+					window.onclick = resetTimer;      // catches touchpad clicks as well
+					window.onkeydown = resetTimer;
+					window.addEventListener('scroll', resetTimer, true);
+					//Increment the idle time counter every second.
+					var idleInterval = setInterval(timerIncrement, 60000);
 
-        // count minutes
-        function timerIncrement() {
-          idleTime = idleTime + 1;
-          if (idleTime > idleMax) {
-            window.location="{{url('logout')}}";
-          }
-        }
+					function timerIncrement()
+					{
+						idleTime++;
+						if (idleTime >= 30)
+						{
+							doPreload();
+						}
+					}
+
+					//Zero the idle timer on mouse movement.
+					$(this).mousemove(function(e){
+						idleTime = 0;
+					});
+
+					function doPreload()
+					{
+						console.log(idleTime);
+				    window.location="{{url('logout')}}";
+					}
+					function resetTimer() {
+						clearTimeout(t);
+						idleTime = 0;
+					}
+				});
 
     </script>
   </body>

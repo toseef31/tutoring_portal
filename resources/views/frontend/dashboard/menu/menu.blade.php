@@ -1,4 +1,4 @@
-<div class="sidebar hidden-xs" data-background-color="black" data-active-color="danger">
+<div class="sidebar hidden-xs hidden-sm" data-background-color="black" data-active-color="danger">
   <div class="sidebar-wrapper">
     <div class="logo">
       <!-- <a href="#" class="simple-text" id="dash_Name">

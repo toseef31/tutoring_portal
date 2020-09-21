@@ -125,7 +125,8 @@ class DashboardController extends Controller
      {
        $user_id = auth()->user()->id;
        $agreements = DB::table('signed_aggreements')->where('user_id',$user_id)->paginate(15);
-       return view('frontend.dashboard.all_aggreements',compact('agreements'));
+       $agreements_mobile = DB::table('signed_aggreements')->where('user_id',$user_id)->paginate(1);
+       return view('frontend.dashboard.all_aggreements',compact('agreements','agreements_mobile'));
      }
 
      public function ViewAgreementDetails(Request $request ,$id)
