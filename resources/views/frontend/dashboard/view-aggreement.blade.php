@@ -22,6 +22,11 @@
 			width: 100% !important;
 		}
 }
+@media (min-width: 992px){
+	.col-md-9{
+		width: 100%;
+	}
+}
 </style>
 <div class="main-panel">
 	<nav class="navbar navbar-default">

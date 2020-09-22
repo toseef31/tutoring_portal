@@ -2681,7 +2681,7 @@ fieldset[disabled] .btn-neutral.active {
         display: block !important;
     }
     .navbar-header {
-        float: none;
+        float: none !important;
     }
     .navbar-nav .open .dropdown-menu {
         position: static;

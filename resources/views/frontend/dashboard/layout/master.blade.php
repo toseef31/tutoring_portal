@@ -191,6 +191,11 @@
 						idleTime = 0;
 					}
 				});
+
+
+				$(".navbar-toggle").click(function(){
+  				$(".sidebar").toggleClass('hidden-sm');
+				});
     </script>
     @yield('script')
 </body>
