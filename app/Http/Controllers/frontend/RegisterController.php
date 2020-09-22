@@ -161,6 +161,9 @@ class RegisterController extends Controller
          }
 
          if ( Auth::check() ) {
+           $request->session()->put('loginSession',auth()->user()->id);
+           $login_session =$request->session()->get('loginSession');
+           // dd($login_session);
            if ($request->session()->has('previous_url')) {
              $url =$request->session()->get('previous_url');
              session()->forget('previous_url');
