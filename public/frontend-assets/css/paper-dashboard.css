@@ -510,6 +510,14 @@ a:focus, a:hover {
    min-height: calc(100vh - 258px);
        /* min-height: 670px; */
 }
+@media only screen
+  and (min-device-width: 1024px)
+  and (max-device-width: 1366px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+.main-panel > .content {
+  min-height: calc(100vh - 204px);
+}
+}
 
 .main-panel > .footer {
    border-top: 1px solid rgba(0, 0, 0, 0.1);
