@@ -72,7 +72,6 @@
                       <th>Time</th>
                       <th>Duration</th>
                       <th>Tutoring Subject</th>
-                      <th>Initial Session</th>
                       <th>Recurs Weekly</th>
                       <th>Status</th>
                       <th class="text-right">Action</th>
@@ -90,7 +89,6 @@
                            {{SCT::getClientCredit($session->user_id)->credit_balance}}
                           @endif
                          </td>
-                        <td> {{$session->date}}</td>
                         <?php
                         if ($session->added_by == 'Admin') {
                           $tutor_timezone = $session->admin_timezone;
@@ -98,7 +96,7 @@
                           // Check session time zone and admin time zone
                           if ($tutor_timezone == $admin_timezone) {
                             $time = date('h:i a', strtotime($session->time));
-                            $date = date('M d, ', strtotime($session->date));
+                            $date = date('M d, Y', strtotime($session->date));
                           }else {
                               if ($tutor_timezone == 'Pacific Time') {
                                 date_default_timezone_set("America/Los_Angeles");
@@ -110,7 +108,7 @@
                                 date_default_timezone_set("America/New_York");
                               }
                               $time1 = date('h:i a', strtotime($session->time));
-                              $date = date('M d, ', strtotime($session->date));
+                              $date = date('M d, Y', strtotime($session->date));
                               $time_zone =SCT::getClientName($session->tutor_id)->time_zone;
                               // dd($time_zone);
                               $db_time = $session->date." ".$time1;
@@ -147,7 +145,7 @@
                           date_default_timezone_set("America/New_York");
                         }
                         $time1 = date('h:i a', strtotime($session->time));
-                        $date = date('M d, ', strtotime($session->date));
+                        $date = date('M d, Y', strtotime($session->date));
                         $time_zone =SCT::getClientName($session->tutor_id)->time_zone;
                         // dd($time_zone);
                         $db_time = $session->date." ".$time1;
@@ -173,16 +171,10 @@
                       }
 
                          ?>
+                         <td> {{$date}}</td>
                         <td>{{$time}}</td>
                         <td> {{$session->duration}}</td>
                         <td> {{$session->subject}}</td>
-                        <td>
-                          @if($session->session_type =='First Session')
-                          YES
-                          @else
-                          NO
-                          @endif
-                        </td>
                         <td> {{$session->recurs_weekly}}</td>
                         <td>
                           <?php

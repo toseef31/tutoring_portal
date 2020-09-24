@@ -147,7 +147,7 @@ $s_app = Session()->get('TutorStudentSearch');
                       @else
                       <td>0</td>
                       @endif
-                      <td>{{$student->hourly_pay_rate}}</td>
+                      <td>${{$student->hourly_pay_rate}}</td>
                       <td>{{$student->email}}</td>
                       <td>{{$student->subject}}</td>
                       <td>{{$student->grade}}</td>
@@ -187,7 +187,7 @@ $s_app = Session()->get('TutorStudentSearch');
                     </tr>
                      <tr>
                        <td>Hourly Rate</td>
-                       <td>{{$student->hourly_pay_rate}}</td>
+                       <td>${{$student->hourly_pay_rate}}</td>
                      </tr>
                      <tr>
                        <td>Email</td>
