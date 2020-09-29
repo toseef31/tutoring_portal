@@ -3289,7 +3289,25 @@ textarea.form-controls {
     opacity: 0;
     filter: alpha(opacity=0);
 }
-
+.page-title {
+  padding-left: 20px;
+}
+.glass-img{
+  padding-bottom: 4px;
+    width: 6%;
+}
+.green-legend{
+  background:#10C5A7;
+  padding: 1px 10px;
+}
+.yellow-legend{
+  background:#dcdc25;
+  padding: 1px 10px;
+}
+.red-legend{
+  background:red;
+  padding: 1px 10px;
+}
 /*App Media Queries*/
 @media  only screen and (max-width: 767px){
    .main-row{

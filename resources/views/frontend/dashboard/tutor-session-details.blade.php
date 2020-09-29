@@ -255,7 +255,7 @@
                         <!-- <a href="javascript:;" onclick="EndSession('{{ $session->session_id }}')" class="btn btn-green" data-toggle="tooltip" data-original-title="Update">End Session</a>&nbsp;&nbsp;&nbsp; -->
                         @endif
                         <a href="{{ url('user-portal/session/edit/'.$session->session_id) }}" class="btn btn-green" data-toggle="tooltip" data-original-title="Update" style="margin-top: 4px;">Edit Session</a>&nbsp;&nbsp;&nbsp;
-                        <a href="javascript:;" onclick="CancelSession('{{ $session->session_id }}')" class="btn btn-danger" data-toggle="tooltip" data-original-title="Delete" style="margin-top: 4px;">Cancel Session</i></a>
+                        <a href="javascript:;" onclick="CancelSession('{{ $session->session_id }}','{{$session->recurs_weekly}}')" class="btn btn-danger" data-toggle="tooltip" data-original-title="Delete" style="margin-top: 4px;">Cancel Session</i></a>
                         @elseif($session->status == 'Insufficient Credit' || $session->status == 'Cancel')
                         <a href="javascript:;" onclick="CancelSession('{{ $session->session_id }}')" class="btn btn-danger" data-toggle="tooltip" data-original-title="Delete" style="margin-top: 4px;">Cancel Session</i></a>
                         @endif
@@ -435,6 +435,23 @@
                                 <input class="form-check-input" type="checkbox" name="notify_client" id="notify_client" value="1" checked> Notify client of cancellation
                               </label>
                             </div>
+                            <div class="cancel_recurring" style="display:none;">
+                            <div class="form-group">
+                                <div class="radio-div">
+                                    <label class="custom-control custom-control-primary custom-radio">
+                                        <input name="type" class="custom-control-input" type="radio" value="cancel_this" checked>
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-label">Cancel this session only</span>
+                                    </label>
+                                    <label class="custom-control custom-control-primary custom-radio" style="margin-left:20px;">
+                                        <input name="type" class="custom-control-input" type="radio" value="cancel_all">
+                                        <span class="custom-control-indicator"></span>
+                                        <span class="custom-control-label">Cancel all recurring sessions</span>
+                                    </label>
+                                </div>
+                              </div>
+                            </div>
+
                             <button class="btn btn-danger" type="submit">Continue</button>
                             <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
                         </form>
@@ -459,9 +476,14 @@ function EndSession(sessionId){
 //         alert('delete this '+userId);
 //     }
 // }
-function CancelSession(sessionId){
+function CancelSession(sessionId,recurs_weekly){
+  // alert(recurs_weekly);
     $('.actionId').val(sessionId);
+    if (recurs_weekly == "Yes") {
+      $('.cancel_recurring').css('display','block');
+    }
     $('#modal-cancelsession').modal();
+
 }
 
 $("#end_session").submit(function (e) {

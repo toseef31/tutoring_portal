@@ -54,7 +54,7 @@
 				  </div>
 
 				  <div class="form-group">
-				  	<label>Parent/Adult Email</label>
+				  	<label>Parent/Adult Email (used for all client communication)</label>
 				    <input type="email" class="form-control" placeholder="Enter Email" id="email" name="email" required>
 				  </div>
 					<div class="form-group">

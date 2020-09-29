@@ -64,7 +64,7 @@
 				<div class="col-lg-9 col-md-9 app-view-mainCol">
 					<div class="cards">
 						<div class="header">
-							<h3 class="title">FAQs</h3>
+							<h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">FAQs</span></h3>
 
 							<hr>
 						</div>

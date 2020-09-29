@@ -18,6 +18,11 @@ Route::match(['get','post'],'/register', 'frontend\RegisterController@register')
 Route::get('/login', 'frontend\RegisterController@accountLogin')->name('login');
 Route::post('/login', 'frontend\RegisterController@checklogin');
 Route::get('logout', 'frontend\RegisterController@logout')->name('logout');
+Route::get('/forget-password', 'frontend\RegisterController@forgetPassword');
+Route::match(['get','post'],'/sendResetLinkEmail','frontend\RegisterController@sendResetLinkEmail');
+Route::get('/reset-password/{email}/{token}', 'frontend\RegisterController@showPasswordResetForm');
+Route::post('/reset-password', 'frontend\RegisterController@resetPassword');
+
 Route::get('refreshCaptcha', 'frontend\RegisterController@refreshCaptcha')->name('refresh');
 Route::group(['middleware' => 'auth'], function() {
 Route::group(['prefix' => 'user-portal'], function () {

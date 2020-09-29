@@ -113,7 +113,7 @@
                     // dd($current_interval);
                   }
                   // $current_interval2 = date("M d, Y" ,strtotime( date( 'Y-m-16' )))." - ".date("M d, Y",strtotime( date( 'Y-m-t' )));
-                  for ($i = 0; $i <= 13; $i++) {
+                  for ($i = 0; $i <= 61; $i++) {
                     $months[] = date("Y-m-d", strtotime( date( 'Y-m-01' )." -$i months"));
                     if ($i == 0) {
                       if ($current_interval2 !='') {

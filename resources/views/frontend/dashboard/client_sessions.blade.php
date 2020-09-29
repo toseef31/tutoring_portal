@@ -35,14 +35,17 @@ a.cancel .fc-content {
 a.low-credit .fc-content .fc-title ,a.low-credit .fc-content .fc-time {
   background: #dcdc25 !important;
   border: 1px solid #dcdc25 !important;
+  color:black !important;
 }
 a.low-credit  {
   border-color: #dcdc25 !important;
   background: #dcdc25 !important;
+  color:black !important;
 }
 a.low-credit .fc-content {
   border-color: #dcdc25 !important;
   background: #dcdc25 !important;
+  color:black !important;
 }
 @media (max-width:767px){
 .fc .fc-toolbar>*>* {
@@ -110,7 +113,7 @@ a.low-credit .fc-content {
           <div class="cards">
             <div class="header">
               <!-- <a href="{{url('user-portal/session/add')}}" class="btn btn-green pull-right">Schedule New Session</a> -->
-              <h3 class="title">Sessions</h3>
+              <h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Sessions</span></h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))
@@ -123,7 +126,17 @@ a.low-credit .fc-content {
         			@endif
             </div>
             <div class="content">
-
+              <div class="row" style="margin-bottom:30px;">
+                <div class="col-md-2 col-md-offset-2">
+                  <span class="green-legend"></span><span style="padding:8px;">scheduled session</span>
+                </div>
+                <div class="col-md-5">
+                  <span class="yellow-legend"></span><span style="padding:8px;">scheduled session,but with only half hour credit remaining</span>
+                </div>
+                <div class="col-md-3">
+                  <span class="red-legend"></span><span style="padding:8px;">canceled session</span>
+                </div>
+              </div>
               <!-- Calendar Start -->
               <div id='calendar'></div>
               <!-- Calendar Ends -->
@@ -221,7 +234,7 @@ a.low-credit .fc-content {
                    @if($session->status == 'Cancel' || $session->status == 'Insufficient Credit')
                    <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: red;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$date}} {{$time}} - {{$session->student_name}} (half hour credit) @endif</span> </a></li>
                    @elseif(SCT::checkCredit($session->user_id)->credit_balance == 0.5)
-                   <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: #dcdc25;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$date}} {{$time}} - {{$session->student_name}} (half hour credit) @endif</span> </a></li>
+                   <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: #dcdc25;color: black;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$date}} {{$time}} - {{$session->student_name}} (half hour credit) @endif</span> </a></li>
                    @else
                    <li><a href="{{url('user-portal/client-sessions-details/'.$session->session_id)}}" style="background: #10C5A7;color: white;border-radius: 4px;"><span style="padding: 10px;">@if($session->status == 'Cancel' || $session->status == 'Insufficient Credit') <strike>{{$date}} {{$time}} - {{$session->student_name}}</strike> @else {{$date}} {{$time}} - {{$session->student_name}} @endif</span> </a></li>
                    @endif

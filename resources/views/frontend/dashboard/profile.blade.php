@@ -72,7 +72,7 @@
 				<div class="col-lg-9 col-md-9 app-view-mainCol">
 					<div class="cards">
 						<div class="header">
-							<h3 class="title">Edit Profile</h3>
+							<h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Edit Profile</span> </h3>
 							@if(session()->has('message'))
 								<div class="row">
 									<div class="alert alert-success">
@@ -231,7 +231,7 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" name="automated_email" id="automated_email" value="1" {{$user->automated_email =='Subscribe' ? 'checked':''}}> Subscribe to Automated Emails
+                        <input class="form-check-input" type="checkbox" name="automated_email" id="automated_email" value="1" {{$user->automated_email =='Subscribe' ? 'checked':''}}> Subscribe to Automated Emails <span style="color:black;margin-left:20px;"><i style="font-size:13px;">All communications will only contain information regarding your specific account. You will not receive any advertising or spam, and your email address will never be sold or shared.</i> </span>
                       </label>
                     </div>
                   </div>

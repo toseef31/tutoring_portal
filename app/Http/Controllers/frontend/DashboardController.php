@@ -985,6 +985,7 @@ class DashboardController extends Controller
            $session_id = trim($request->input('session_id'));
            $notify_client ='';
            $notify_client = $request->input('notify_client');
+           $type = $request->input('type');
            $session_details = DB::table('sessions')->where('session_id',$session_id)->first();
            if ($notify_client !='') {
              $user = DB::table('users')->where('id',$session_details->user_id)->first();
@@ -1011,12 +1012,15 @@ class DashboardController extends Controller
            $date = $session_details->date;
            $tutor_id = $session_details->tutor_id;
            $student_id = $session_details->student_id;
+           if ($type == 'cancel_all') {
            if ($recurs_weekly == 'Yes') {
              $get_recurs_weekly_session = DB::table('sessions')->where('tutor_id',$tutor_id)
              ->where('student_id',$student_id)->where('time',$time)->where('subject',$subject)
              ->where('duration',$duration)->where('date','>',$date)->delete();
            }
-           $session = DB::table('sessions')->where('session_id',$session_id)->delete();
+         }
+         $session = DB::table('sessions')->where('session_id',$session_id)->delete();
+
 
            $request->session()->flash('message' , 'Session Cancelled Successfully');
          }
@@ -1267,6 +1271,17 @@ class DashboardController extends Controller
                          $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                          $message->to($toemail);
                        });
+                     }elseif ($credit_balance == 0.5) {
+                       $toemail =  $user->email;
+                       // dd($send);
+                       Mail::send('mail.half_hour_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                       function ($message) use ($toemail)
+                       {
+
+                         $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                         $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                         $message->to($toemail);
+                       });
                      }
 
                    }
@@ -1339,6 +1354,17 @@ class DashboardController extends Controller
                        $toemail =  $user->email;
                        // dd($send);
                        Mail::send('mail.end_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                       function ($message) use ($toemail)
+                       {
+
+                         $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                         $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                         $message->to($toemail);
+                       });
+                     }elseif ($credit_balance == 0.5) {
+                       $toemail =  $user->email;
+                       // dd($send);
+                       Mail::send('mail.half_hour_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
                        function ($message) use ($toemail)
                        {
 

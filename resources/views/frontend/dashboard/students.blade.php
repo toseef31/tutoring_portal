@@ -57,7 +57,7 @@
           <div class="cards">
             <div class="header">
               <a href="{{url('user-portal/student/add')}}" class="btn btn-green pull-right">New Student</a>
-              <h3 class="title">Students</h3>
+              <h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Students</span></h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))

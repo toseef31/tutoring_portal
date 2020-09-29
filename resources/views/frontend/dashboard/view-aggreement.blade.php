@@ -92,9 +92,9 @@
 						<div class="header">
 							@if($agreement !='')
 	              @if(SCT::checkAggrementSend($agreement->aggreement_id,$agreement->user_id)->status == 'Awaiting Signature')
-								<h3 class="title">Sign Agreement</h3>
+								<h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Sign Agreement</span></h3>
 	              @else
-								<h3 class="title">Signed Agreement</h3>
+								<h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Signed Agreement</span></h3>
 	              @endif
               @endif
 							<hr>

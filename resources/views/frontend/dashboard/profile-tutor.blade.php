@@ -81,7 +81,7 @@ if($user->image != ''){
 				<div class="col-lg-8 col-md-7 app-view-mainCol">
 					<div class="cards">
 						<div class="header">
-							<h3 class="title">Edit Profile</h3>
+							<h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Edit Profile</span></h3>
 							<hr>
 						</div>
 						<div class="content">

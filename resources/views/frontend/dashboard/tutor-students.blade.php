@@ -82,7 +82,7 @@ $s_app = Session()->get('TutorStudentSearch');
         <div class="col-lg-12 col-md-12 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <h3 class="title">Students</h3>
+              <h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Students</span></h3>
               <hr>
               <form method="post" action="{{ url('user-portal/tutor-students') }}">
                 <div class="row">

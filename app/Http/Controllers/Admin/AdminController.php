@@ -317,6 +317,29 @@ class AdminController extends Controller
                     DB::table('credits')->insert($input);
                   }
                 }
+                $user = User::where('id',$customerId)->first();
+                // dd($user);
+                if($credit_balance <=0){
+                  $toemail =  $user->email;
+                  Mail::send('mail.end_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                  function ($message) use ($toemail)
+                  {
+
+                    $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                    $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                    $message->to($toemail);
+                  });
+                }elseif ($credit_balance == 0.5) {
+                  $toemail =  $user->email;
+                  Mail::send('mail.half_hour_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                  function ($message) use ($toemail)
+                  {
+
+                    $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                    $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                    $message->to($toemail);
+                  });
+                }
                 // $customerId
                 if ($request->input('credit_balance') >0) {
                 $user_session = DB::table('sessions')->where('user_id',$customerId)->where('status','Insufficient Credit')->get();
@@ -1705,6 +1728,17 @@ class AdminController extends Controller
                       $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
                       $message->to($toemail);
                     });
+                  }elseif ($credit_balance == 0.5) {
+                    $toemail =  $user->email;
+                    // dd($send);
+                    Mail::send('mail.half_hour_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                    function ($message) use ($toemail)
+                    {
+
+                      $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                      $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                      $message->to($toemail);
+                    });
                   }
 
                 }
@@ -1776,6 +1810,17 @@ class AdminController extends Controller
                     $toemail =  $user->email;
                     // dd($send);
                     Mail::send('mail.end_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
+                    function ($message) use ($toemail)
+                    {
+
+                      $message->subject('Smart Cookie Tutors.com - Credit Balance');
+                      $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                      $message->to($toemail);
+                    });
+                  }elseif ($credit_balance == 0.5) {
+                    $toemail =  $user->email;
+                    // dd($send);
+                    Mail::send('mail.half_hour_credits_email',['user' =>$user,'credit_balance'=>$credit_balance],
                     function ($message) use ($toemail)
                     {
 

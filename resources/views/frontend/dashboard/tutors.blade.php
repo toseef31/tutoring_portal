@@ -56,7 +56,7 @@
         <div class="col-lg-12 col-md-12 app-view-mainCol">
           <div class="cards">
             <div class="header">
-              <h3 class="title">Tutors</h3>
+              <h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Tutors</span></h3>
               <hr>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))

@@ -17,7 +17,7 @@
 			</div>
 		</div> -->
 		<div class="col-md-5 col-xs-12 mt-5 mb-5 shadow rounded">
-			<h3 class="text-uppercase mb-3 mt-3 text-center">Portal Login</h3>
+			<h3 class="text-uppercase mb-3 mt-3 text-center">Account Login</h3>
 			@if(Session::has('verify'))
 			<div class="alert alert-success">
 				{{ Session::get('verify') }}
@@ -59,12 +59,12 @@
 				  <div class="form-group">
 				    <input type="password" class="form-control" placeholder="Enter password" onkeyup="checkInput();" id="pwd" name="password">
 				  </div>
-				  <!-- <div class="form-group form-check">
-				    <label class="form-check-label text-danger">
+				  <div class="form-group form-check">
+				    <!-- <label class="form-check-label text-danger">
 				      <input class="form-check-input" type="checkbox"> Remember me
-				    </label>
+				    </label> -->
 				    <a href="{{url('forget-password')}}" class="float-right">Forget Password?</a>
-				  </div> -->
+				  </div>
 				  <button type="submit" id="submit-btn" class="btn bg-gray" disabled>Login</button>
 					 <!-- <a href="{{url('/register')}}" class="float-right mt-3">Creat new account</a> -->
 					 <a href="{{url('/register')}}" class="btn btn-default btn-green">Register</a>

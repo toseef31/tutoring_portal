@@ -78,7 +78,7 @@
 				<div class="col-lg-9 col-md-9 app-view-mainCol">
 					<div class="cards">
 						<div class="header">
-							<h3 class="title">Credits <span style="float:right;">Credit Balance: @if($credit !=''){{$credit->credit_balance}} @else 0 @endif</span></h3>
+							<h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Credits </span><span style="float:right;">Credit Balance: @if($credit !=''){{$credit->credit_balance}} @else 0 @endif</span></h3>
 							@if(session()->has('message'))
 								<div class="row">
 									<div class="alert alert-success">
@@ -100,14 +100,19 @@
 										<div class="form-group">
 											<p><strong>What are credits?</strong></p>
 											<p>Credits simply are prepaid sessions. Each credit counts for one 60-min session and half credits count for one 30-min session. Your account must have credits in order for your tutor to hold a session with you.</p>
+											<br>
 											<p><strong>How are credits used?</strong></p>
 											<p>After your tutoring session, credits will be deducted from your account in accordance with the duration of your session.</p>
+											<br>
 											<p><strong>How to purchase credits?</strong></p>
-											<p>Purchase credits using the links here. If this is your initial session, purchase an “initial session credit.” Otherwise, please select from the packages available.</p>
+											<p>You can purchase credits using the links here. If this is your initial session, select “initial session credit.” Otherwise, please select from the packages available. If you prefer to pay by Venmo or check, please reach out to <a href="mailto:sofi@smartcookietutors.com"> sofi@smartcookietutors.com </a> and we will assist you. We love Venmo purchases!</p>
+											<br>
 											<p><strong>Do credits expire?</strong></p>
 											<p>Yes, credits expire one year from the purchase date.</p>
+											<br>
 											<p><strong>What if I don’t/can’t use all of my credits?</strong></p>
 											<p>No problem! Simply send an email to <a href="mailto:sofi@smartcookietutors.com"> sofi@smartcookietutors.com </a> indicating that you would like your unused credits refunded, and they will be, so long as they are not expired.</p>
+											<br>
 										</div>
 									</div>
 								</div>

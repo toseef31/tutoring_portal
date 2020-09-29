@@ -130,7 +130,7 @@ class RegisterController extends Controller
                  $message->to($toemail);
                });
              }
-             $request->session()->flash('registerSuccess',"Registration Successfull");
+             $request->session()->flash('registerSuccess',"Registration Successful");
 
               // setcookie('cc_data', $userId, time() + (86400 * 30), "/");
               // $fNotice = 'Please check your mobile for verification code';
@@ -189,16 +189,77 @@ class RegisterController extends Controller
         }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        public function forgetPassword(Request $request)
+        {
+          return view('frontend.forget-password');
+        }
+
+        public function sendResetLinkEmail(Request $request)
+        {
+          // dd("asdfasdf");
+          if($request->isMethod('post')){
+
+            $email = $request->input('email');
+            $string = rand(5,999999999);
+            // $remember_token = $request->input('_token');
+
+            $new_user = User::whereemail($email)->first();
+
+            if ($new_user == '' ) {
+
+              $request->session()->flash('resetAlert', "We can't find a user with that e-mail address.");
+              return redirect()->back();
+            }else{
+
+              $dataArr['remember_token'] =  $string;
+
+              $dataUser = User::where('email', $email)
+                  ->update($dataArr);
+              //dd($dataUser);
+              $userData = User::whereemail($email)->first();
+              //dd($userdata, $remember_token);
+              $toemail =  $userData->email;
+              Mail::send('mail.reset_password_email',['user' =>$userData],
+              function ($message) use ($toemail)
+              {
+
+                $message->subject('Smart Cookie Tutors.com - Reset Password');
+                $message->from('admin@SmartCookieTutors.com', 'Smart Cookie Tutors');
+                $message->to($toemail);
+              });
+
+              $request->session()->flash('resetSuccess', 'Check your Email to change your password.');
+            }
+            return redirect('/forget-password');
+          }
+        }
+
+        public function showPasswordResetForm(Request $request, $email, $token)
+        {
+          $user = DB::table('users')
+                    ->where('email', $email)
+                    ->where('remember_token', $token)
+                    ->first();
+          if ($user == "") {
+            $request->session()->flash('resetAlert', "Your secret code don't match please contact to Admin.");
+            return redirect('/forget-password');
+          }else {
+          return view('frontend.reset-password',compact('user'));
+        }
+        }
+        public function resetPassword(Request $request)
+        {
+          $this->validate($request, [
+            'password' => 'required|min:5|max:50|required_with:confirm_password|same:confirm_password',
+            'confirm_password' => 'min:5'
+          ]);
+          $user_id= $request->input('user_id');
+          $pass=Hash::make(trim($request->input('password')));
+          $user = User::whereid($user_id)->update(array('password'=>$pass));
+          $request->session()->flash('passwordSuccess', 'Password changed successfully');
+          Auth::logout();
+          return redirect('/login');
+        }
 
     /**
      * Display the specified resource.
