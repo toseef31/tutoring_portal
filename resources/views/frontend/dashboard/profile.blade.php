@@ -69,7 +69,7 @@
 					</div>
 
 				</div> -->
-				<div class="col-lg-9 col-md-9 app-view-mainCol">
+				<div class="col-lg-12 col-md-12 app-view-mainCol">
 					<div class="cards">
 						<div class="header">
 							<h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Edit Profile</span> </h3>
@@ -228,13 +228,16 @@
 									</div>
 								</div>
 								<div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" name="automated_email" id="automated_email" value="1" {{$user->automated_email =='Subscribe' ? 'checked':''}}> Subscribe to Automated Emails <span style="color:black;margin-left:20px;"><i style="font-size:13px;">All communications will only contain information regarding your specific account. You will not receive any advertising or spam, and your email address will never be sold or shared.</i> </span>
+                        <input class="form-check-input" type="checkbox" name="automated_email" id="automated_email" value="1" {{$user->automated_email =='Subscribe' ? 'checked':''}}> Subscribe to Automated Emails
                       </label>
                     </div>
                   </div>
+									<div class="col-md-9">
+										<span><i style="font-size:15px;">All communications will only contain information regarding your specific account. You will not receive any advertising or spam, and your email address will never be sold or shared.</i> </span>
+									</div>
                 </div>
 
 								<!-- <div class="row">
@@ -246,7 +249,7 @@
 									</div>
 								</div> -->
 
-								<div class="text-center">
+								<div class="text-center" style="margin-top:20px;">
 									<button type="submit" class="btn btn-info btn-green btn-wd" id="submit-btn">Update Profile</button>
 								</div>
 

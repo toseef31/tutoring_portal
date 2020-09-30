@@ -114,6 +114,38 @@ a.low-credit .fc-content {
             <div class="header">
               <a href="{{url('user-portal/session/add')}}" class="btn btn-green pull-right">Schedule New Session</a>
               <h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Sessions</span></h3>
+              <div class="row legend-div">
+                <div class="col-md-1">
+                  <div class="row">
+                    <div class="col-md-1 mt-8">
+                      <span class="green-legend"></span>
+                    </div>
+                    <div class="col-md-2">
+                      <span>scheduled session</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 ml-30 ml-auto">
+                  <div class="row">
+                    <div class="col-md-1 mt-8">
+                      <span class="yellow-legend"></span>
+                    </div>
+                    <div class="col-md-10">
+                      <span>scheduled session, but with only half hour credit remaining</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1 pl-0 pl-auto ml-auto ml-min-23">
+                  <div class="row">
+                    <div class="col-md-1 mt-8">
+                      <span class="red-legend"></span>
+                    </div>
+                    <div class="col-md-2">
+                      <span>canceled session</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <hr>
               @include('frontend.dashboard.menu.alerts')
               @if(Session::has('message'))
@@ -126,38 +158,6 @@ a.low-credit .fc-content {
         			@endif
             </div>
             <div class="content">
-              <div class="row" style="margin-bottom:30px;">
-                <div class="col-md-2 col-md-offset-2">
-                  <div class="row">
-                    <div class="col-md-1">
-                      <span class="green-legend"></span>
-                    </div>
-                    <div class="col-md-2">
-                      <span>scheduled session</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="row">
-                    <div class="col-md-1">
-                      <span class="yellow-legend"></span>
-                    </div>
-                    <div class="col-md-9">
-                      <span>scheduled session,but with only half hour credit remaining</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="row">
-                    <div class="col-md-1">
-                      <span class="red-legend"></span>
-                    </div>
-                    <div class="col-md-2">
-                      <span>canceled session</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <!-- Calendar Start -->
               <div id='calendar'></div>
               <!-- Calendar Ends -->

@@ -29,7 +29,7 @@
 			@if(Session::has('resetAlert'))
 			<div class="alert alert-danger">
 				 {{ Session::get('resetAlert') }}
-				 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 30px;">
+				 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="">
 				 <span aria-hidden="true">&times;</span>
 				 </button>
 			</div>
@@ -37,7 +37,7 @@
 			@if(Session::has('resetSuccess'))
 			<div class="alert alert-success">
 				 {{ Session::get('resetSuccess') }}
-				 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 30px;">
+				 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="">
 				 <span aria-hidden="true">&times;</span>
 				 </button>
 			</div>

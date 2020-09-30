@@ -3294,19 +3294,35 @@ textarea.form-controls {
 }
 .glass-img{
   padding-bottom: 4px;
-    width: 6%;
+    width: 48px;
 }
 .green-legend{
   background:#10C5A7;
-  padding: 1px 10px;
+  padding: 3px 10px;
 }
 .yellow-legend{
   background:#dcdc25;
-  padding: 1px 10px;
+  padding: 3px 10px;
 }
 .red-legend{
   background:red;
-  padding: 1px 10px;
+  padding: 3px 10px;
+}
+.mt-8 {
+  margin-top: 8px;
+}
+.ml-30 {
+  margin-left: 30px !important;
+}
+.legend-div {
+  font-size: 12px;
+  margin-top: 15px;
+}
+.pl-min-12{
+  padding-left: 0;
+}
+.ml-min-23{
+  margin-left: -23px;
 }
 /*App Media Queries*/
 @media  only screen and (max-width: 767px){
@@ -3331,4 +3347,21 @@ textarea.form-controls {
    .cards {
      margin-right: 2%;
    }
+   .ml-auto{
+    margin-left: auto !important;
+   }
+   .pl-auto{
+     padding-left: auto !important;
+   }
+}
+@media only screen
+  and (min-device-width: 768px)
+  and (max-device-width: 1023px)
+  and (-webkit-min-device-pixel-ratio: 1) {
+    .ml-auto{
+     margin-left: auto !important;
+    }
+    .pl-auto{
+      padding-left: auto !important;
+    }
 }

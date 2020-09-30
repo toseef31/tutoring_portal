@@ -63,11 +63,11 @@
 				    <!-- <label class="form-check-label text-danger">
 				      <input class="form-check-input" type="checkbox"> Remember me
 				    </label> -->
-				    <a href="{{url('forget-password')}}" class="float-right">Forget Password?</a>
 				  </div>
 				  <button type="submit" id="submit-btn" class="btn bg-gray" disabled>Login</button>
 					 <!-- <a href="{{url('/register')}}" class="float-right mt-3">Creat new account</a> -->
 					 <a href="{{url('/register')}}" class="btn btn-default btn-green">Register</a>
+					 <a href="{{url('forget-password')}}" class="float-right">Forgot Your Password?</a>
 				</form>
 
 			</div>

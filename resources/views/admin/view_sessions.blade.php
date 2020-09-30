@@ -111,7 +111,39 @@ $s_app = Session()->get('sessionsSearch');
               <div class="card-header">
                 <h4 class="card-title"> Sessions <a href="{{url('dashboard/session/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Schedule New Session</a></h4>
               </div>
-
+              <div class="row legend-div">
+                <div class="col-md-2 col-lg-2">
+                  <div class="row">
+                    <div class="col-md-1 mt-8">
+                      <span class="green-legend"></span>
+                    </div>
+                    <div class="col-md-9">
+                      <span>scheduled session</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-lg-3 ml-min-46 ml-0-2">
+                  <div class="row">
+                    <div class="col-md-1 mt-8">
+                      <span class="yellow-legend"></span>
+                    </div>
+                    <div class="col-md-10">
+                      <span>scheduled session, but with only half hour credit remaining</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-lg-2 ml-0">
+                  <div class="row">
+                    <div class="col-md-1 mt-8">
+                      <span class="red-legend"></span>
+                    </div>
+                    <div class="col-md-9">
+                      <span>canceled session</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
               <div class="card-body">
                   @if(session()->has('message'))
                     <div class="row">
@@ -121,38 +153,6 @@ $s_app = Session()->get('sessionsSearch');
                       </div>
                     </div>
                   @endif
-                  <div class="row" style="margin-bottom:30px;">
-                    <div class="col-md-3 offset-md-2">
-                      <div class="row">
-                        <div class="col-md-1">
-                          <span class="green-legend"></span>
-                        </div>
-                        <div class="col-md-6">
-                          <span>scheduled session</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="row">
-                        <div class="col-md-1">
-                          <span class="yellow-legend"></span>
-                        </div>
-                        <div class="col-md-9">
-                          <span>scheduled session,but with only half hour credit remaining</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="row">
-                        <div class="col-md-1">
-                          <span class="red-legend"></span>
-                        </div>
-                        <div class="col-md-6">
-                          <span>canceled session</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   <!-- Calendar Start -->
                   <div id='calendar'></div>
                   <!-- Calendar Ends -->

@@ -221,6 +221,21 @@ label {
                       </label>
                   </div>
               </div>
+              <div class="form-group radio-div">
+                  <label class="control-label col-md-3 text-right">Status :</label>
+                  <div class="col-md-6 radio-div">
+                      <label class="custom-control custom-control-primary custom-radio">
+                          <input name="status" class="custom-control-input" type="radio" value="active" {{ $tutor->status == 'active' ? 'checked="checked"' : '' }}>
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-label">Active</span>
+                      </label>
+                      <label class="custom-control custom-control-primary custom-radio" style="margin-left:20px;">
+                          <input name="status" class="custom-control-input" type="radio" value="inactive" {{ $tutor->status == 'inactive' ? 'checked="checked"' : '' }}>
+                          <span class="custom-control-indicator"></span>
+                          <span class="custom-control-label">Inactive</span>
+                      </label>
+                  </div>
+              </div>
               <div class="form-group">
                   <label class="control-label col-md-3 text-right">&nbsp;</label>
                   <div class="col-md-6">

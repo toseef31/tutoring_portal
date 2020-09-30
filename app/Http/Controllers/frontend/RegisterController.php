@@ -153,7 +153,13 @@ class RegisterController extends Controller
              'password' => $request->get('password'),
              'status' => 'active'
          );
-
+         // Check if user is active
+         $user = User::where('email', $request->get('email'))->first();
+         // dd($user);
+         if ($user !="" && $user->status !='active') {
+           $request->session()->flash('loginAlert', 'Your account has been disabled by an administrator');
+           return redirect('login');
+         }
          if(!Auth::attempt($user_data)){
              // $fNotice = 'Please check your mobile for verification code';
  			$request->session()->flash('loginAlert', 'Invalid Email & Password');

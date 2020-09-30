@@ -1,5 +1,13 @@
 @extends('frontend.layouts.master')
 @section('styling')
+<style>
+.demoInputBox{padding:7px; border:#F0F0F0 1px solid; border-radius:4px;}
+#password-strength-status {padding: 1px 7px;color: #FFFFFF; border-radius:4px;margin-top:5px;}
+.medium-password{background-color: #E4DB11;border:#BBB418 1px solid;}
+.weak-password{background-color: #FF6600;border:#AA4502 1px solid;}
+.strong-password{background-color: #12CC1A;border:#0FA015 1px solid;}
+#message {padding: 1px 7px;color: #FFFFFF; border-radius:4px;margin-top:5px;}
+</style>
 @endsection
 @section('content')
 <div class="container">
@@ -46,7 +54,7 @@
 			@if(Session::has('resetSuccess'))
 			<div class="alert alert-success">
 				 {{ Session::get('resetSuccess') }}
-				 <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 30px;margin-top: 59px;color: black;">
+				 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				 <span aria-hidden="true">&times;</span>
 				 </button>
 			</div>
@@ -55,13 +63,14 @@
 				<form class="form-horizontal" method="POST" action="{{ url('/reset-password') }}">
 						{{ csrf_field() }}
 						<input type="hidden" name="user_id" value="{{$user->id}}">
-						<div class="form-group">
-					    <input type="password" class="form-control" placeholder="Enter password" id="pwd" name="password" required>
-					  </div>
-						<div class="form-group">
-							<input id="confirm_password" type="password" class="form-control" name="confirm_password" placeholder="Confirm password" required>
-					  </div>
-						<button type="submit" class="btn btn-green">Submit</button>
+							<div class="form-group">
+									<input type="password" class="form-control" name="password" id="password" placeholder="Enter password"  onKeyUp="checkPasswordStrength();" /><div id="password-strength-status"></div>
+							</div>
+				  		<div class="form-group">
+				  			<input type="password" class="form-control" placeholder="Enter confirm password" name="confirm_password" id="confirm_password" onkeyup='check();' autocomplete="off" required>
+				  			<div id='message'></div>
+							</div>
+						<button type="submit" class="btn btn-green" id="Signup" disabled>Submit</button>
 				</form>
 
 			</div>
@@ -70,5 +79,53 @@
 </div>
 @endsection
 @section('script')
+<script>
+function checkPasswordStrength() {
+	var number = /([0-9])/;
+	var alphabets = /([a-zA-Z])/;
+	// var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+	if($('#password').val().length<=6) {
+		$('#password-strength-status').removeClass();
+		$('#password-strength-status').addClass('weak-password');
+		$('#password-strength-status').html("Weak (6 characters or more, with at least 1 letter and one number.)");
+		$(':input[type="submit"]').prop('disabled', true);
+		check();
+	} else {
+		if($('#password').val().match(number) && $('#password').val().match(alphabets)) {
+			$('#password-strength-status').removeClass();
+			$('#password-strength-status').addClass('strong-password');
+			$('#password-strength-status').html("Strong");
+			check();
+		} else {
+			$('#password-strength-status').removeClass();
+			$('#password-strength-status').addClass('medium-password');
+			$('#password-strength-status').html("Medium (should include alphabets, numbers)");
+			$(':input[type="submit"]').prop('disabled', true);
+			check();
+		}
+	}
+}
 
+var check = function()
+{
+	if (document.getElementById('password').value ==
+	document.getElementById('confirm_password').value) {
+		$('#message').removeClass();
+		$('#message').addClass('strong-password');
+		document.getElementById('message').innerHTML = 'Password Match';
+		var number = /([0-9])/;
+		var alphabets = /([a-zA-Z])/;
+		if($('#password').val().match(number) && $('#password').val().match(alphabets)) {
+			$(':input[type="submit"]').prop('disabled', false);
+		}else {
+			$(':input[type="submit"]').prop('disabled', true);
+		}
+	} else {
+		$('#message').removeClass();
+		$('#message').addClass('weak-password');
+		document.getElementById('message').innerHTML = 'Passwords do not match';
+		$(':input[type="submit"]').prop('disabled', true);
+	}
+}
+</script>
 @endsection

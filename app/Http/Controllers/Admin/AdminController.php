@@ -83,6 +83,9 @@ class AdminController extends Controller
 
          return redirect('admin/login');
 
+     }elseif ($user == 'inactive') {
+       $request->session()->flash('loginAlert', 'Your account has been disabled by an administrator');
+       return redirect('admin/login');
      }
      else{
 
@@ -102,13 +105,15 @@ class AdminController extends Controller
    public function doLogin($email,$password){
        /* do login */
        // dd($password);
+       $check_user = DB::table('users')->where('email','=',$email)->where('role','admin')->where('status','inactive')->first();
        $user = DB::table('users')->where('email','=',$email)->where('role','admin')->first();
-       // dd($user);
        if(empty($user)){
            return 'invalid';
        }else{
          if (!Hash::check($password, $user->password)) {
            return 'invalid';
+         }elseif (!empty($check_user)) {
+           return 'inactive';
          }else {
            // dd($user);
            return $user;
@@ -639,7 +644,7 @@ class AdminController extends Controller
               $tutor->email = $request->input('email');
               $tutor->role = $request->input('role');
               $tutor->phone = $request->input('phone');
-              $tutor->status = 'active';
+              $tutor->status = $request->input('status');
               $tutor->description = $request->input('description');
               $tutor->time_zone = $request->input('time_zone');
               if($request->hasFile('profilePhoto')){
