@@ -3325,7 +3325,7 @@ textarea.form-controls {
   margin-left: -23px;
 }
 /*App Media Queries*/
-@media  only screen and (max-width: 767px){
+@media  only screen and (max-width: 991px){
    .main-row{
       margin-left: 0;
       margin-right: 0;
@@ -3352,6 +3352,17 @@ textarea.form-controls {
    }
    .pl-auto{
      padding-left: auto !important;
+   }
+   .legend-row{
+     display: -webkit-box;
+   }
+   .legend-row .col-md-2{
+     line-height: 3;
+     margin-left: -22px;
+   }
+   .legend-row .col-md-10{
+     line-height: 3;
+     margin-left: -22px;
    }
 }
 @media only screen
