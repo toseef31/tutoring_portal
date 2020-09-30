@@ -58,6 +58,9 @@ a.low-credit .fc-content {
   font-size: 16px;
 
 }
+.page-title {
+  font-size: 20px;
+}
 }
 </style>
 @endsection
