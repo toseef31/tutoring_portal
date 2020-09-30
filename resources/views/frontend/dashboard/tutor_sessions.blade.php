@@ -166,7 +166,7 @@ a.low-credit .fc-content {
               <!-- Calendar Ends -->
               <div class="" style="margin-top:20px;">
                 @if(count($sessions) > 0)
-                <ul style="list-style-type: none;">
+                <ul style="list-style-type: none;padding-left:0;">
                   @foreach($sessions as $session)
                   <?php
                   // $time = date('h:i a', strtotime($session->time));

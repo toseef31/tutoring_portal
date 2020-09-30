@@ -118,7 +118,7 @@ $s_app = Session()->get('sessionsSearch');
                   <!-- <a href="{{url('dashboard/session/add')}}" style="float:right;font-size: 15px;font-size: 12px; color:white;" type="button" class="btn btn-md btn-primary">Schedule New Session</a> -->
                 </h4>
               </div>
-              <div class="row legend-div">
+              <!-- <div class="row legend-div">
                 <div class="col-md-2 col-lg-2">
                   <div class="row">
                     <div class="col-md-1 mt-8">
@@ -150,6 +150,39 @@ $s_app = Session()->get('sessionsSearch');
                   </div>
                 </div>
               </div>
+              <hr> -->
+              <div class="row legend-div">
+                <div class="col-md-2 col-lg-2">
+                  <div class="row legend-row">
+                    <div class="col-2 mt-8">
+                      <span class="green-legend"></span>
+                    </div>
+                    <div class="col-9 legend-txt main_txt1">
+                      <span>scheduled session</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-lg-3 ml-min-46 ml-0-2">
+                  <div class="row legend-row">
+                    <div class="col-2 mx-w-12 mt-8">
+                      <span class="yellow-legend"></span>
+                    </div>
+                    <div class="col-10 legend-txt main_text lnh-2">
+                      <span>scheduled session, but with only half hour credit remaining</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 col-lg-2 ml-0">
+                  <div class="row legend-row">
+                    <div class="col-2 mt-8">
+                      <span class="red-legend"></span>
+                    </div>
+                    <div class="col-9 legend-txt main_txt1">
+                      <span>canceled session</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <hr>
               <div class="card-body">
                   @if(session()->has('message'))
@@ -166,7 +199,7 @@ $s_app = Session()->get('sessionsSearch');
                   <!-- Calendar Ends -->
                   <div class="" style="margin-top:20px;">
                     @if(count($sessions) > 0)
-                    <ul style="list-style-type: none;">
+                    <ul style="list-style-type: none;padding-left:0;">
                       @foreach($sessions as $session)
                       <?php
                       if ($session->added_by == 'Admin') {

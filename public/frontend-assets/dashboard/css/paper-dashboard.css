@@ -6464,6 +6464,9 @@ License - nucleoapp.com/license/
 .pl-min-12{
   padding-left: 0;
 }
+.mx-w-12{
+  max-width: 12.666667%;
+}
 /* .ml-0-2{
   margin-left: 0px !important;
 } */
@@ -6477,6 +6480,28 @@ License - nucleoapp.com/license/
   }
   .pl-0{
     padding-left: 0 !important;
+  }
+  .legend-row{
+    display: -webkit-box;
+  }
+  .legend-row .col-2{
+    max-width: 12%;
+    padding-right: 0;
+  }
+  .legend-txt{
+    padding: 0;
+    line-height: 3;
+  }
+  .legend-row .col-md-9{
+    line-height: 3;
+    margin-left: -22px;
+  }
+  .legend-row .col-md-10{
+    line-height: 3;
+    margin-left: -22px;
+  }
+  .lnh-2{
+    line-height: 2;
   }
 }
 @media only screen
@@ -6492,4 +6517,19 @@ License - nucleoapp.com/license/
     .pl-0{
       padding-left: 0 !important;
     }
+    .main_text{
+      padding-right: 0;
+      max-width: 83%;
+    }
+    .main_txt1{
+      max-width: 74%;
+      padding-right: 0;
+    }
+
+}
+@media (max-width:767px )and (min-width:685px){
+  .legend-row .col-2 {
+    max-width: 8%;
+    padding-right: 0;
+  }
 }

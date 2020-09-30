@@ -116,7 +116,7 @@ a.low-credit .fc-content {
               <h3 class="title"><img src="{{asset('/frontend-assets/images/glasses.png')}}" class="glass-img" alt="logo"><span class="page-title">Sessions</span></h3>
               <div class="row legend-div">
                 <div class="col-md-1">
-                  <div class="row">
+                  <div class="row legend-row">
                     <div class="col-md-1 mt-8">
                       <span class="green-legend"></span>
                     </div>
@@ -126,7 +126,7 @@ a.low-credit .fc-content {
                   </div>
                 </div>
                 <div class="col-md-3 ml-30 ml-auto">
-                  <div class="row">
+                  <div class="row legend-row">
                     <div class="col-md-1 mt-8">
                       <span class="yellow-legend"></span>
                     </div>
@@ -136,7 +136,7 @@ a.low-credit .fc-content {
                   </div>
                 </div>
                 <div class="col-md-1 pl-0 pl-auto ml-auto ml-min-23">
-                  <div class="row">
+                  <div class="row legend-row">
                     <div class="col-md-1 mt-8">
                       <span class="red-legend"></span>
                     </div>
@@ -164,7 +164,7 @@ a.low-credit .fc-content {
               <!-- Calendar Ends -->
               <div class="" style="margin-top:20px;">
                 @if(count($sessions) > 0)
-                <ul style="list-style-type: none;">
+                <ul style="list-style-type: none;padding-left:0;">
                   @foreach($sessions as $session)
                   <?php
                   // Eastern ........... America/New_York
