@@ -99,7 +99,7 @@
   <div class='container'>
     <div class='box'>
       <center>
-        <img src='http://203.99.61.173/demos/tutoring_portal/public/frontend-assets/images/logo.png' width='20%' >
+        <img src="{{env('Logo_URL')}}" width='20%' >
         <!-- <h2> $login_seller_user_name has just created a new proposal. </h2> -->
       </center>
       <hr>
