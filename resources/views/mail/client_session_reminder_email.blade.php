@@ -95,9 +95,6 @@
   }
 </style>
 </head>
-<?php
-$base_url = 'http://203.99.61.173/demos/tutoring_portal/public';
-?>
 <body class='is-responsive'>
   <div class='container'>
     <div class='box'>
