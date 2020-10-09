@@ -73,7 +73,7 @@
   <div class='container'>
     <div class='box'>
       <center>
-        <img src="{{env('Logo_URL')}}" width='20%' >
+        <img src="{{SCT::GetLogoUrl()}}" width='20%' >
         <!-- <h2> {{$user->first_name}} {{$user->last_name}}. </h2> -->
       </center>
       <hr>

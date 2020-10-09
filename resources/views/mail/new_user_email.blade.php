@@ -99,7 +99,7 @@
   <div class='container'>
     <div class='box'>
       <center>
-        <img src="{{env('Logo_URL')}}" width='20%' >
+        <img src="{{SCT::GetLogoUrl()}}" width='20%' >
         <!-- <h2> $login_seller_user_name has just created a new proposal. </h2> -->
       </center>
       <hr>

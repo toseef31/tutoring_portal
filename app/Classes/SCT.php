@@ -74,6 +74,11 @@ class SCT {
     // dd($earning);
     // return $earning;
   }
+  public function GetLogoUrl()
+  {
+    $url = "http://203.99.61.173/demos/tutoring_portal/public/frontend-assets/images/logo.png";
+    return $url;
+  }
 }
 
 ?>
